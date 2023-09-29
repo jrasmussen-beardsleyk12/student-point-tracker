@@ -1,0 +1,23 @@
+
+CREATE EXTENSION pgcrypto;
+
+CREATE TABLE students (
+  id BIGINT NOT NULL PRIMARY KEY,
+  first_name VARCHAR(128) NOT NULL,
+  last_name VARCHAR(128) NOT NULL,
+  created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  points BIGINT NOT NULL DEFAULT 0
+);
+
+CREATE TYPE pointsAction AS ENUM('added', 'removed');
+
+CREATE TABLE points (
+  id UUID DEFAULT GEN_RANDOM_UUID() PRIMARY KEY,
+  student BIGINT NOT NULL REFERENCES students(id)
+  points_modified BIGINT NOT NULL DEFAULT 0,
+  points_action pointsAction NOT NULL,
+  created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  points_before BIGINT NOT NULL,
+  points_after BIGINT NOT NULL,
+  reason VARCHAR(256)
+);
