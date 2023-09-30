@@ -1,12 +1,12 @@
 module.exports = {
   docs: {
-    summary: "Add new points to a specific student."
+    summary: "Remove points of a specific user."
   },
   endpoint: {
-    method: "POST",
+    method: "DELETE",
     paths: [ "/api/student/:id/points" ],
     rateLimit: "generic",
-    successStatus: 201,
+    successStatus: 204,
     options: {
       Allow: "GET, DELETE",
       "X-Content-Type-Options": "nosniff"
@@ -14,18 +14,17 @@ module.exports = {
   },
   params: {
     id: (context, req) => { return context.query.id(req); },
-    points: (context, req) => { return context.query.points(req); },
-    reason: (context, req) => { return context.query.reason(req); }
+    points: (context, req) => { return context.query.points(req); }
   },
 
   async logic(params, context) {
-    let action = await context.database.addPointsToStudent(params.id, params.points, params.reason);
+    let action = await context.database.removePointsFromStudent(params.id, params.points);
 
     if (!action.ok) {
       const sso = new context.sso();
 
-      return sso.notOk().addContent(action)
-                .addCalls("db.addPointsToStudent", action);
+      return sso.noOk().addContent(action)
+                .addCalls("db.removePointsFromStudent", action);
     }
 
     const sso = new context.sso();

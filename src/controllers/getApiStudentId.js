@@ -17,6 +17,19 @@ module.exports = {
   },
 
   async logic(params, context) {
+    let student = await context.database.getStudentByID(params.id);
 
+    if (!student.ok) {
+      const sso = new context.sso();
+
+      return sso.notOk().addContent(student)
+                        .addCalls("db.getStudentByID", student);
+    }
+
+    student = context.studentObject(student.content);
+
+    const sso = new context.sso();
+
+    return sso.isOk().addContent(student);
   }
 };

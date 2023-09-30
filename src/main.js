@@ -18,7 +18,6 @@ const genericLimit = rateLimit({
   message: "Too many requests, please try again later.", // Message once limit is reached
   statusCode: 429, // HTTP Status code once limit is reached
   handler: (request, response, next, options) => {
-    // TODO: Update this with new methods
     response.status(options.statusCode).json({ message: options.message });
     context.logger.httpLog(request, response);
   }
@@ -62,6 +61,11 @@ const endpointHandler = async function(node, req, res) {
 
 // Setup all endpoints
 
+app.use((req, res, next) => {
+  req.start = Date.now();
+  next();
+});
+
 const pathOptions = [];
 
 for (const node of endpoints) {
@@ -99,7 +103,7 @@ for (const node of endpoints) {
         });
         break;
       default:
-        console.log(`Unsupported method: ${node.endpoint.method} for ${path}`);
+        context.logger.generic(`Unsupported method: ${node.endpoint.method} for ${path}`, "warn");
     }
   }
 }
@@ -108,13 +112,17 @@ app.use(async (err, req, res, next) => {
   // Having this as last positional route, ensures it will handle all other unknown routes.
   // This can also handle unhandled errors passed from another endpoint
   if (err) {
-    console.errr(
-      `An error was encountered handling the request: ${err.toString()}`
+    context.logger.generic(
+      `An error was encountered handling the request: ${err.toString()}`,
+      "error"
     );
-    // TODO: GENERIC ERROR
+    const sso = new context.sso();
+    return sso.notOk().addShort("server_error")
+              .addContent(`An error was encountered handling the request: ${err.toString()}`);
     return;
   }
-  // TODO: Return NOT FOUND
+  const sso = new context.sso();
+  return sso.notOk().addShort("not_found");
 });
 
 module.exports = app;

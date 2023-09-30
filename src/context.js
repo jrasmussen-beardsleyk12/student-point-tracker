@@ -3,5 +3,12 @@
 // greater control in mocking these later on.
 
 module.exports = {
-  config: require("./config.js")()
+  config: require("./config.js")(),
+  query: require("./query.js"),
+  database: require("./database.js"),
+  logger: require("./logger.js"),
+  sso: require("./models/sso.js"),
+  ssoPaginate: require("./models/ssoPaginate.js"),
+  studentObject: require("./models/studentObject.js"),
+  studentObjectArray: require("./models/studentObjectArray.js"),
 };
