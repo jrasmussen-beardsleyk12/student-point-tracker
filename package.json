@@ -8,7 +8,8 @@
     "start:dev": "cross-env PROD_STATUS=dev node ./src/dev_server.js",
     "test": "cross-env PROD_STATUS=dev jest --selectProjects Unit Integration",
     "test:unit": "cross-env PROD_STATUS=dev jest --selectProjects Unit",
-    "test:integration": "cross-env PROD_STATUS=dev jest --selectProjects Integration"
+    "test:integration": "cross-env PROD_STATUS=dev jest --selectProjects Integration",
+    "migrations": "pg-migrations apply --directory ./migrations"
   },
   "keywords": [],
   "author": "confused-Techie",
@@ -25,6 +26,7 @@
     }
   },
   "dependencies": {
+    "ejs": "^3.1.9",
     "express": "^4.18.2",
     "express-rate-limit": "^7.0.2",
     "js-yaml": "^4.1.0",

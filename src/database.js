@@ -173,7 +173,7 @@ async function searchStudent(query, page) {
     const offset = page > 1 ? (page - 1) * limit : 0;
 
     const wordSeparators = /[-. ]/g; // Word Sperators: - . SPACE
-    const searchTerm "%" + query.replace(wordSeparators, "_") + "%";
+    const searchTerm = "%" + query.replace(wordSeparators, "_") + "%";
 
     const command = await sqlStorage`
       WITH search_query AS (

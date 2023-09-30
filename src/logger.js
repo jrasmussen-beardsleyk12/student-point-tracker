@@ -12,16 +12,16 @@ function httpLog(req, res) {
 
 function generic(data, level) {
   switch(level) {
-    "info":
+    case "info":
       console.info(data);
       break;
-    "debug":
+    case "debug":
       console.debug(data);
       break;
-    "warn":
+    case "warn":
       console.warn(data);
       break;
-    "error":
+    case "error":
       console.error(data);
       break;
     default:

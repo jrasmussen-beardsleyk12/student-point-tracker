@@ -10,8 +10,9 @@ const app = express();
 // Define our Rate Limiters
 const genericLimit = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  // Limit each IP per window, 0 disables rate limit
-  max: process.env.PROD_STATUS === "dev" ? 0 : context.config.RATE_LIMIT_GENERIC,
+  // Limit each IP per window
+  limit: context.config.RATE_LIMIT_GENERIC,
+  validate: process.env.PROD_STATUS === "dev", // Setting true or false; disables or enables all validations
   standardHeaders: true, // Return rate limit info in headers
   legacyHeaders: true, // Legacy rate limit info in headers
   store: new MemoryStore(), // use default memory store

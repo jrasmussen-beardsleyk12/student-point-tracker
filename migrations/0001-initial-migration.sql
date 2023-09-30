@@ -13,7 +13,7 @@ CREATE TYPE pointsAction AS ENUM('added', 'removed');
 
 CREATE TABLE points (
   id UUID DEFAULT GEN_RANDOM_UUID() PRIMARY KEY,
-  student BIGINT NOT NULL REFERENCES students(id)
+  student BIGINT NOT NULL REFERENCES students(id),
   points_modified BIGINT NOT NULL DEFAULT 0,
   points_action pointsAction NOT NULL,
   created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
