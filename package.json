@@ -11,5 +11,16 @@
   "keywords": [],
   "author": "confused-Techie",
   "repository": "https://github.com/confused-Techie/student-point-tracker",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.0.2",
+    "js-yaml": "^4.1.0",
+    "postgres": "^3.3.5"
+  },
+  "devDependencies": {
+    "@databases/pg-migrations": "^5.0.2",
+    "@databases/pg-test": "^3.1.2",
+    "cross-env": "^7.0.3"
+  }
 }
