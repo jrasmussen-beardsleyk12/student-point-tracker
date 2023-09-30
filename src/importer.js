@@ -15,8 +15,6 @@ async function importer() {
       skip_empty_lines: true
     });
 
-    console.log(records);
-
     for (const record of records) {
       // Lets normalize our values here
       for (const item in record) {

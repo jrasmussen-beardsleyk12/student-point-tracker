@@ -2,3 +2,4 @@ node_modules/
 coverage/
 storage/
 app.yaml
+static/site.css

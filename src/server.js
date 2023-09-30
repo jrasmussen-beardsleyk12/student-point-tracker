@@ -1,3 +1,5 @@
+const fs = require("fs");
+const compileStyleSheets = require("./compileStyleSheets.js");
 let dbTeardown;
 
 (async () => {
@@ -23,22 +25,29 @@ let dbTeardown;
     process.env.DB_USER = dbUrlParsed[1];
     process.env.DB_DB = dbUrlParsed[4];
     process.env.DB_PORT = dbUrlParsed[3];
+
+    // Also setup a watcher on the built in Less StyleSheet
+    fs.watchFile("./views/site.less", () => {
+      console.log("Recompile of Less triggered: './views/assets/site.less'");
+      compileStyleSheets("./views/assets/site.less");
+    });
   }
 
   const app = require("./main.js");
   const { PORT } = require("./config.js")();
   const database = require("./database.js");
-  const fs = require("fs");
+  const importer = require("./importer.js");
 
   const serve = app.listen(PORT, () => {
     console.log(`Server Listening on port ${PORT}`);
   });
 
-  if (fs.existsSync("./storage/students.csv")) {
-    const importer = require("./importer.js");
+  await importer();
 
-    await importer();
-  }
+  fs.watchFile("./storage/user.less", () => {
+    console.log("Recompile of Less triggered: './storage/user.less'");
+    compileStyleSheets("./storage/user.less");
+  });
 
 })();
 

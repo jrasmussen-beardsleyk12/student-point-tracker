@@ -67,6 +67,8 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(express.static("./static"));
+
 const pathOptions = [];
 
 for (const node of endpoints) {
