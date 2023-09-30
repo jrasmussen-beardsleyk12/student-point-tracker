@@ -43,7 +43,7 @@ function reason(req) {
 }
 
 function page(req) {
-  const def = 0;
+  const def = 1;
   const prov = req.query.page;
 
   switch(typeof prov) {
@@ -72,7 +72,7 @@ function pathTraversalAttempt(data) {
 
   // Combine the 3 regex into one: https://regex101.com/r/CgcZev/1
   const check = /\.{2}(?:[/\\])?/;
-  return data.match(check) !== null;
+  return data?.match(check) !== null;
 }
 
 module.exports = {
