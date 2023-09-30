@@ -47,6 +47,29 @@ async function getStudentByID(id) {
   }
 }
 
+async function addStudent(obj) {
+  try {
+    sqlStorage ??= setupSQL();
+
+    const command = await sqlStorage`
+      INSERT INTO students (id, first_name, last_name)
+      VALUES (${obj.id}, ${obj.first_name}, ${obj.last_name})
+      RETURNING id;
+    `;
+
+    return command.count !== 0
+      ? { ok: true, content: command[0] }
+      : { ok: false, content: command, short: "server_error" };
+
+  } catch(err) {
+    return {
+      ok: false,
+      content: err,
+      short: "server_error"
+    };
+  }
+}
+
 async function addPointsToStudent(id, points, reason) {
   sqlStorage ??= setupSQL();
 
@@ -221,6 +244,7 @@ module.exports = {
   setupSQL,
   shutdownSQL,
   getStudentByID,
+  addStudent,
   addPointsToStudent,
   removePointsFromStudent,
   searchStudent,

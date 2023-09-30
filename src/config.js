@@ -38,7 +38,8 @@ function getConfig() {
     DB_PORT: process.env.DB_PORT ?? data.DB_PORT,
     RATE_LIMIT_GENERIC: process.env.RATE_LIMIT_GENERIC ?? data.RATE_LIMIT_GENERIC,
     PAGINATION_LIMIT: process.env.PAGINATION_LIMIT ?? data.PAGINATION_LIMIT,
-    SITE_NAME: process.env.SITE_NAME ?? data.SITE_NAME
+    SITE_NAME: process.env.SITE_NAME ?? data.SITE_NAME,
+    CSV_DELIMITER: process.env.CSV_DELIMITER ?? data.CSV_DELIMITER
   };
 }
 

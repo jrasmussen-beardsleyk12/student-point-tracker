@@ -6,17 +6,17 @@ These points are redeemable for non-specific items, an the interface to view, up
 
 The current known requirements or specifications of this project:
 
-* Students are separated by Homeroom.
+* Students are separated by Homeroom. (No longer a requirement)
 * Each entry then for every single student, contains a reference for every day of the year.
 * On each day the amount of points a student has can be added to or reduced, changing their total points.
-* In either scenario there are reasons added, such as the item they have purchased with their points, or the reason points have been added.
+* In either scenario there are reasons added, such as the item they have purchased with their points, or the reason points have been removed.
 
 But with this said, now lets get onto our requirements:
 
 ## Minimum Viable Product
 
-* Able to view each student individually, including all occasion that points have been removed or added.
-* View the full list of students per homeroom
+* Able to view each student individually, including all occasions that points have been removed or added.
+* View the full list of students ~~per homeroom~~
 * An admin only dashboard that allows updates to points
 
 ## Ideal System
