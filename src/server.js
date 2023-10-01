@@ -1,6 +1,6 @@
 const fs = require("fs");
 const compileStyleSheets = require("./compileStyleSheets.js");
-let dbTeardown;
+let dbTeardown, database, serve;
 
 (async () => {
 
@@ -25,29 +25,20 @@ let dbTeardown;
     process.env.DB_USER = dbUrlParsed[1];
     process.env.DB_DB = dbUrlParsed[4];
     process.env.DB_PORT = dbUrlParsed[3];
-
-    // Also setup a watcher on the built in Less StyleSheet
-    fs.watchFile("./views/site.less", () => {
-      console.log("Recompile of Less triggered: './views/assets/site.less'");
-      compileStyleSheets("./views/assets/site.less");
-    });
   }
 
   const app = require("./main.js");
   const { PORT } = require("./config.js")();
-  const database = require("./database.js");
+  database = require("./database.js");
   const importer = require("./importer.js");
 
-  const serve = app.listen(PORT, () => {
+  serve = app.listen(PORT, () => {
     console.log(`Server Listening on port ${PORT}`);
   });
 
   await importer();
 
-  fs.watchFile("./storage/user.less", () => {
-    console.log("Recompile of Less triggered: './storage/user.less'");
-    compileStyleSheets("./storage/user.less");
-  });
+  compileStyleSheets();
 
 })();
 
