@@ -5,4 +5,5 @@ module.exports = [
   require("./postApiStudentIdPoints.js"),
   require("./getApiStudentIdPoints.js"),
   require("./getHome.js"),
+  require("./getStudentId.js"),
 ];

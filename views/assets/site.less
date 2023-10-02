@@ -3,6 +3,8 @@
 body {
   background-color: @canvas;
   color: @text;
+  font-size: 14px;
+  font-family: Roboto,arial,sans-serif;
 }
 
 button {
@@ -19,17 +21,11 @@ button {
 }
 
 .search-bar {
-  margin-top: 3rem;
-  margin-bottom: 3rem;
-}
-
-search-box {
-  width: 66.66%;
+  margin: 0 auto;
+  padding-top: 6px;
+  width: auto;
   max-width: 48rem;
-  border-radius: 0.25rem;
-  border-width: 1px;
-  background-color: transparent;
-  padding: 0.75rem;
+  position: relative;
 }
 
 .search-box {
@@ -42,4 +38,96 @@ search-box {
   margin: 0 auto;
   width: 66.66%;
   max-width: 48rem;
+}
+
+.inner-search-box {
+  flex: 1;
+  display: flex;
+  padding: 5px 8px 0 14px;
+}
+
+.search-icon {
+  display: flex;
+  align-items: center;
+  padding-right: 1px;
+  margin-top: -5px;
+  height: 46px;
+}
+
+.text-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  margin-top: 6px;
+}
+
+textarea {
+  font-family: Roboto,arial,sans-serif;
+  line-height: 22px;
+  margin-bottom: 8px;
+  overflow-x: none;
+  resize: none;
+  white-space: nowrap;
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+  color: @text;
+  word-wrap: break-word;
+  outline: none;
+  display: flex;
+  -webkit-tap-highlight-color: transparent;
+  font-size: 16px;
+  flex: 100%;
+}
+
+.search-results section {
+  color: @text;
+  background-color: @accent;
+  padding-bottom: 0.5rem;
+  padding-top: 0.05rem;
+  width: 66.66%;
+  margin-right: auto;
+  margin-left: auto;
+  border: 1px solid #5f6368;
+  text-decoration: none;
+}
+
+@srb: 20px; // Search Results Border
+
+.search-results section:first-child {
+  margin-top: 1rem;
+  border-radius: @srb @srb 0px 0px;
+}
+
+.search-results section:last-child {
+  border-radius: 0px 0px @srb @srb;
+}
+
+.search-results section:only-child {
+  border-radius: @srb @srb @srb @srb;
+}
+
+.search-results section > .name {
+  font-weight: 900;
+}
+
+.search-results section > .id {
+  font-style: italic;
+  opacity: 0.80;
+}
+
+// ====== Student Page ======== //
+
+.student-view {
+  display: grid;
+  grid-template-columns: 3fr;
+  grid-template-rows: 4fr;
+}
+
+.profile-details {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: span 4;
 }

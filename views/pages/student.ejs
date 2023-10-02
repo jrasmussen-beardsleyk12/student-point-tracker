@@ -1,0 +1,16 @@
+<%- include("./partials/header"); %>
+
+<div class="student-view">
+
+  <div class="profile-details">
+    <div class="user-avatar"></div>
+    <div class="user-details">
+      <span class="name"><%=student.first_name%> <%=student.last_name%></span>
+      <span class="student_id"><%=student.student_id%></span>
+      <span class="created"><%=student.created%></span>
+    </div>
+  </div>
+
+</div>
+
+<%- include("./partials/footer", { filename: "student.js" }); %>
