@@ -27,7 +27,7 @@ async function getStudentByID(id) {
     const command = await sqlStorage`
       SELECT *
       FROM students
-      WHERE id = ${id}
+      WHERE student_id = ${id}
     `;
 
     return command.count !== 0
@@ -47,14 +47,42 @@ async function getStudentByID(id) {
   }
 }
 
+async function getPointsByStudentID(id) {
+  try {
+    sqlStorage ??= setupSQL();
+
+    const command = await sqlStorage`
+      SELECT *
+      FROM points
+      WHERE student = ${id}
+      ORDER BY created DESC
+    `;
+
+    return command.count !== 0
+      ? { ok: true, content: command }
+      : {
+          ok: false,
+          content: `Student ${id} not found. Or points not found.`,
+          short: "not_found"
+        };
+
+  } catch(err) {
+    return {
+      ok: false,
+      content: err,
+      short: "server_error"
+    };
+  }
+}
+
 async function addStudent(obj) {
   try {
     sqlStorage ??= setupSQL();
 
     const command = await sqlStorage`
-      INSERT INTO students (id, first_name, last_name)
-      VALUES (${obj.id}, ${obj.first_name}, ${obj.last_name})
-      RETURNING id;
+      INSERT INTO students (student_id, first_name, last_name)
+      VALUES (${obj.student_id}, ${obj.first_name}, ${obj.last_name})
+      RETURNING student_id;
     `;
 
     return command.count !== 0
@@ -89,10 +117,10 @@ async function addPointsToStudent(id, points, reason) {
         insertNewPoints = await sqlTrans`
           INSERT INTO points (student, points_modified, points_action, points_before, points_after, reason)
           VALUES (${id}, ${points}, 'added', ${student.content.points}, ${newPointsAmount}, ${reason})
-          RETURNING id;
+          RETURNING point_id;
         `;
       } catch(e) {
-        throw `A constraint has been violated while inserting ${id}'s new points!`;
+        throw `A constraint has been violated while inserting ${id}'s new points! ${e.toString()}`;
       }
 
       if (!insertNewPoints.count) {
@@ -105,11 +133,11 @@ async function addPointsToStudent(id, points, reason) {
         modifyPoints = await sqlTrans`
           UPDATE students
           SET points = ${newPointsAmount}
-          WHERE id = ${id}
-          RETURNING id;
+          WHERE student_id = ${id}
+          RETURNING student_id;
         `;
       } catch(e) {
-        throw `A constraint has been violated while inserting ${id}'s new points!`
+        throw `A constraint has been violated while inserting ${id}'s new points! ${e.toString()}`
       };
 
       if (!modifyPoints.count) {
@@ -127,7 +155,7 @@ async function addPointsToStudent(id, points, reason) {
     });
 }
 
-async function removePointsFromStudent(id, points) {
+async function removePointsFromStudent(id, points, reason) {
   sqlStorage ??= setupSQL();
 
   let student = await getStudentByID(id);
@@ -151,10 +179,10 @@ async function removePointsFromStudent(id, points) {
         insertNewPoints = await sqlTrans`
           INSERT INTO points (student, points_modified, points_action, points_before, points_after, reason)
           VALUES (${id}, ${points}, 'removed', ${student.content.points}, ${newPointsAmount}, ${reason})
-          RETURNING id;
+          RETURNING point_id;
         `;
       } catch(e) {
-        throw `A constraint has been violated while removing ${id}'s new negative points!`;
+        throw `A constraint has been violated while removing ${id}'s new negative points! ${e.toString()}`;
       }
 
       if (!insertNewPoints.count) {
@@ -167,11 +195,11 @@ async function removePointsFromStudent(id, points) {
         modifyPoints = await sqlTrans`
           UPDATE students
           SET points = ${newPointsAmount}
-          WHERE id = ${id}
-          RETURNING id;
+          WHERE student_id = ${id}
+          RETURNING student_id;
         `;
       } catch(e) {
-        throw `A constraint has been violated while removing ${id}'s new negaitve points!`
+        throw `A constraint has been violated while removing ${id}'s new negaitve points! ${e.toString()}`
       };
 
       if (!modifyPoints.count) {
@@ -196,27 +224,22 @@ async function searchStudent(query, page) {
     const offset = page > 1 ? (page - 1) * limit : 0;
 
     const wordSeparators = /[-. ]/g; // Word Sperators: - . SPACE
-    const searchTerm = "%" + query.replace(wordSeparators, "_") + "%";
+    const searchTerm = "%" + query.replace(wordSeparators, "%") + "%";
 
     const command = await sqlStorage`
-      WITH search_query AS (
-        SELECT DISTINCT ON (s.id) s.id, s.first_name, s.last_name, s.created, s.points
-        FROM students AS s
-        WHERE
-        (
-          first_name LIKE ${searchTerm}
-          OR last_name LIKE ${searchTerm}
-          OR id LIKE ${searchTerm}
-        )
+      SELECT *
+      FROM students
+      WHERE
+      (
+        first_name LIKE ${searchTerm}
+        OR last_name LIKE ${searchTerm}
+        OR CAST(student_id AS TEXT) LIKE ${searchTerm}
       )
-      SELECT *, COUNT(*) OVER() AS query_result_count
-      FROM search_query
-      ORDER BY DESC
       LIMIT ${limit}
       OFFSET ${offset}
     `;
 
-    const resultCount = command[0]?.query_result_count ?? 0;
+    const resultCount = command.length ?? 0;
     const quotient = Math.trunc(resultCount / limit);
     const remainder = resultCount % limit;
     const totalPages = quotient + (remainder > 0 ? 1 : 0);
@@ -248,4 +271,5 @@ module.exports = {
   addPointsToStudent,
   removePointsFromStudent,
   searchStudent,
+  getPointsByStudentID,
 };

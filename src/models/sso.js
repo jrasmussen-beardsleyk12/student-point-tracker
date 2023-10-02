@@ -122,7 +122,7 @@ class SSO {
     } else if (typeof this.content?.content === "string" && this.content.content.length > 0) {
       msgToUse = `${enumDetails[shortToUse]?.message ?? "Server Error"}: ${this.content.content}`;
     } else {
-      msgTouse = `${enumDetails[shortToUse]?.message ?? `Server Error: From ${shortToUse}` }`;
+      msgToUse = `${enumDetails[shortToUse]?.message ?? `Server Error: From ${shortToUse}` }`;
     }
 
     codeToUse = enumDetails[shortToUse]?.code ?? 500;

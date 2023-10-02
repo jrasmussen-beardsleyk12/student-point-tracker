@@ -23,7 +23,7 @@ async function importer() {
 
       console.log(record);
       if (
-        typeof record.id !== "string" ||
+        typeof record.student_id !== "string" ||
         typeof record.first_name !== "string" ||
         typeof record.last_name !== "string"
       ) {
@@ -37,8 +37,9 @@ async function importer() {
         console.error("An error occuring during the import of new students!");
         console.error(action);
       }
-
-      console.log(`Imported '${record.id}' without issue...`);
+      console.log(`Action: ${action}`);
+      console.log(action);
+      console.log(`Imported '${record.student_id}' without issue...`);
     }
   }
 }

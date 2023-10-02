@@ -8,7 +8,7 @@ module.exports = {
     rateLimit: "generic",
     successStatus: 201,
     options: {
-      Allow: "GET, DELETE",
+      Allow: "GET, DELETE, POST",
       "X-Content-Type-Options": "nosniff"
     }
   },

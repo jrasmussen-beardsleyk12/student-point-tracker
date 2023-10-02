@@ -8,22 +8,23 @@ module.exports = {
     rateLimit: "generic",
     successStatus: 204,
     options: {
-      Allow: "GET, DELETE",
+      Allow: "GET, DELETE, POST",
       "X-Content-Type-Options": "nosniff"
     }
   },
   params: {
     id: (context, req) => { return context.query.id(req); },
-    points: (context, req) => { return context.query.points(req); }
+    points: (context, req) => { return context.query.points(req); },
+    reason: (context, req) => { return context.query.reason(req); }
   },
 
   async logic(params, context) {
-    let action = await context.database.removePointsFromStudent(params.id, params.points);
+    let action = await context.database.removePointsFromStudent(params.id, params.points, params.reason);
 
     if (!action.ok) {
       const sso = new context.sso();
 
-      return sso.noOk().addContent(action)
+      return sso.notOk().addContent(action)
                 .addCalls("db.removePointsFromStudent", action);
     }
 
