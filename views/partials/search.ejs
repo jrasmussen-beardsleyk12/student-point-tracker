@@ -1,24 +1,19 @@
 <div class="text-center">
   <h1><%=name%></h1>
-  <form class="search-bar" action="/students/">
-    <!--<input class="search-box" type="search" value="" name="q" placeholder="Search Students..." />
-    <button type="submit">
-      <i class="fas fa-maginifying-glass"></i>
-      Search
-    </button>-->
-    <div class="search-box">
-      <div class="inner-search-box">
-        <div class="search-icon">
 
-        </div>
-        <div class="text-container">
-          <textarea id="search" maxlength="2048" wrap="off" name="q" rows="1" aria-activedescendant aria-autocomplete="both" title="Search" type="search"></textarea>
-        </div>
+  <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-leading-icon" id="search-bar">
+    <i class="material-icons mdc-text-field__icon text-field-shaped__icon">search</i>
+    <input class="mdc-text-field__input text-field-shaped__input--icon" id="search-text-field">
+    <div class="mdc-notched-outline">
+      <div class="text-field-shaped__leading mdc-notched-outline__leading"></div>
+      <div class="mdc-notched-outline__notch text-field-shaped__notch">
+        <label for="search-text-field" class="mdc-floating-label">Search</label>
       </div>
+      <div class="text-field-shaped__trailing mdc-notched-outline__trailing"></div>
     </div>
+  </div>
 
-    <div class="search-results" id="search-results">
-    </div>
+  <div class="search-results" id="search-results">
+  </div>
 
-  </form>
 </div>

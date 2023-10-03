@@ -1,16 +1,93 @@
 <%- include("./partials/header"); %>
+<%- include("./partials/topBar"); %>
 
-<div class="student-view">
+<div class="mdc-elevation--z12">
+  <div class="mdc-layout-grid">
+    <div class="mdc-layout-grid__inner">
+      <div class="mdc-layout-grid__cell">
 
-  <div class="profile-details">
-    <div class="user-avatar"></div>
-    <div class="user-details">
-      <span class="name"><%=student.first_name%> <%=student.last_name%></span>
-      <span class="student-id"><%=student.student_id%></span>
-      <span class="created"><%=student.created%></span>
+        <div class="mdc-card">
+          <div class="mdc-card__media mdc-card__media--16-9" style="background-image: url(&quot;https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg&quot;);"></div>
+          <div class="mdc-card__content">
+            <h2 class="mdc-typography mdc-typography--headline6"><%=student.first_name%> <%=student.last_name%></h2>
+            <h2 class="mdc-typography mdc-typography--headline6">Points: <%=student.points%></h2>
+            <h3 class="mdc-typography mdc-typography--subtitle2">Student ID: <%=student.student_id%></h3>
+          </div>
+          <div class="mdc-card__secondary mdc-typography mdc-typography--body2">Created: <%=student.created%></div>
+        </div>
+
+      </div>
+      <div class="mdc-layout-grid__cell">
+
+        <div class="mdc-card">
+          <div class="mdc-card__primary-action" tabindex="0">
+            <div class="mdc-card__actions">
+              <button class="mdc-button mdc-button--raised mdc-card__action mdc-card__action--button mdc-card__action-icons" onclick="removePointsDialog.open();">
+                <span class="mdc-button__label">Remove Points</span>
+                <i class="material-icons mdc-button__icon" aria-hidden="true">delete</i>
+                <span class="mdc-button__ripple"></span>
+              </button>
+
+              <button class="mdc-button mdc-button--raised mdc-card__action mdc-card__action--button mdc-card__action-icons" onclick="addPointsDialog.open();">
+                <span class="mdc-button__label">Add Points</span>
+                <i class="material-icons mdc-button__icon" aria-hidden="true">add_circle</i>
+                <span class="mdc-button__ripple"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mdc-layout-grid__cell--span-3">
+        <div class="mdc-card">
+          <div class="mdc-card__content">
+            <h2 class="mdc-typeography mdc-typeography--headline6">Point History</h2>
+
+            <div class="mdc-data-table">
+              <div class="mdc-data-table__table-container">
+                <table class="mdc-data-table__table" aria-label="Point History">
+                  <thead>
+                    <tr class="mdc-data-table__header-row">
+                      <th class="mdc-data-table__header-cell mdc-data-table__header-cell--numeric" role="columnheader" scope="col">
+                        Points Amount
+                      </th>
+                      <th class="mdc-data-table__header-cell" role="columnheader" scope="col">
+                        Action
+                      </th>
+                      <th class="mdc-data-table__header-cell" role="columnheader" scope="col">
+                        Timestamp
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="mdc-data-table__content"
+
+                    <% for (let i = 0; i < points.length; i++) { %>
+                      <tr class="mdc-data-table__row">
+                        <th class="mdc-data-table__cell mdc-data-table__cell--numeric" scope="row"><%= points[i].points_modified %></th>
+                        <td class="mdc-data-table__cell"><%= points[i].points_action %></td>
+                        <td class="mdc-data-table__cell"><%= points[i].created %></td>
+                      </tr>
+                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
-
 </div>
 
+<script>
+const student_id = <%= student.student_id %>;
+</script>
+
+<div id="snackbar-container"></div>
+
+<%- include("./partials/addPointsDialog"); %>
+<%- include("./partials/removePointsDialog"); %>
 <%- include("./partials/footer", { filename: "student.js" }); %>

@@ -107,7 +107,7 @@ async function addPointsToStudent(id, points, reason) {
     return student;
   }
 
-  const newPointsAmount = student.content.points + points;
+  const newPointsAmount = parseInt(student.content.points, 10) + parseInt(points, 10);
 
   return await sqlStorage
     .begin(async (sqlTrans) => {
@@ -164,7 +164,7 @@ async function removePointsFromStudent(id, points, reason) {
     return student;
   }
 
-  let newPointsAmount = student.content.points - points;
+  let newPointsAmount = parseInt(student.content.points, 10) - parseInt(points, 10);
 
   if (newPointsAmount < 0) {
     // Don't go into the negatives for points
