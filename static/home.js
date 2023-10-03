@@ -48,7 +48,7 @@ function generateHTMLSearchResults(res) {
     generated +=
 `
 <!--<a href="/student/${res[i].student_id}">-->
-  <section>
+  <section onclick="redirectToStudent(${res[i].student_id})">
     <p class="name">${res[i].first_name} ${res[i].last_name}</p>
     <p class="id">${res[i].student_id}</p>
   </section>
@@ -57,4 +57,8 @@ function generateHTMLSearchResults(res) {
   }
 
   return generated;
+}
+
+function redirectToStudent(id) {
+  window.location.href = `/student/${id}`;
 }

@@ -224,15 +224,15 @@ async function searchStudent(query, page) {
     const offset = page > 1 ? (page - 1) * limit : 0;
 
     const wordSeparators = /[-. ]/g; // Word Sperators: - . SPACE
-    const searchTerm = "%" + query.replace(wordSeparators, "%") + "%";
+    const searchTerm = "%" + query.toLowerCase().replace(wordSeparators, "%") + "%";
 
     const command = await sqlStorage`
       SELECT *
       FROM students
       WHERE
       (
-        first_name LIKE ${searchTerm}
-        OR last_name LIKE ${searchTerm}
+        LOWER(first_name) LIKE ${searchTerm}
+        OR LOWER(last_name) LIKE ${searchTerm}
         OR CAST(student_id AS TEXT) LIKE ${searchTerm}
       )
       LIMIT ${limit}
