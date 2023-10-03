@@ -36,9 +36,15 @@ module.exports = {
 
     let studentPoints = await context.database.getPointsByStudentID(params.id);
 
-    if (!student.ok) {
+    if (!studentPoints.ok && studentPoints.short !== "not_found") {
       // TODO: Render a fail EJS template
     }
+
+    if (studentPoints.short === "not_found") {
+      // Ensure to set to an empty array
+      studentPoints = [];
+    }
+
     console.log(studentPoints);
     // TODO: This would be a good time to generate any cool facts about the current users points
 
