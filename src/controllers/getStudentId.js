@@ -42,7 +42,7 @@ module.exports = {
 
     if (studentPoints.short === "not_found") {
       // Ensure to set to an empty array
-      studentPoints = [];
+      studentPoints.content = [];
     }
 
     console.log(studentPoints);
