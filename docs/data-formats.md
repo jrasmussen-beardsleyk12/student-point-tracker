@@ -26,6 +26,8 @@ student_id, first_name, last_name
 2, Jane, Smith
 ```
 
+Optionally, you may include a `points` column and values, to initialize a student with that amount of points.
+
 ## Points Presets
 
 To help your users avoid having to type out the same reason and point amount over and over, you are able to provide presets for this data, both for adding and removing points.

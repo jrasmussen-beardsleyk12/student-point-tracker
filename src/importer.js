@@ -37,6 +37,18 @@ async function importer() {
         console.error("An error occuring during the import of new students!");
         console.error(action);
       }
+
+      if (typeof record.points === "string") {
+        console.log(`Existing points found for ${record.student_id}! Importing...`);
+
+        const pointAction = await database.addPointsToStudent(record.student_id, record.points, "Import");
+
+        if (!pointAction.ok) {
+          console.error("An error occuring during the import of a students existing points!");
+          console.error(pointAction);
+        }
+      }
+      
       console.log(`Action: ${action}`);
       console.log(action);
       console.log(`Imported '${record.student_id}' without issue...`);
