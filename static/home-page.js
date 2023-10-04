@@ -14,9 +14,21 @@ window.onload = () => {
   let searchTimer;
   const searchDebounceTime = 3000; // time in ms, 3 seconds here
 
-  const searchFunc = async () => {
+  const searchFunc = async (opts = {}) => {
     if (searchText.value.length === 0) {
       return;
+    }
+
+    if (opts.now) {
+      // This indicates enter was hit.
+      // If enter was hit, and the search string seems to be a valid student ID,
+      // we will not preform a search, and instead will redirect immediatly to
+      // the student page.
+      const studentIdReg = new RegExp(/^[0-9]+$/);
+
+      if (studentIdReg.test(searchText.value)) {
+        redirectToStudent(searchText.value);
+      }
     }
 
     const response = await fetch(`/api/student?q=${searchText.value}`);
@@ -40,7 +52,7 @@ window.onload = () => {
     clearTimeout(searchTimer);
     if (event.keyCode === 13) {
       // User has pressed enter
-      searchFunc();
+      searchFunc({ now: true });
     }
   });
 };
@@ -48,7 +60,7 @@ window.onload = () => {
 function generateHTMLSearchResults(res) {
   let generated = "";
 
-  generated += "<ul class='mdc-list mdc-list--two-line'>";
+  generated += "<ul class='mdc-list'>";
 
   for (let i = 0; i < res.length; i ++) {
     let tabindex = (i === 0) ? "tabindex='0'" : "";
@@ -57,9 +69,15 @@ function generateHTMLSearchResults(res) {
 `
 <li class="mdc-list-item" ${tabindex} onclick="redirectToStudent(${res[i].student_id})" onkeydown="keyRedirectToStudent(event, ${res[i].student_id})">
   <span class="mdc-list-item__ripple"></span>
-  <span class="mdc-list-item__text">
-    <span class="mdc-list-item__primary-text">${res[i].first_name} ${res[i].last_name}</span>
-    <span class="mdc-list-item__secondary-text">Student ID: ${res[i].student_id}</span>
+  <span class="mdc-list-item">
+    <span class="mdc-list-item__text">
+      <span class="mdc-list-item__text mdc-typography--headline6">${res[i].first_name} ${res[i].last_name}</span><br />
+      <span class="mdc-list-item__text mdc-typography--subtitle1">Points: ${res[i].points}</span><br />
+      <span class="mdc-typography--caption">Student ID: ${res[i].student_id}</span>
+    </span>
+    <span class="mdc-list-item__text">
+      <span class="mdc-typeography--headline6">Test</span>
+    </span>
   </span>
 </li>
 `;
