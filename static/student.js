@@ -1,4 +1,4 @@
-let addPointsDialog, removePointsDialog, addPointsSlider, removePointsSlider;
+let addPointsDialog, removePointsDialog, addPointsSlider, removePointsSlider, addPointsReason, removePointsReason, addPointsMenu, removePointsMenu;
 
 window.onload = () => {
 
@@ -8,17 +8,22 @@ window.onload = () => {
   addPointsSlider = new mdc.slider.MDCSlider(document.getElementById("add-points-slider"));
   removePointsSlider = new mdc.slider.MDCSlider(document.getElementById("remove-points-slider"));
 
-  const addPointsReason = mdc.textField.MDCTextField.attachTo(document.getElementById("add-points-reason"));
-  const removePointsReason = mdc.textField.MDCTextField.attachTo(document.getElementById("remove-points-reason"));
+  addPointsReason = new mdc.textField.MDCTextField(document.getElementById("add-points-reason"));
+  removePointsReason = new mdc.textField.MDCTextField(document.getElementById("remove-points-reason"));
+
+  addPointsMenu = new mdc.menu.MDCMenu(document.getElementById("add-points-menu"));
+  removePointsMenu = new mdc.menu.MDCMenu(document.getElementById("remove-points-menu"));
 
   addPointsDialog.listen("MDCDialog:opened", () => {
     addPointsSlider.layout();
     addPointsReason.layout();
+    addPointsMenu.layout();
   });
 
   removePointsDialog.listen("MDCDialog:opened", () => {
     removePointsSlider.layout();
     removePointsReason.layout();
+    removePointsMenu.layout();
   });
 
   addPointsDialog.listen("MDCDialog:closed", async (action) => {
@@ -26,17 +31,8 @@ window.onload = () => {
       // The user has accepted the prompt
       let points = addPointsSlider.inputs[0].value;
       let reason = document.getElementById("add-points-reason-text-field").value;
-      console.log(reason);
-      console.log("Reason for add above");
 
-      const response = await fetch(`/api/student/${student_id}/points?points=${points}&reason=${reason}`, { method: "POST" });
-
-      if (response.status !== 201) {
-        console.error("AHH!!!");
-        console.error(response);
-      }
-
-      generateSuccessSnackbar(`Successfully added '${points}' Points to Student ${student_id}.`);
+      await addPoints(points, reason);
     }
   });
 
@@ -46,17 +42,42 @@ window.onload = () => {
       let points = removePointsSlider.inputs[0].value;
       let reason = document.getElementById("remove-points-reason-text-field").value;
 
-      const response = await fetch(`/api/student/${student_id}/points?points=${points}&reason=${reason}`, { method: "DELETE" });
-
-      if (response.status !== 204) {
-        console.error(response);
-      }
-
-      generateSuccessSnackbar(`Successfully removed '${points}' Points from Student ${student_id}.`);
+      await removePoints(points, reason);
     }
   });
 
+  addPointsMenu.listen("MDCMenu:selected", (data) => {
+    addPointsReason.value = data.detail.item.dataset.reason;
+    addPointsSlider.setValue(data.detail.item.dataset.amount);
+  });
+
+  removePointsMenu.listen("MDCMenu:selected", (data) => {
+    removePointsReason.value = data.detail.item.dataset.reason;
+    removePointsSlider.setValue(data.detail.item.dataset.amount);
+  })
 };
+
+async function addPoints(points, reason) {
+  const response = await fetch(`/api/student/${student_id}/points?points=${points}&reason=${reason}`, { method: "POST" });
+
+  if (response.status !== 201) {
+    console.error(response);
+    // TODO: Add snackbar
+  }
+
+  generateSuccessSnackbar(`Successfully added '${points}' Points to Student ${student_id}.`);
+}
+
+async function removePoints(points, reason) {
+  const response = await fetch(`/api/student/${student_id}/points?points=${points}&reason=${reason}`, { method: "DELETE" });
+
+  if (response.status !== 204) {
+    console.error(response);
+    // TODO: Make this a snackbar
+  }
+
+  generateSuccessSnackbar(`Successfully removed '${points}' Points from Student ${student_id}.`);
+}
 
 function generateSuccessSnackbar(msg) {
   document.getElementById("snackbar-container").innerHTML = `

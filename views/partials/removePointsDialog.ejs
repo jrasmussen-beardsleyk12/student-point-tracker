@@ -11,6 +11,26 @@
    --></h2>
       <div class="mdc-dialog__content">
 
+        <div class="text-center">
+          <button class="mdc-button text-center" onclick="removePointsMenu.open = true;">
+            <span class="mdc-button__label">Presets</span>
+          </button>
+          <div class="mdc-menu-surface--anchor">
+            <div class="mdc-menu mdc-menu-surface" id="remove-points-menu">
+              <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical" tabindex="-1">
+
+                <% for (let i = 0; i < presets.remove.length; i++) { %>
+                  <li class="mdc-list-item" role="menuitem" data-amount="<%= presets.remove[i].amount%>" data-reason="<%= presets.remove[i].reason ?? presets.remove[i].name %>">
+                    <span class="mdc-list-item__ripple"></span>
+                    <span class="mdc-list-item__text"><%= presets.remove[i].name %></span>
+                  </li>
+                <% } %>
+
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <div class="mdc-slider mdc-slider--discrete mdc-slider--tick-marks" id="remove-points-slider">
           <input class="mdc-slider__input" type="range" min="<%= slider.min %>" max="<%= slider.max %>" value="<%= slider.defaultValue %>" name="points" step="<%= slider.steps %>" aria-label="Add points to student slider">
           <div class="mdc-slider__track">

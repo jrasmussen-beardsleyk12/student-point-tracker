@@ -7,6 +7,7 @@ module.exports = {
   query: require("./query.js"),
   database: require("./database.js"),
   logger: require("./logger.js"),
+  getPresets: require("./getPresets.js"),
   sso: require("./models/sso.js"),
   ssoPaginate: require("./models/ssoPaginate.js"),
   studentObject: require("./models/studentObject.js"),

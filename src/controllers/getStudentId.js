@@ -59,7 +59,8 @@ module.exports = {
           max: 100,
           ticks: 11,
           steps: 10
-        }
+        },
+        presets: context.getPresets()
       },
       {
         views: [ path.resolve("./views") ]
