@@ -58,6 +58,17 @@ function page(req) {
   }
 }
 
+function duckString(req) {
+  // TODO: Follow validation tecnique from here: https://github.com/fairfield-programming/ducks/blob/master/src/DuckStringParser.js
+  const prov = req.query.duckString;
+
+  if (typeof prov !== "string") {
+    return "";
+  }
+
+  return prov;
+}
+
 function pathTraversalAttempt(data) {
   // This will use several methods to check for the possibility of an attempted path traversal attack.
 
@@ -81,4 +92,5 @@ module.exports = {
   points,
   reason,
   page,
+  duckString,
 };

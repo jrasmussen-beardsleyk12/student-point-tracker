@@ -6,4 +6,5 @@ module.exports = [
   require("./getApiStudentIdPoints.js"),
   require("./getHome.js"),
   require("./getStudentId.js"),
+  require("./getDuck.js"),
 ];
