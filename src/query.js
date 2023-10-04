@@ -60,10 +60,22 @@ function page(req) {
 
 function duckString(req) {
   // TODO: Follow validation tecnique from here: https://github.com/fairfield-programming/ducks/blob/master/src/DuckStringParser.js
-  const prov = req.query.duckString;
+  const prov = req.params.duckString;
 
   if (typeof prov !== "string") {
     return "";
+  }
+
+  return prov;
+}
+
+function duckStringQuery(req) {
+  // TODO: Use the same logic as above
+  const prov = req.query.duckStringQuery;
+
+  if (typeof prov !== "string") {
+    return "";
+    // Maybe return the default duck instead?
   }
 
   return prov;
@@ -93,4 +105,5 @@ module.exports = {
   reason,
   page,
   duckString,
+  duckStringQuery,
 };

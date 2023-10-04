@@ -12,5 +12,6 @@ module.exports = {
   ssoPaginate: require("./models/ssoPaginate.js"),
   studentObject: require("./models/studentObject.js"),
   studentObjectArray: require("./models/studentObjectArray.js"),
-  pointsObjectArray: require("./models/pointsObjectArray.js")
+  pointsObjectArray: require("./models/pointsObjectArray.js"),
+  ducks: require("./ducks.js")
 };

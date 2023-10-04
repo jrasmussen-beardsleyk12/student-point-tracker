@@ -61,29 +61,10 @@ module.exports = {
           steps: 10
         },
         presets: context.getPresets(),
-        duck_items: [
-          // TODO: Make duck item parser function
-          // Takes the string of duck_unlocked from the student in the DB
-          // and decodes it into this object.
-          // Where the string looks like:
-          // ITEM_KIND:code,code,code;ITEM_KIND:code,code;
-          // eg. hat:00,01;beak:00;
-          {
-            item_name: "Beaks",
-            item_kind: "beak",
-            items: [
-              { code: "00", index: 5, name: "Default", active: true }
-            ]
-          },
-          {
-            item_name: "Hats",
-            item_kind: "hat",
-            items: [
-              { code: "00", index: false, name: "None", active: true },
-              { code: "01", index: 1, name: "Baseball", active: false }
-            ]
-          }
-        ]
+        duck_items: context.ducks.generateDuckOpts(
+          context.ducks.parseDuckUnlockString(student.content.duck_unlocked),
+          student.content.duck_string
+        )
       },
       {
         views: [ path.resolve("./views") ]

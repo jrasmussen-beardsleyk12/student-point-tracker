@@ -98,6 +98,27 @@ async function addStudent(obj) {
   }
 }
 
+async function setDuckToStudent(id, duck) {
+  sqlStorage ??= setupSQL();
+
+  let student = await getStudentByID(id);
+
+  if (!student.ok) {
+    return student;
+  }
+
+  const command = await sqlStorage`
+    UPDATE students
+    SET duck_string = ${duck}
+    WHERE student_id = ${id}
+    RETURNING student_id;
+  `;
+
+  return command.count !== 0
+    ? { ok: true, content: command[0] }
+    : { ok: false, content: command, short: "server_error" };
+}
+
 async function addPointsToStudent(id, points, reason) {
   sqlStorage ??= setupSQL();
 
@@ -272,4 +293,5 @@ module.exports = {
   removePointsFromStudent,
   searchStudent,
   getPointsByStudentID,
+  setDuckToStudent,
 };

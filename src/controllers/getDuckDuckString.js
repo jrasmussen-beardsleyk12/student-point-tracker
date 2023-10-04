@@ -7,7 +7,7 @@ module.exports = {
   endpoint: {
     endpointKind: "raw",
     method: "GET",
-    paths: [ "/duck" ],
+    paths: [ "/duck/:duckString" ],
     rateLimit: "generic",
     successStatus: 200,
     options: {
