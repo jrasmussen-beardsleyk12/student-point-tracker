@@ -1,4 +1,7 @@
-let addPointsDialog, removePointsDialog, addPointsSlider, removePointsSlider, addPointsReason, removePointsReason, addPointsMenu, removePointsMenu;
+let addPointsDialog, removePointsDialog, addPointsSlider, removePointsSlider,
+  addPointsReason, removePointsReason, addPointsMenu, removePointsMenu;
+
+const duckCustom = {};
 
 window.onload = () => {
 
@@ -13,6 +16,9 @@ window.onload = () => {
 
   addPointsMenu = new mdc.menu.MDCMenu(document.getElementById("add-points-menu"));
   removePointsMenu = new mdc.menu.MDCMenu(document.getElementById("remove-points-menu"));
+
+  duckCustom.hat = new mdc.select.MDCSelect(document.getElementById("duck-custom-hat"));
+  duckCustom.beak = new mdc.select.MDCSelect(document.getElementById("duck-custom-beak"));
 
   addPointsDialog.listen("MDCDialog:opened", () => {
     addPointsSlider.layout();

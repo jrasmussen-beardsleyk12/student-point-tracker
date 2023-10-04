@@ -78,6 +78,53 @@
         </div>
       </div>
 
+      <div class="duck-customization student-page-grid__cell">
+        <div class="mdc-card">
+          <div class="mdc-card__content">
+            <h2 class="mdc-typeography mdc-typeography--headline6">Customize your Duck</h2>
+
+            <% for (let i = 0; i < duck_items.length; i++) { %>
+              <div class="mdc-select mdc-select--filled demo-width-class" id="duck-custom-<%=duck_items[i].item_kind%>">
+                <div class="mdc-select__anchor" role="button" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="demo-label demo-selected-text">
+                  <span class="mdc-select__ripple"></span>
+                  <span id="demo-label" class="mdc-floating-label">Choose your <%=duck_items[i].item_name%></span>
+                  <span class="mdc-select__selected-text-container">
+                    <span id="demo-selected-text" class="mdc-select__selected-text"></span>
+                  </span>
+                  <span class="mdc-select__dropdown-icon">
+                    <svg class="mdc-select__dropdown-icon-graphic" viewBox="7 10 10 5" focusable="false">
+                      <polygon class="mdc-select__dropdown-icon-inactive" stroke="none" fill-rule="evenodd" points="7 10 12 15 17 10">
+                      </polygon>
+                      <polygon class="mdc-select__dropdown-icon-active" stroke="none" fill-rule="evenodd" points="7 15 12 10 17 15">
+                      </polygon>
+                    </svg>
+                  </span>
+                  <span class="mdc-line-ripple"></span>
+                </div>
+
+                <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
+                  <ul class="mdc-list" role="listbox" aria-label="Food picker listbox">
+                    <% for (let y = 0; y < duck_items[i].items.length; y++) { %>
+                      <li
+                        class="mdc-list-item <% if (duck_items[i].items[y].active) { %><%="mdc-list-item--selected"%><% } %>"
+                        <% if (duck_items[i].items[y].active) { %><%='aria-selected="true"'%><% } %>
+                        data-code="<%=duck_items[i].items[y].code%>"
+                        data-index="<%=duck_items[i].items[y].index%>"
+                        role="option">
+                        <span class="mdc-list-item__ripple"></span>
+                        <span class="mdc-list-item__text">
+                          <%= duck_items[i].items[y].name %>
+                        </span>
+                      </li>
+                    <% } %>
+                  </ul>
+                </div>
+              </div>
+            <% } %>
+
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

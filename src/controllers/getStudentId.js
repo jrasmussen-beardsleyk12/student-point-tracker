@@ -60,7 +60,24 @@ module.exports = {
           ticks: 11,
           steps: 10
         },
-        presets: context.getPresets()
+        presets: context.getPresets(),
+        duck_items: [
+          {
+            item_name: "Beaks",
+            item_kind: "beak",
+            items: [
+              { code: "00", index: 5, name: "Default", active: true }
+            ]
+          },
+          {
+            item_name: "Hats",
+            item_kind: "hat",
+            items: [
+              { code: "00", index: false, name: "None", active: true },
+              { code: "01", index: 1, name: "Baseball", active: false }
+            ]
+          }
+        ]
       },
       {
         views: [ path.resolve("./views") ]
