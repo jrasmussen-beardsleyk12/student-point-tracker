@@ -91,3 +91,73 @@ body {
 .mdc-slider {
   margin-top: 3rem !important;
 }
+
+.student-page-grid {
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+@media (min-width: 840px) {
+  .student-page-grid {
+    padding: var(--mdc-layout-grid-margin-desktop, 24px);
+  }
+
+  .student-page-grid__inner {
+    grid-gap: var(--mdc-layout-grid-gutter-desktop, 24px);
+  }
+}
+
+@media (min-width: 600px) and (max-width: 839px) {
+  .student-page-grid {
+    padding: var(--mdc-layout-grid-margin-tablet, 16px);
+  }
+
+  .student-page-grid__inner {
+    grid-gap: var(--mdc-layout-grid-gutter-tablet, 16px);
+  }
+}
+
+@media (max-width: 599px) {
+  .student-page-grid {
+    padding: var(--mdc-layout-grid-margin-phone, 16px);
+  }
+
+  .student-page-grid__inner {
+    grid-gap: var(--mdc-layout-grid-gutter-phone, 16px);
+  }
+}
+
+.student-page-grid__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  margin: 0;
+  align-items: stretch;
+
+  & .student-page-grid__cell {
+    width: auto;
+    margin: 0;
+  }
+
+  & .profile-details {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 1;
+    grid-row-end: 4;
+  }
+
+  & .admin-actions {
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 1;
+  }
+
+  & .points-history {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+
+}

@@ -2,9 +2,9 @@
 <%- include("./partials/topBar"); %>
 
 <div class="mdc-elevation--z12">
-  <div class="mdc-layout-grid">
-    <div class="mdc-layout-grid__inner">
-      <div class="mdc-layout-grid__cell">
+  <div class="student-page-grid">
+    <div class="student-page-grid__inner">
+      <div class="profile-details student-page-grid__cell">
 
         <div class="mdc-card">
           <div class="mdc-card__media mdc-card__media--16-9" style="background-image: url(&quot;/duck?duckString=<%=student.duck_string%>&quot;);"></div>
@@ -17,7 +17,7 @@
         </div>
 
       </div>
-      <div class="mdc-layout-grid__cell">
+      <div class="admin-actions student-page-grid__cell">
 
         <div class="mdc-card">
           <div class="mdc-card__primary-action" tabindex="0">
@@ -39,7 +39,7 @@
 
       </div>
 
-      <div class="mdc-layout-grid__cell--span-3">
+      <div class="points-history student-page-grid__cell">
         <div class="mdc-card">
           <div class="mdc-card__content">
             <h2 class="mdc-typeography mdc-typeography--headline6">Point History</h2>
