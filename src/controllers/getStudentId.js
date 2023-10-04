@@ -62,6 +62,12 @@ module.exports = {
         },
         presets: context.getPresets(),
         duck_items: [
+          // TODO: Make duck item parser function
+          // Takes the string of duck_unlocked from the student in the DB
+          // and decodes it into this object.
+          // Where the string looks like:
+          // ITEM_KIND:code,code,code;ITEM_KIND:code,code;
+          // eg. hat:00,01;beak:00;
           {
             item_name: "Beaks",
             item_kind: "beak",
