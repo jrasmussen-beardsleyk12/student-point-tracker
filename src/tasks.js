@@ -1,3 +1,5 @@
+const schedule = require("node-schedule");
+
 const SHUTDOWN_TASKS = [];
 
 async function init() {
@@ -15,12 +17,16 @@ async function init() {
     switch(task.schedule) {
       case "startup": {
         await executeTask(task);
+        break;
       }
       case "shutdown": {
         SHUTDOWN_TASKS.push(task);
+        break;
       }
       default: {
-
+        const job = schedule.scheduleJob(task.schedule, async function(task) {
+          await executeTask(task);
+        }.bind(null, task));
       }
     }
   }
@@ -39,9 +45,11 @@ async function executeTask(task) {
       const importer = require("./importer.js");
 
       await importer(task.file);
+      break;
     }
     default: {
-
+      console.error(`Unrecognized task: '${task.action}' in '${task.name}'!`);
+      break;
     }
   }
 }

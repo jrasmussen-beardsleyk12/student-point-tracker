@@ -26,6 +26,10 @@ There are also many supported values for the `schedule` such as:
 * `startup`: This causes the task to run immediatly on startup.
 * `shutdown`: This causes the task to run once the application is shutting down. Keep in mind this task will run during any event that causes a shutdown. Including if the program has crashed, a successful run of this task is never guaranteed.
 
+Otherwise, if you need more granular control over any task you'd like to schedule, nearly any cron job declaration is supported. Refer to [`node-schedule`](https://www.npmjs.com/package/node-schedule) for any unsupported features of cron.
+
+But using cron means it'd be easy to schedule a task that runs every second, bu setting the `schedule` property to `*/10 * * * * *`.
+
 ## Student Import
 
 The student import file is used (for now during startup) to import a CSV of users into the database.
