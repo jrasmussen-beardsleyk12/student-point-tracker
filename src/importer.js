@@ -5,9 +5,9 @@ const config = require("./config.js")();
 const database = require("./database.js");
 
 module.exports =
-async function importer() {
-  if (fs.existsSync("./storage/students.csv")) {
-    const studentFile = fs.readFileSync("./storage/students.csv", { encoding: "utf8" });
+async function importer(fileName) {
+  if (fs.existsSync(fileName)) {
+    const studentFile = fs.readFileSync(fileName, { encoding: "utf8" });
 
     const records = parse(studentFile, {
       delimiter: config.CSV_DELIMITER,
@@ -21,7 +21,6 @@ async function importer() {
         record[item.trim()] = record[item].trim();
       }
 
-      console.log(record);
       if (
         typeof record.student_id !== "string" ||
         typeof record.first_name !== "string" ||
@@ -49,9 +48,9 @@ async function importer() {
         }
       }
       
-      console.log(`Action: ${action}`);
-      console.log(action);
       console.log(`Imported '${record.student_id}' without issue...`);
     }
+  } else {
+    console.error(`File: '${fileName}' not found!`);
   }
 }

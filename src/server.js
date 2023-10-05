@@ -1,6 +1,6 @@
 const fs = require("fs");
 const compileStyleSheets = require("./compileStyleSheets.js");
-let dbTeardown, database, serve;
+let dbTeardown, database, serve, tasks;
 
 (async () => {
 
@@ -30,15 +30,15 @@ let dbTeardown, database, serve;
   const app = require("./main.js");
   const { PORT } = require("./config.js")();
   database = require("./database.js");
-  const importer = require("./importer.js");
+  tasks = require("./tasks.js");
 
   serve = app.listen(PORT, () => {
     console.log(`Server Listening on port ${PORT}`);
   });
 
-  await importer();
-
   compileStyleSheets();
+
+  await tasks.init();
 
 })();
 
@@ -56,6 +56,13 @@ async function exterminate(callee) {
 
   if (process.env.PROD_STATUS === "dev") {
     await dbTeardown();
+  }
+
+  if (tasks.SHUTDOWN_TASKS.length > 0) {
+    console.log("Executing all registered shutdown tasks.");
+    for (let i = 0; i < tasks.SHUTDOWN_TASKS.length; i++) {
+      await tasks.executeTask(tasks.SHUTDOWN_TASKS[i]);
+    }
   }
 
   console.log("Exiting...");

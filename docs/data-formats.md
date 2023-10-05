@@ -2,6 +2,30 @@
 
 Since there are quite a few moving pieces of data within this project, it's prudent to go ahead and document every single one of them, and how they are used.
 
+## Config
+
+The configuration of the entire application is contained within `app.yaml` at the root of the system.
+An `app.example.yaml` is provided to help craft this file as needed.
+
+### Tasks
+
+Within your config you are able to define different tasks that should be executed within the system.
+
+Every single task should contain the following properties:
+
+* `name`: The human readable name for the task.
+* `schedule`: When you'd like the task to execute.
+* `action`: The action that should be taken during this task.
+
+Many `action`s are built-in to make them easier, such as:
+
+* `importUsers`: This task is able to preform an import of users into the database. It is required to also specify a `file` property, this file should be a CSV matching the "Student Import" section of data.
+
+There are also many supported values for the `schedule` such as:
+
+* `startup`: This causes the task to run immediatly on startup.
+* `shutdown`: This causes the task to run once the application is shutting down. Keep in mind this task will run during any event that causes a shutdown. Including if the program has crashed, a successful run of this task is never guaranteed.
+
 ## Student Import
 
 The student import file is used (for now during startup) to import a CSV of users into the database.
