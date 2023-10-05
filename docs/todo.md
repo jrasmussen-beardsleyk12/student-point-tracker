@@ -1,4 +1,4 @@
- ☐ Quick Chips to add specific values of points
+ ✔ Quick Chips to add specific values of points
 
  ☐ Dark Mode Support
 
@@ -15,6 +15,6 @@
 
  ☐ Prettify the point history
 
- ☐ remove point admin action sliders, and add text boxes instead
+ ✔ remove point admin action sliders, and add text boxes instead
 
  ☐ make everything configurable

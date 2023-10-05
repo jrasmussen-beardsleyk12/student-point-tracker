@@ -1,25 +1,74 @@
-let addPointsDialog, removePointsDialog, addPointsReason, removePointsReason,
-  addPointsMenu, removePointsMenu, addPointsChipSet, removePointsChipSet,
-  addPointsCount, removePointsCount;
 
 const duckCustom = {};
 
+const points = { add: {}, remove: {} };
+
 window.onload = () => {
 
-  addPointsDialog = new mdc.dialog.MDCDialog(document.getElementById("add-points-dialog"));
-  removePointsDialog = new mdc.dialog.MDCDialog(document.getElementById("remove-points-dialog"));
+  points.add.dialog = new mdc.dialog.MDCDialog(document.getElementById("add-points-dialog"));
+  points.remove.dialog = new mdc.dialog.MDCDialog(document.getElementById("remove-points-dialog"));
 
-  addPointsReason = new mdc.textField.MDCTextField(document.getElementById("add-points-reason"));
-  removePointsReason = new mdc.textField.MDCTextField(document.getElementById("remove-points-reason"));
+  points.add.reason = new mdc.textField.MDCTextField(document.getElementById("add-points-reason"));
+  points.remove.reason = new mdc.dialog.MDCDialog(document.getElementById("remove-points-dialog"));
 
-  addPointsMenu = new mdc.menu.MDCMenu(document.getElementById("add-points-menu"));
-  removePointsMenu = new mdc.menu.MDCMenu(document.getElementById("remove-points-menu"));
+  points.add.menu = new mdc.menu.MDCMenu(document.getElementById("add-points-menu"));
+  points.remove.menu = new mdc.menu.MDCMenu(document.getElementById("remove-points-menu"));
 
-  addPointsChipSet = new mdc.chips.MDCChipSet(document.getElementById("add-points-chip-set"));
-  removePointsChipSet = new mdc.chips.MDCChipSet(document.getElementById("remove-points-chip-set"));
+  points.add.chipset = new mdc.chips.MDCChipSet(document.getElementById("add-points-chip-set"));
+  points.remove.chipset = new mdc.chips.MDCChipSet(document.getElementById("remove-points-chip-set"));
 
-  addPointsCount = new mdc.textField.MDCTextField(document.getElementById("add-points-count"));
-  removePointsCount = new mdc.textField.MDCTextField(document.getElementById("remove-points-count"));
+  points.add.count = new mdc.textField.MDCTextField(document.getElementById("add-points-count"));
+  points.remove.count = new mdc.textField.MDCTextField(document.getElementById("remove-points-count"));
+
+  if (idExists("duck-customization-menu")) {
+    setupDuckCustomization();
+  }
+
+  points.add.dialog.listen("MDCDialog:opened", () => {
+    points.add.reason.layout();
+    points.add.menu.layout();
+    points.add.count.layout();
+  });
+
+  points.remove.dialog.listen("MDCDialog:opened", () => {
+    points.remove.reason.layout();
+    points.remove.menu.layout();
+    points.remove.count.layout();
+  });
+
+  points.add.dialog.listen("MDCDialog:closed", async (action) => {
+    if (action.detail.action === "accept") {
+      // The user has accepted the prompt
+      let points = document.getElementById("add-points-count-text-field").value;
+      let reason = document.getElementById("add-points-reason-text-field").value;
+
+      await addPoints(points, reason);
+    }
+  });
+
+  points.remove.dialog.listen("MDCDialog:closed", async (action) => {
+    if (action.detail.action === "accept") {
+      // The user has accepted the prompt
+      let points = document.getElementById("remove-points-count-text-field").value;
+      let reason = document.getElementById("remove-points-reason-text-field").value;
+
+      await removePoints(points, reason);
+    }
+  });
+
+  points.add.menu.listen("MDCMenu:selected", (data) => {
+    points.add.reason.value = data.detail.item.dataset.reason;
+    points.add.count.value = data.detail.item.dataset.amount;
+  });
+
+  points.remove.menu.listen("MDCMenu:selected", (data) => {
+    points.remove.reason.value = data.detail.item.dataset.reason;
+    points.remove.count.value = data.detail.item.dataset.amount;
+  });
+
+};
+
+function setupDuckCustomization() {
 
   duckCustom.hat = new mdc.select.MDCSelect(document.getElementById("duck-custom-hat"));
   duckCustom.eyes = new mdc.select.MDCSelect(document.getElementById("duck-custom-eyes"));
@@ -30,48 +79,6 @@ window.onload = () => {
   duckCustom.item = new mdc.select.MDCSelect(document.getElementById("duck-custom-item"));
   duckCustom.beakColor = new mdc.select.MDCSelect(document.getElementById("duck-custom-beak-color"));
   duckCustom.bodyColor = new mdc.select.MDCSelect(document.getElementById("duck-custom-body-color"));
-
-  addPointsDialog.listen("MDCDialog:opened", () => {
-    addPointsReason.layout();
-    addPointsMenu.layout();
-    addPointsCount.layout();
-  });
-
-  removePointsDialog.listen("MDCDialog:opened", () => {
-    removePointsReason.layout();
-    removePointsMenu.layout();
-    removePointsCount.layout();
-  });
-
-  addPointsDialog.listen("MDCDialog:closed", async (action) => {
-    if (action.detail.action === "accept") {
-      // The user has accepted the prompt
-      let points = document.getElementById("add-points-count-text-field").value;
-      let reason = document.getElementById("add-points-reason-text-field").value;
-
-      await addPoints(points, reason);
-    }
-  });
-
-  removePointsDialog.listen("MDCDialog:closed", async (action) => {
-    if (action.detail.action === "accept") {
-      // The user has accepted the prompt
-      let points = document.getElementById("remove-points-count-text-field").value;
-      let reason = document.getElementById("remove-points-reason-text-field").value;
-
-      await removePoints(points, reason);
-    }
-  });
-
-  addPointsMenu.listen("MDCMenu:selected", (data) => {
-    addPointsReason.value = data.detail.item.dataset.reason;
-    addPointsCount.value = data.detail.item.dataset.amount;
-  });
-
-  removePointsMenu.listen("MDCMenu:selected", (data) => {
-    removePointsReason.value = data.detail.item.dataset.reason;
-    removePointsCount.value = data.detail.item.dataset.amount;
-  });
 
   duckCustom.hat.listen("MDCSelect:change", (data) => {
     let selectedItem = document.querySelector("#duck-custom-hat [aria-selected='true']");
@@ -110,7 +117,7 @@ window.onload = () => {
   duckCustom.bodyColor.listen("MDCSelect:change", (data) => {
     duckCustomMenuEnact(document.querySelector("#duck-custom-body-color [aria-selected='true']"));
   });
-};
+}
 
 function duckCustomMenuEnact(element) {
   const code = element.dataset.code;
@@ -173,9 +180,9 @@ async function removePoints(points, reason) {
 
 function chipPointChange(action, count) {
   if (action === "add") {
-    addPointsCount.value = count;
+    points.add.count.value = count;
   } else if (action === "remove") {
-    removePointsCount.value = count;
+    points.remove.count.value = count;
   }
 }
 
@@ -198,4 +205,14 @@ function generateSuccessSnackbar(msg) {
   const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector(".mdc-snackbar"));
 
   snackbar.open();
+}
+
+function idExists(id) {
+  const element = document.getElementById(id);
+
+  if (element) {
+    return true;
+  } else {
+    return false;
+  }
 }

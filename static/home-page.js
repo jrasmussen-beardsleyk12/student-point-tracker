@@ -75,9 +75,6 @@ function generateHTMLSearchResults(res) {
       <span class="mdc-list-item__text mdc-typography--subtitle1">Points: ${res[i].points}</span><br />
       <span class="mdc-typography--caption">Student ID: ${res[i].student_id}</span>
     </span>
-    <span class="mdc-list-item__text">
-      <span class="mdc-typeography--headline6">Test</span>
-    </span>
   </span>
 </li>
 `;

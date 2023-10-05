@@ -22,13 +22,13 @@
         <div class="mdc-card">
           <div class="mdc-card__primary-action" tabindex="0">
             <div class="mdc-card__actions">
-              <button class="mdc-button mdc-button--raised mdc-card__action mdc-card__action--button mdc-card__action-icons" onclick="removePointsDialog.open();">
+              <button class="mdc-button mdc-button--raised mdc-card__action mdc-card__action--button mdc-card__action-icons" onclick="points.remove.dialog.open();">
                 <span class="mdc-button__label">Remove Points</span>
                 <i class="material-icons mdc-button__icon" aria-hidden="true">delete</i>
                 <span class="mdc-button__ripple"></span>
               </button>
 
-              <button class="mdc-button mdc-button--raised mdc-card__action mdc-card__action--button mdc-card__action-icons" onclick="addPointsDialog.open();">
+              <button class="mdc-button mdc-button--raised mdc-card__action mdc-card__action--button mdc-card__action-icons" onclick="points.add.dialog.open();">
                 <span class="mdc-button__label">Add Points</span>
                 <i class="material-icons mdc-button__icon" aria-hidden="true">add_circle</i>
                 <span class="mdc-button__ripple"></span>
@@ -78,7 +78,7 @@
         </div>
       </div>
 
-      <div class="duck-customization student-page-grid__cell">
+      <div class="duck-customization student-page-grid__cell" id="duck-customization-menu">
         <div class="mdc-card">
           <div class="mdc-card__content">
             <h2 class="mdc-typeography mdc-typeography--headline6">Customize your Duck</h2>
@@ -103,7 +103,7 @@
                 </div>
 
                 <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
-                  <ul class="mdc-list" role="listbox" aria-label="Food picker listbox">
+                  <ul class="mdc-list" role="listbox" aria-label="<%=duck_items[i].item_name%> Picker">
                     <% for (let y = 0; y < duck_items[i].items.length; y++) { %>
                       <li
                         class="mdc-list-item <% if (duck_items[i].items[y].active) { %><%="mdc-list-item--selected"%><% } %>"
@@ -133,7 +133,7 @@
             <span class="mdc-button__ripple"></span>
           </button>
         </div>
-        
+
       </div>
 
     </div>
