@@ -19,7 +19,7 @@
 
  ✔ make everything configurable
 
- ☐ normalize button use
+ ✔ normalize button use
 
  ☐ point stats
 

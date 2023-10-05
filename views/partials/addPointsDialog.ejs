@@ -12,7 +12,7 @@
       <div class="mdc-dialog__content">
 
         <div class="text-center">
-          <button class="mdc-button text-center" onclick="points.add.menu.open = true;">
+          <button class="mdc-button mdc-button--raised margin-vertical__small" onclick="points.add.menu.open = true;">
             <span class="mdc-button__label">Presets</span>
           </button>
           <div class="mdc-menu-surface--anchor">
@@ -29,47 +29,46 @@
               </ul>
             </div>
           </div>
-        </div>
 
-        <div class="mdc-text-field mdc-text-field--outlined" id="add-points-count">
-          <input class="mdc-text-field__input text-field-shaped__input" id="add-points-count-text-field" type="number" min="0">
-          <div class="mdc-notched-outline">
-            <div class="text-field-shaped__leading mdc-notched-outline__leading"></div>
-            <div class="mdc-notched-outline__notch text-field-shaped__notch">
-              <label for="add-points-count-text-field" class="mdc-floating-label">Points to Add</label>
+          <div class="mdc-text-field mdc-text-field--outlined" id="add-points-count">
+            <input class="mdc-text-field__input text-field-shaped__input" id="add-points-count-text-field" type="number" min="0">
+            <div class="mdc-notched-outline">
+              <div class="text-field-shaped__leading mdc-notched-outline__leading"></div>
+              <div class="mdc-notched-outline__notch text-field-shaped__notch">
+                <label for="add-points-count-text-field" class="mdc-floating-label">Points to Add</label>
+              </div>
+              <div class="text-field-shaped__trailing mdc-notched-outline__trailing"></div>
             </div>
-            <div class="text-field-shaped__trailing mdc-notched-outline__trailing"></div>
           </div>
-        </div>
 
-        <div class="mdc-chip-set mdc-chip-set--choice light-buffer" id="add-points-chip-set">
-          <% for (let i = 0; i < pointChips.length; i++) { %>
-            <div class="mdc-chip mdc-ripple-upgraded" role="row" onclick="chipPointChange('add', <%=pointChips[i]%>);">
-              <span role="button" tabindex="0" class="mdc-chip__text"><%=pointChips[i]%> Points</span>
-            </div>
-          <% } %>
-        </div>
-
-        <div class="mdc-text-field mdc-text-field--outlined" id="add-points-reason">
-          <input class="mdc-text-field__input text-field-shaped__input" id="add-points-reason-text-field">
-          <div class="mdc-notched-outline">
-            <div class="text-field-shaped__leading mdc-notched-outline__leading"></div>
-            <div class="mdc-notched-outline__notch text-field-shaped__notch">
-              <label for="add-points-reason-text-field" class="mdc-floating-label">Reason</label>
-            </div>
-            <div class="text-field-shaped__trailing mdc-notched-outline__trailing"></div>
+          <div class="mdc-chip-set mdc-chip-set--choice padding-vertical__small" id="add-points-chip-set">
+            <% for (let i = 0; i < pointChips.length; i++) { %>
+              <div class="mdc-chip mdc-ripple-upgraded" role="row" onclick="chipPointChange('add', <%=pointChips[i]%>);">
+                <span role="button" tabindex="0" class="mdc-chip__text"><%=pointChips[i]%> Points</span>
+              </div>
+            <% } %>
           </div>
+
+          <div class="mdc-text-field mdc-text-field--outlined" id="add-points-reason">
+            <input class="mdc-text-field__input text-field-shaped__input" id="add-points-reason-text-field">
+            <div class="mdc-notched-outline">
+              <div class="text-field-shaped__leading mdc-notched-outline__leading"></div>
+              <div class="mdc-notched-outline__notch text-field-shaped__notch">
+                <label for="add-points-reason-text-field" class="mdc-floating-label">Reason</label>
+              </div>
+              <div class="text-field-shaped__trailing mdc-notched-outline__trailing"></div>
+            </div>
+          </div>
+
         </div>
-
-
 
       </div>
       <div class="mdc-dialog__actions">
-        <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="close">
+        <button type="button" class="mdc-button mdc-dialog__button mdc-button--raised" data-mdc-dialog-action="close">
           <div class="mdc-button__ripple"></div>
           <span class="mdc-button__label">Cancel</span>
         </button>
-        <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="accept">
+        <button type="button" class="mdc-button mdc-dialog__button mdc-button--raised" data-mdc-dialog-action="accept">
           <div class="mdc-button__ripple"></div>
           <span class="mdc-button__label">Add</span>
         </button>
