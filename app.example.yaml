@@ -5,6 +5,8 @@ DB_USER: ""
 DB_PASS: ""
 DB_DB: ""
 DB_PORT: ""
+GOOGLE_CLIENT_ID: ""
+GOOGLE_CLIENT_SECRET: ""
 RATE_LIMIT_GENERIC: 1200 # Requests per IP per 15 minute window
 PAGINATION_LIMIT: 30
 SITE_NAME: "Student Point Tracker"

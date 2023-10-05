@@ -26,6 +26,7 @@ module.exports = {
         views: [ path.resolve("./views") ]
       }
     );
+    console.log(req.user);
 
     res.set("Content-Type", "text/html");
     res.status(200).send(template);

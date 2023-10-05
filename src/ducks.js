@@ -18,8 +18,8 @@ const allDuckOpts = {
     itemCodes: {
       "00": "None",
       "01": "Baseball Hat - Blue",
-      "02": "Sun hat",
-      "03": "Pirate Captian",
+      "02": "Trilby Hat",
+      "03": "Pirate Captian Hat",
       "04": "Mohawk - Blue",
       "05": "Mohawk - Red",
       "06": "Bald Spot",

@@ -16,5 +16,5 @@ module.exports = {
   pointsObjectArray: require("./models/pointsObjectArray.js"),
   ducks: require("./ducks.js"),
   cache: cache,
-  globalCache: new cache.CacheCollection()
+  globalCache: new cache.CacheCollection(),
 };

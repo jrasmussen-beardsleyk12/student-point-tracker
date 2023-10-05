@@ -2,6 +2,12 @@ const express = require("express");
 const rateLimit = require("express-rate-limit");
 const { MemoryStore } = require("express-rate-limit");
 
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oidc");
+
+const session = require("express-session");
+const SessionMemoryStore = require("session-memory-store")(session);
+
 const endpoints = require("./controllers/endpoints.js");
 const context = require("./context.js");
 
@@ -23,6 +29,71 @@ const genericLimit = rateLimit({
     context.logger.httpLog(request, response);
   }
 });
+
+// --- Authentication Setup ---
+
+app.use(session({
+  secret: "test",
+  resave: false,
+  saveUninitialized: false,
+  // cookie: { secure: true },
+  //store: new SessionMemoryStore()
+}));
+
+app.use(passport.authenticate("session"));
+
+passport.serializeUser(function(user, cb) {
+  console.log("Deserialize user");
+  process.nextTick(function() {
+    cb(null, user);
+    // This will allow the user object being passed to be available via
+    // req.session.passport.user
+  });
+});
+
+passport.deserializeUser(function(user, cb) {
+  process.nextTick(function() {
+    return cb(null, user);
+  });
+});
+
+passport.use("google", new GoogleStrategy({
+  clientID: context.config.GOOGLE_CLIENT_ID,
+  clientSecret: context.config.GOOGLE_CLIENT_SECRET,
+  callbackURL: "/oauth2/redirect",
+  scope: [ "profile", "email", "openid" ]
+}, (issuer, profile, cb) => {
+  console.log("Stuff has happened!");
+  console.log("Issuer:");
+  console.log(issuer);
+  console.log("Profile:");
+  console.log(profile);
+  console.log("CB:");
+  console.log(cb);
+
+  if (profile.emails[0].value.endsWith(context.config.DOMAIN)) {
+    const usrObj = {
+      issuer: issuer,
+      id: profile.id,
+      displayName: profile.displayName,
+      first_name: profile.name.givenName,
+      last_name: profile.name.familyName,
+      email: profile.emails[0].value
+    };
+
+    return cb(null, usrObj);
+  } else {
+    console.error(profile);
+    return cb(`Bad email domain attempted to be used during login! '${profiles.emails[0].value}'`);
+  }
+}));
+
+app.get("/login", passport.authenticate("google"));
+
+app.get("/oauth2/redirect", passport.authenticate("google", {
+  successRedirect: "/",
+  failureRedirect: "/login"
+}));
 
 const endpointHandler = async function(node, req, res) {
   let params = {};

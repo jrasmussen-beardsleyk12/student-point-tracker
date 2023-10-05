@@ -14,10 +14,13 @@ module.exports = {
   },
   params: {
     id: (context, req) => { return context.query.id(req); },
-    duckStringQuery: (context, req) => { return context.query.duckStringQuery(req); }
+    duckStringQuery: (context, req) => { return context.query.duckStringQuery(req); },
+    user: (context, req) => { return req.user; }
   },
 
   async logic(params, context) {
+    console.log("Duck change");
+    console.log(params.user);
     let action = await context.database.setDuckToStudent(params.id, params.duckStringQuery);
 
     if (!action.ok) {
