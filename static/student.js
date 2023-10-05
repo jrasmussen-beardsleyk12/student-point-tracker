@@ -1,5 +1,6 @@
-let addPointsDialog, removePointsDialog, addPointsSlider, removePointsSlider,
-  addPointsReason, removePointsReason, addPointsMenu, removePointsMenu;
+let addPointsDialog, removePointsDialog, addPointsReason, removePointsReason,
+  addPointsMenu, removePointsMenu, addPointsChipSet, removePointsChipSet,
+  addPointsCount, removePointsCount;
 
 const duckCustom = {};
 
@@ -8,14 +9,17 @@ window.onload = () => {
   addPointsDialog = new mdc.dialog.MDCDialog(document.getElementById("add-points-dialog"));
   removePointsDialog = new mdc.dialog.MDCDialog(document.getElementById("remove-points-dialog"));
 
-  addPointsSlider = new mdc.slider.MDCSlider(document.getElementById("add-points-slider"));
-  removePointsSlider = new mdc.slider.MDCSlider(document.getElementById("remove-points-slider"));
-
   addPointsReason = new mdc.textField.MDCTextField(document.getElementById("add-points-reason"));
   removePointsReason = new mdc.textField.MDCTextField(document.getElementById("remove-points-reason"));
 
   addPointsMenu = new mdc.menu.MDCMenu(document.getElementById("add-points-menu"));
   removePointsMenu = new mdc.menu.MDCMenu(document.getElementById("remove-points-menu"));
+
+  addPointsChipSet = new mdc.chips.MDCChipSet(document.getElementById("add-points-chip-set"));
+  removePointsChipSet = new mdc.chips.MDCChipSet(document.getElementById("remove-points-chip-set"));
+
+  addPointsCount = new mdc.textField.MDCTextField(document.getElementById("add-points-count"));
+  removePointsCount = new mdc.textField.MDCTextField(document.getElementById("remove-points-count"));
 
   duckCustom.hat = new mdc.select.MDCSelect(document.getElementById("duck-custom-hat"));
   duckCustom.eyes = new mdc.select.MDCSelect(document.getElementById("duck-custom-eyes"));
@@ -28,21 +32,21 @@ window.onload = () => {
   duckCustom.bodyColor = new mdc.select.MDCSelect(document.getElementById("duck-custom-body-color"));
 
   addPointsDialog.listen("MDCDialog:opened", () => {
-    addPointsSlider.layout();
     addPointsReason.layout();
     addPointsMenu.layout();
+    addPointsCount.layout();
   });
 
   removePointsDialog.listen("MDCDialog:opened", () => {
-    removePointsSlider.layout();
     removePointsReason.layout();
     removePointsMenu.layout();
+    removePointsCount.layout();
   });
 
   addPointsDialog.listen("MDCDialog:closed", async (action) => {
     if (action.detail.action === "accept") {
       // The user has accepted the prompt
-      let points = addPointsSlider.inputs[0].value;
+      let points = document.getElementById("add-points-count-text-field").value;
       let reason = document.getElementById("add-points-reason-text-field").value;
 
       await addPoints(points, reason);
@@ -52,7 +56,7 @@ window.onload = () => {
   removePointsDialog.listen("MDCDialog:closed", async (action) => {
     if (action.detail.action === "accept") {
       // The user has accepted the prompt
-      let points = removePointsSlider.inputs[0].value;
+      let points = document.getElementById("remove-points-count-text-field").value;
       let reason = document.getElementById("remove-points-reason-text-field").value;
 
       await removePoints(points, reason);
@@ -61,12 +65,12 @@ window.onload = () => {
 
   addPointsMenu.listen("MDCMenu:selected", (data) => {
     addPointsReason.value = data.detail.item.dataset.reason;
-    addPointsSlider.setValue(data.detail.item.dataset.amount);
+    addPointsCount.value = data.detail.item.dataset.amount;
   });
 
   removePointsMenu.listen("MDCMenu:selected", (data) => {
     removePointsReason.value = data.detail.item.dataset.reason;
-    removePointsSlider.setValue(data.detail.item.dataset.amount);
+    removePointsCount.value = data.detail.item.dataset.amount;
   });
 
   duckCustom.hat.listen("MDCSelect:change", (data) => {
@@ -165,6 +169,14 @@ async function removePoints(points, reason) {
   }
 
   generateSuccessSnackbar(`Successfully removed '${points}' Points from Student ${student_id}.`);
+}
+
+function chipPointChange(action, count) {
+  if (action === "add") {
+    addPointsCount.value = count;
+  } else if (action === "remove") {
+    removePointsCount.value = count;
+  }
 }
 
 function generateSuccessSnackbar(msg) {

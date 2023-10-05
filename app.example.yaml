@@ -1,5 +1,5 @@
 PORT: 8080
-SERVER_URL: http://localhost:8080
+SERVER_URL: "http://localhost:8080"
 DB_HOST: ""
 DB_USER: ""
 DB_PASS: ""
@@ -9,3 +9,12 @@ RATE_LIMIT_GENERIC: 1200
 PAGINATION_LIMIT: 30
 SITE_NAME: "Student Point Tracker"
 CSV_DELIMITER: ","
+POINT_CHIPS:
+  - 25
+  - 50
+  - 100
+TASKS:
+  - name: "Import users on startup"
+    schedule: startup
+    action: importUsers
+    file: "./storage/students.csv"

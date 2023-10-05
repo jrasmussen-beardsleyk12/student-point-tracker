@@ -31,31 +31,23 @@
           </div>
         </div>
 
-        <div class="mdc-slider mdc-slider--discrete mdc-slider--tick-marks" id="remove-points-slider">
-          <input class="mdc-slider__input" type="range" min="<%= slider.min %>" max="<%= slider.max %>" value="<%= slider.defaultValue %>" name="points" step="<%= slider.steps %>" aria-label="Add points to student slider">
-          <div class="mdc-slider__track">
-            <div class="mdc-slider__track--inactive"></div>
-            <div class="mdc-slider__track--active">
-              <div class="mdc-slider__track--active_fill"></div>
+        <div class="mdc-text-field mdc-text-field--outlined" id="remove-points-count">
+          <input class="mdc-text-field__input text-field-shaped__input" id="remove-points-count-text-field" type="number" min="0">
+          <div class="mdc-notched-outline">
+            <div class="text-field-shaped__leading mdc-notched-outline__leading"></div>
+            <div class="mdc-notched-outline__notch text-field-shaped__notch">
+              <label for="add-points-count-text-field" class="mdc-floating-label">Points to Remove</label>
             </div>
-            <div class="mdc-slider__tick-marks">
-
-              <% for (let i = 0; i < slider.ticks; i++) { %>
-                <div class="mdc-slider__tick-mark--active"></div>
-              <% } %>
-
-            </div>
+            <div class="text-field-shaped__trailing mdc-notched-outline__trailing"></div>
           </div>
-          <div class="mdc-slider__thumb">
-            <div class="mdc-slider__value-indicator-container" aria-hidden="true">
-              <div class="mdc-slider__value-indicator">
-                <span class="mdc-slider__value-indicator-text">
-                  <%= slider.defaultValue %>
-                </span>
-              </div>
+        </div>
+
+        <div class="mdc-chip-set mdc-chip-set--choice" id="remove-points-chip-set">
+          <% for (let i = 0; i < pointChips.length; i++) { %>
+            <div class="mdc-chip mdc-ripple-upgraded" role="row" onclick="chipPointChange('remove', <%=pointChips[i]%>);">
+              <span role="button" tabindex="0" class="mdc-chip__text"><%=pointChips[i]%> Points</span>
             </div>
-            <div class="mdc-slider__thumb-knob"></div>
-          </div>
+          <% } %>
         </div>
 
         <div class="mdc-text-field mdc-text-field--outlined" id="remove-points-reason">

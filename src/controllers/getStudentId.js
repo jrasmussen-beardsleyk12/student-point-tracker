@@ -53,18 +53,12 @@ module.exports = {
         name: context.config.SITE_NAME,
         student: student.content,
         points: studentPoints.content,
-        slider: {
-          defaultValue: 50,
-          min: 0,
-          max: 100,
-          ticks: 11,
-          steps: 10
-        },
         presets: context.getPresets(),
         duck_items: context.ducks.generateDuckOpts(
           context.ducks.parseDuckUnlockString(student.content.duck_unlocked),
           student.content.duck_string
-        )
+        ),
+        pointChips: context.config.POINT_CHIPS
       },
       {
         views: [ path.resolve("./views") ]
