@@ -33,6 +33,8 @@ module.exports = {
       return;
     }
 
+    res.set("Cache-Control", `must-revalidate, public, max-age=${context.config.MAX_AGE_DUCKS}`);
+    res.set("Age", "0"); // TODO: If caching is implemented server-side, that must be reflected here
     res.set("Content-Type", "image/svg+xml");
     res.status(200).send(duckGen.formatSVG(duckGen.generateDuck(duckData)));
     return;

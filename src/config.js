@@ -40,6 +40,7 @@ function getConfig() {
     PAGINATION_LIMIT: process.env.PAGINATION_LIMIT ?? data.PAGINATION_LIMIT,
     SITE_NAME: process.env.SITE_NAME ?? data.SITE_NAME,
     CSV_DELIMITER: process.env.CSV_DELIMITER ?? data.CSV_DELIMITER,
+    MAX_AGE_DUCKS: process.env.MAX_AGE_DUCKS ?? data.MAX_AGE_DUCKS,
     POINT_CHIPS: data.POINT_CHIPS ?? [],
     TASKS: data.TASKS
   };

@@ -11,10 +11,16 @@
 
  ☐ Cache images server side
 
- ☐ Cache images client side
+ ✔ Cache images client side
 
  ☐ Prettify the point history
 
  ✔ remove point admin action sliders, and add text boxes instead
 
- ☐ make everything configurable
+ ✔ make everything configurable
+
+ ☐ normalize button use
+
+ ☐ point stats
+
+ ☐ badges
