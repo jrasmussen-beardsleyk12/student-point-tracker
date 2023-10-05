@@ -41,6 +41,7 @@ function getConfig() {
     SITE_NAME: process.env.SITE_NAME ?? data.SITE_NAME,
     CSV_DELIMITER: process.env.CSV_DELIMITER ?? data.CSV_DELIMITER,
     MAX_AGE_DUCKS: process.env.MAX_AGE_DUCKS ?? data.MAX_AGE_DUCKS,
+    CACHE_TIME: process.env.CACHE_TIME ?? data.CACHE_TIME,
     POINT_CHIPS: data.POINT_CHIPS ?? [],
     TASKS: data.TASKS
   };

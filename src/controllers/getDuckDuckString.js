@@ -25,16 +25,21 @@ module.exports = {
       duckString: this.params.duckString(context, req)
     };
 
-    // Inspired by: https://github.com/fairfield-programming/backend-server/blob/master/src/controllers/Duck/getDuckById.js
-    const duckData = duckGen.parseV1String(params.duckString);
+    let duckData = context.globalCache.find(`duck-svg__${params.duckString}`, () => {
+      // Inspired by: https://github.com/fairfield-programming/backend-server/blob/master/src/controllers/Duck/getDuckById.js
+      const duckSVG = duckGen.parseV1String(params.duckString);
 
-    if (!duckData) {
+      return context.globalCache.add(`duck-svg__${params.duckString}`, duckSVG);
+    });
+
+
+    if (!duckData.data) {
       res.status(400).send({ message: "Invalid Duck String" });
       return;
     }
 
     res.set("Cache-Control", `must-revalidate, public, max-age=${context.config.MAX_AGE_DUCKS}`);
-    res.set("Age", "0"); // TODO: If caching is implemented server-side, that must be reflected here
+    res.set("Age", duckData.Age);
     res.set("Content-Type", "image/svg+xml");
     res.status(200).send(duckGen.formatSVG(duckGen.generateDuck(duckData)));
     return;
