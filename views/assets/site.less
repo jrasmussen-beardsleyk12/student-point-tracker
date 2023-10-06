@@ -27,8 +27,37 @@
 }
 
 body[theme="dark"] {
-  //@import (reference) "./views/assets/themes/dark";
+  @import (reference) "./views/assets/themes/dark";
 
+  --mdc-theme-primary: @primary;
+  --mdc-theme-secondary: @secondary;
+  --mdc-theme-background: @background;
+  --mdc-theme-surface: @surface;
+  --mdc-theme-error: @error;
+  --mdc-theme-on-primary: @on-primary;
+  --mdc-theme-on-secondary: @on-secondary;
+  --mdc-theme-on-surface: @on-surface;
+  --mdc-theme-on-error: @on-error;
+  --mdc-theme-text-primary-on-background: @text-primary-on-background;
+  --mdc-theme-text-secondary-on-background: @text-secondary-on-background;
+  --mdc-theme-text-hint-on-background: @text-hint-on-background;
+  --mdc-theme-text-disabled-on-background: @text-disabled-on-background;
+  --mdc-theme-text-icon-on-background: @text-icon-on-background;
+  --mdc-theme-text-primary-on-light: @text-primary-on-light;
+  --mdc-theme-text-secondary-on-light: @text-secondary-on-light;
+  --mdc-theme-text-hint-on-light: @text-hint-on-light;
+  --mdc-theme-text-disabled-on-light: @text-disabled-on-light;
+  --mdc-theme-text-icon-on-light: @text-icon-on-light;
+  --mdc-theme-text-primary-on-dark: @text-primary-on-dark;
+  --mdc-theme-text-secondary-on-dark: @text-secondary-on-dark;
+  --mdc-theme-text-hint-on-dark: @text-hint-on-dark;
+  --mdc-theme-text-disabled-on-dark: @text-disabled-on-dark;
+  --mdc-theme-text-icon-on-dark: @text-icon-on-dark;
+
+  & .mdc-card {
+    border-color: @border-color;
+    border: 1px solid;
+  }
 }
 
 body[theme="light"] {
