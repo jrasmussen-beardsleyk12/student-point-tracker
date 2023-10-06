@@ -8,4 +8,5 @@ module.exports = [
   require("./getHome.js"),
   require("./getStudentId.js"),
   require("./getDuckDuckString.js"),
+  require("./getRequestLogin.js"),
 ];

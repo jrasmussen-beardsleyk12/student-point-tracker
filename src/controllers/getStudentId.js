@@ -14,7 +14,8 @@ module.exports = {
     options: {
       Allow: "GET",
       "X-Content-Type-Options": "nosniff"
-    }
+    },
+    login: true
   },
   params: {
     id: (context, req) => { return context.query.id(req); }
@@ -23,8 +24,28 @@ module.exports = {
   async logic(req, res, context) {
 
     const params = {
-      id: context.query.id(req)
+      id: context.query.id(req),
+      user: context.query.user(req)
     };
+
+    // Determine the permissions of this user
+    // The permissions mean the following:
+    // user - Unauthenticated, or no declared permissions. Only read
+    // admin - Is a declared administrator. Points:write
+    // student - Is the student who owns the current student page. Duck:write
+    let permLevel = "user";
+
+    const admin = context.auth.isAdmin(params.user, context);
+
+    if (admin.ok) {
+      permLevel = "admin";
+    }
+
+    const ownership = context.auth.ownership(params.user, params.id, context);
+
+    if (ownership.ok) {
+      permLevel = "student";
+    }
 
     // Lets get our student data
     let student = await context.database.getStudentByID(params.id);
@@ -32,7 +53,6 @@ module.exports = {
     if (!student.ok) {
       // TODO: Render a fail EJS template
     }
-    console.log(student);
 
     let studentPoints = await context.database.getPointsByStudentID(params.id);
 
@@ -45,7 +65,6 @@ module.exports = {
       studentPoints.content = [];
     }
 
-    console.log(studentPoints);
     // TODO: This would be a good time to generate any cool facts about the current users points
 
     const template = await ejs.renderFile("./views/pages/student.ejs",
@@ -58,7 +77,8 @@ module.exports = {
           context.ducks.parseDuckUnlockString(student.content.duck_unlocked),
           student.content.duck_string
         ),
-        pointChips: context.config.POINT_CHIPS
+        pointChips: context.config.POINT_CHIPS,
+        perms: permLevel
       },
       {
         views: [ path.resolve("./views") ]

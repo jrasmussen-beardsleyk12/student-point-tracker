@@ -58,6 +58,16 @@ function page(req) {
   }
 }
 
+function user(req) {
+  const prov = req.user;
+
+  if (typeof prov !== "object") {
+    return {};
+  }
+
+  return prov;
+}
+
 function duckString(req) {
   // TODO: Follow validation tecnique from here: https://github.com/fairfield-programming/ducks/blob/master/src/DuckStringParser.js
   const prov = req.params.duckString;
@@ -106,4 +116,5 @@ module.exports = {
   page,
   duckString,
   duckStringQuery,
+  user,
 };

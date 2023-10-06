@@ -15,12 +15,20 @@ module.exports = {
   params: {
     id: (context, req) => { return context.query.id(req); },
     duckStringQuery: (context, req) => { return context.query.duckStringQuery(req); },
-    user: (context, req) => { return req.user; }
+    user: (context, req) => { return context.query.user(req); }
   },
 
   async logic(params, context) {
-    console.log("Duck change");
-    console.log(params.user);
+
+    // We first will check to make sure the currently logged in user, is able to make these changes
+    const ownership = context.auth.ownership(params.user, params.id, context);
+
+    if (!ownership.ok) {
+      const sso = new context.sso();
+
+      return sso.notOk().addContent(ownership);
+    }
+
     let action = await context.database.setDuckToStudent(params.id, params.duckStringQuery);
 
     if (!action.ok) {

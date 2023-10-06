@@ -1,12 +1,10 @@
 const express = require("express");
 const rateLimit = require("express-rate-limit");
 const { MemoryStore } = require("express-rate-limit");
-
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oidc");
-
 const session = require("express-session");
-const SessionMemoryStore = require("session-memory-store")(session);
+const SessionFileStore = require("session-file-store")(session);
 
 const endpoints = require("./controllers/endpoints.js");
 const context = require("./context.js");
@@ -36,14 +34,15 @@ app.use(session({
   secret: "test",
   resave: false,
   saveUninitialized: false,
-  // cookie: { secure: true },
-  //store: new SessionMemoryStore()
+  store: new SessionFileStore({
+    path: "./storage/sessions/",
+    ttl: context.config.SESSION_FILE_STORE_TTL
+  })
 }));
 
 app.use(passport.authenticate("session"));
 
 passport.serializeUser(function(user, cb) {
-  console.log("Deserialize user");
   process.nextTick(function() {
     cb(null, user);
     // This will allow the user object being passed to be available via
@@ -63,13 +62,10 @@ passport.use("google", new GoogleStrategy({
   callbackURL: "/oauth2/redirect",
   scope: [ "profile", "email", "openid" ]
 }, (issuer, profile, cb) => {
-  console.log("Stuff has happened!");
-  console.log("Issuer:");
-  console.log(issuer);
-  console.log("Profile:");
-  console.log(profile);
-  console.log("CB:");
-  console.log(cb);
+
+  if (!Array.isArray(profile.emails) || typeof profile.emails[0]?.value !== "string") {
+    return cb("Invalid email object retreived from Google");
+  }
 
   if (profile.emails[0].value.endsWith(context.config.DOMAIN)) {
     const usrObj = {
@@ -92,7 +88,7 @@ app.get("/login", passport.authenticate("google"));
 
 app.get("/oauth2/redirect", passport.authenticate("google", {
   successRedirect: "/",
-  failureRedirect: "/login"
+  failureRedirect: "/requestLogin"
 }));
 
 const endpointHandler = async function(node, req, res) {
@@ -133,6 +129,16 @@ const endpointHandler = async function(node, req, res) {
 
 // Setup all endpoints
 
+const authMiddleware = (req, res, next) => {
+  if (typeof req.user?.email !== "string") {
+    // The user doesn't seem to be logged in providing a valid email
+    res.redirect("/requestLogin");
+  } else {
+    console.log(`Authenticated '${req.user.email}' to '${req.url}'`);
+    next();
+  }
+};
+
 app.use((req, res, next) => {
   req.start = Date.now();
   next();
@@ -160,19 +166,26 @@ for (const node of endpoints) {
       pathOptions.push(path);
     }
 
+    const middlewares = [];
+    middlewares.push(limiter);
+
+    if (node.endpoint.login) {
+      middlewares.push(authMiddleware);
+    }
+
     switch(node.endpoint.method) {
       case "GET":
-        app.get(path, limiter, async (req, res) => {
+        app.get(path, middlewares, async (req, res) => {
           await endpointHandler(node, req, res);
         });
         break;
       case "POST":
-        app.post(path, limiter, async (req, res) => {
+        app.post(path, middlewares, async (req, res) => {
           await endpointHandler(node, req, res);
         });
         break;
       case "DELETE":
-        app.delete(path, limiter, async (req, res) => {
+        app.delete(path, middlewares, async (req, res) => {
           await endpointHandler(node, req, res);
         });
         break;

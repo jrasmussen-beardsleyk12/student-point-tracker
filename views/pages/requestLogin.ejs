@@ -1,0 +1,22 @@
+<%- include("./partials/header"); %>
+
+<div class="center-logout-view">
+<div class="mdc-elevation--z12">
+  <div class="mdc-card">
+    <div class="mdc-card__primary-action" tabindex="0">
+      <div class="mdc-card__secondary mdc-typography mdc-typography--body1">
+        Please login to <%=name%> before continuing.
+      </div>
+      <div class="mdc-card__actions">
+        <button class="mdc-button mdc-button--raised mdc-card__action mdc-card__action--button mdc-card__action-icons" onclick="window.location.href='/login'">
+          <span class="mdc-button__label">Login</span>
+          <i class="material-icons mdc-buton__icon" aria-hiden="true">login</i>
+          <span class="mdc-button__ripple"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<%- include("./partials/footer", { filename: "" }); %>

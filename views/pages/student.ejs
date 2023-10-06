@@ -22,13 +22,13 @@
         <div class="mdc-card">
           <div class="mdc-card__primary-action" tabindex="0">
             <div class="mdc-card__actions">
-              <button class="mdc-button mdc-button--raised mdc-card__action mdc-card__action--button mdc-card__action-icons" onclick="points.remove.dialog.open();">
+              <button class="mdc-button mdc-button--raised mdc-card__action mdc-card__action--button mdc-card__action-icons" onclick="points.remove.dialog.open();" <% if (perms !== "admin") { %><%="disabled"%><%}%>>
                 <span class="mdc-button__label">Remove Points</span>
                 <i class="material-icons mdc-button__icon" aria-hidden="true">delete</i>
                 <span class="mdc-button__ripple"></span>
               </button>
 
-              <button class="mdc-button mdc-button--raised mdc-card__action mdc-card__action--button mdc-card__action-icons" onclick="points.add.dialog.open();">
+              <button class="mdc-button mdc-button--raised mdc-card__action mdc-card__action--button mdc-card__action-icons" onclick="points.add.dialog.open();" <% if (perms !== "admin") { %><%="disabled"%><%}%>>
                 <span class="mdc-button__label">Add Points</span>
                 <i class="material-icons mdc-button__icon" aria-hidden="true">add_circle</i>
                 <span class="mdc-button__ripple"></span>
@@ -60,7 +60,7 @@
                       </th>
                     </tr>
                   </thead>
-                  <tbody class="mdc-data-table__content"
+                  <tbody class="mdc-data-table__content">
 
                     <% for (let i = 0; i < points.length; i++) { %>
                       <tr class="mdc-data-table__row">
@@ -69,6 +69,7 @@
                         <td class="mdc-data-table__cell"><%= points[i].created %></td>
                       </tr>
                     <% } %>
+
                   </tbody>
                 </table>
               </div>
@@ -127,7 +128,7 @@
         </div>
 
         <div class="mdc-card__actions">
-          <button class="mdc-button mdc-button--raised mdc-card__action mdc-card__action--button mdc-card__action-icons" onclick="saveCurrentDuck()">
+          <button class="mdc-button mdc-button--raised mdc-card__action mdc-card__action--button mdc-card__action-icons" onclick="saveCurrentDuck()" <% if (perms !== "student") { %><%="disabled"%><%}%>>
             <span class="mdc-button__label">Save Duck</span>
             <i class="material-icons mdc-button__icon" aria-hidden="true">save</i>
             <span class="mdc-button__ripple"></span>

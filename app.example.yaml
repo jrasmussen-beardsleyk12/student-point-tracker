@@ -11,8 +11,16 @@ RATE_LIMIT_GENERIC: 1200 # Requests per IP per 15 minute window
 PAGINATION_LIMIT: 30
 SITE_NAME: "Student Point Tracker"
 CSV_DELIMITER: ","
+DOMAIN: "The email domain used."
 MAX_AGE_DUCKS: 604800 # Seconds of 'freshness'
 CACHE_TIME: 604800
+SESSION_FILE_STORE_TTL: 3600
+DEV_LOGIN: null
+DEV_IS_STUDENT: false
+DEV_IS_ADMIN: false
+ADMINS:
+  - "user@email.com"
+  - "user2@email.com"
 POINT_CHIPS:
   - 25
   - 50

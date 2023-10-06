@@ -1,25 +1,26 @@
 const ejs = require("ejs");
-const path = require("node:path");
+const path = require("path");
 
 module.exports = {
   docs: {
-    summary: "Home Webpage of the application."
+    summary: "Request the User to login."
   },
   endpoint: {
     endpointKind: "raw",
     method: "GET",
-    paths: [ "/" ],
+    paths: [ "/requestLogin" ],
     rateLimit: "generic",
     successStatus: 200,
     options: {
       Allow: "GET",
       "X-Content-Type-Options": "nosniff"
-    },
-    login: true
+    }
   },
+  params: {},
 
   async logic(req, res, context) {
-    const template = await ejs.renderFile("./views/pages/home.ejs",
+
+    const template = await ejs.renderFile("./views/pages/requestLogin.ejs",
       {
         name: context.config.SITE_NAME
       },
@@ -27,10 +28,8 @@ module.exports = {
         views: [ path.resolve("./views") ]
       }
     );
-    console.log(req.user);
 
     res.set("Content-Type", "text/html");
     res.status(200).send(template);
-    return;
   }
 };
