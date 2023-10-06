@@ -5,7 +5,7 @@ function getConfigFile() {
   try {
     let data = null;
 
-    let fileContent = fs.readFileSync("./app.yaml", "utf8");
+    let fileContent = fs.readFileSync("./storage/app.yaml", "utf8");
     data = yaml.load(fileContent);
 
     return data;
