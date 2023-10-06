@@ -25,12 +25,14 @@ module.exports = {
       duckString: this.params.duckString(context, req)
     };
 
-    let duckData = context.globalCache.find(`duck-svg__${params.duckString}`, () => {
-      // Inspired by: https://github.com/fairfield-programming/backend-server/blob/master/src/controllers/Duck/getDuckById.js
-      const duckSVG = duckGen.parseV1String(params.duckString);
+    // let duckData = context.globalCache.find(`duck-svg__${params.duckString}`, () => {
+    //   // Inspired by: https://github.com/fairfield-programming/backend-server/blob/master/src/controllers/Duck/getDuckById.js
+    //   const duckSVG = duckGen.parseV1String(params.duckString);
+    //
+    //   return context.globalCache.add(`duck-svg__${params.duckString}`, duckSVG);
+    // });
 
-      return context.globalCache.add(`duck-svg__${params.duckString}`, duckSVG);
-    });
+    let duckData = duckGen.parseV1String(params.duckString);
 
 
     if (!duckData.data) {

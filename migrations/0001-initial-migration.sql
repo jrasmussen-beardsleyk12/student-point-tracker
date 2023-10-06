@@ -8,7 +8,7 @@ CREATE TABLE students (
   created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   points BIGINT NOT NULL DEFAULT 0,
   duck_string VARCHAR(17) NOT NULL DEFAULT '10000000000000053',
-  duck_unlocked VARCHAR NOT NULL DEFAULT 'hat:00;eyes:00;beak:00;wings:00;accessories:00;body:00;item:00;beakColor:5;bodyColor:3;'
+  duck_unlocked VARCHAR NOT NULL DEFAULT 'hat:00,03;eyes:00,01;beak:00;wings:00;accessories:00,05;body:00;item:00,02;beakColor:5;bodyColor:3;'
 );
 
 CREATE TYPE pointsAction AS ENUM('added', 'removed');
