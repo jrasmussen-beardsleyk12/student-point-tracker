@@ -23,3 +23,19 @@ CREATE TABLE points (
   points_after BIGINT NOT NULL,
   reason VARCHAR(256)
 );
+
+-- Badges and Junction Tables --
+
+CREATE TABLE badges (
+  serial VARCHAR(128) NOT NULL PRIMARY KEY,
+  requirement JSONB NOT NULL,
+  image VARCHAR(128) NOT NULL
+);
+
+CREATE TABLE badges_students (
+  badge_serial VARCHAR(128) REFERENCES badges(serial),
+  student_id BIGINT REFERENCES students(student_id),
+  achieved TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  -- constraints
+  CONSTRAINT badges_students_pk PRIMARY KEY(badge_serial,student_id)
+);

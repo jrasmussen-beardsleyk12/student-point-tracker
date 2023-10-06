@@ -47,6 +47,30 @@ async function getStudentByID(id) {
   }
 }
 
+async function getBadgesByStudentID(id) {
+  try {
+    sqlStorage ??= setupSQL();
+
+    const command = await sqlStorage`
+
+    `;
+
+    return command.count !== 0
+      ? { ok: true, content: command[0] }
+      : {
+          ok: false,
+          content: `No badges found for Student ${id}.`,
+          short: "not_found"
+        };
+  } catch(err) {
+    return {
+      ok: false,
+      content: err,
+      short: "server_error"
+    };
+  }
+}
+
 async function getPointsByStudentID(id) {
   try {
     sqlStorage ??= setupSQL();
