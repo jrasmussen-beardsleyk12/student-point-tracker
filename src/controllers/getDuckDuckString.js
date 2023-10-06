@@ -25,25 +25,25 @@ module.exports = {
       duckString: this.params.duckString(context, req)
     };
 
-    // let duckData = context.globalCache.find(`duck-svg__${params.duckString}`, () => {
-    //   // Inspired by: https://github.com/fairfield-programming/backend-server/blob/master/src/controllers/Duck/getDuckById.js
-    //   const duckSVG = duckGen.parseV1String(params.duckString);
-    //
-    //   return context.globalCache.add(`duck-svg__${params.duckString}`, duckSVG);
-    // });
+    let duckData = context.globalCache.find(`duck-svg__${params.duckString}`, () => {
+      // Inspired by: https://github.com/fairfield-programming/backend-server/blob/master/src/controllers/Duck/getDuckById.js
+      const duckSVG = duckGen.parseV1String(params.duckString);
 
-    let duckData = duckGen.parseV1String(params.duckString);
-
+      return context.globalCache.add(`duck-svg__${params.duckString}`, duckSVG);
+    });
 
     if (!duckData.data) {
       res.status(400).send({ message: "Invalid Duck String" });
       return;
     }
 
+    const duckRender = duckGen.formatSVG(duckGen.generateDuck(duckData.data));
+    // Do we want to save the rendered images somewhere?
+
     res.set("Cache-Control", `must-revalidate, public, max-age=${context.config.MAX_AGE_DUCKS}`);
     res.set("Age", duckData.Age);
     res.set("Content-Type", "image/svg+xml");
-    res.status(200).send(duckGen.formatSVG(duckGen.generateDuck(duckData)));
+    res.status(200).send(duckRender);
     return;
   }
 };
