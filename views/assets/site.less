@@ -304,3 +304,27 @@ body {
   }
 
 }
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: var(--mdc-theme-surface);
+  color: var(--mdc-theme-text-primary-on-background);
+  text-align: center;
+  border-radius: var(--mdc-shape-medium, 4px);
+  border-color: rgba(0, 0, 0, 0.12);;
+  border-top-style: solid;
+  border-top-width: 1px;
+  flex-direction: row;
+  display: flex;
+  padding: 0.75rem;
+  gap: 1.5rem;
+  align-items: center;
+  place-content: center;
+
+  & i {
+    vertical-align: middle;
+  }
+}

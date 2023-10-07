@@ -22,7 +22,8 @@ module.exports = {
 
     const template = await ejs.renderFile("./views/pages/requestLogin.ejs",
       {
-        name: context.config.SITE_NAME
+        name: context.config.SITE_NAME,
+        problem_url: context.config.REPORT_A_PROBLEM_URL
       },
       {
         views: [ path.resolve("./views") ]

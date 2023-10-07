@@ -19,6 +19,7 @@ DEV_LOGIN: null
 DEV_IS_STUDENT: false
 DEV_IS_ADMIN: false
 REQUIRE_LOGIN: true
+REPORT_A_PROBLEM_URL: "google.com"
 ADMINS:
   - "user@email.com"
   - "user2@email.com"

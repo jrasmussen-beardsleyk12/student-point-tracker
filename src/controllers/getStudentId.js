@@ -70,6 +70,7 @@ module.exports = {
     const template = await ejs.renderFile("./views/pages/student.ejs",
       {
         name: context.config.SITE_NAME,
+        problem_url: context.config.REPORT_A_PROBLEM_URL,
         student: student.content,
         points: studentPoints.content,
         presets: context.getPresets(),

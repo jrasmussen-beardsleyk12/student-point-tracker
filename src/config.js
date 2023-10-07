@@ -53,6 +53,7 @@ function getConfig() {
     DEV_IS_ADMIN: data.DEV_IS_ADMIN ?? false,
     DEV_IS_STUDENT: data.DEV_IS_STUDENT ?? false,
     REQUIRE_LOGIN: process.env.REQUIRE_LOGIN ?? data.REQUIRE_LOGIN ?? true,
+    REPORT_A_PROBLEM_URL: data.REPORT_A_PROBLEM_URL ?? "https://github.com/confused-Techie/student-point-tracker/issues"
   };
 }
 
