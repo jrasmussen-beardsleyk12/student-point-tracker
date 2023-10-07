@@ -13,7 +13,7 @@
             <h2 class="mdc-typography mdc-typography--headline6">Points: <%=student.points%></h2>
             <h3 class="mdc-typography mdc-typography--subtitle2">Student ID: <%=student.student_id%></h3>
           </div>
-          <div class="mdc-card__secondary mdc-typography mdc-typography--body2">Created: <%=student.created%></div>
+          <div class="mdc-card__secondary mdc-typography mdc-typography--body2">Created: <%= new Date(student.created).toLocaleString(locale) %></div>
         </div>
 
       </div>
@@ -50,13 +50,13 @@
                   <thead>
                     <tr class="mdc-data-table__header-row">
                       <th class="mdc-data-table__header-cell mdc-data-table__header-cell--numeric" role="columnheader" scope="col">
-                        Points Amount
+                        Points
                       </th>
                       <th class="mdc-data-table__header-cell" role="columnheader" scope="col">
-                        Action
+                        Reason
                       </th>
                       <th class="mdc-data-table__header-cell" role="columnheader" scope="col">
-                        Timestamp
+                        Time
                       </th>
                     </tr>
                   </thead>
@@ -64,9 +64,16 @@
 
                     <% for (let i = 0; i < points.length; i++) { %>
                       <tr class="mdc-data-table__row">
-                        <th class="mdc-data-table__cell mdc-data-table__cell--numeric" scope="row"><%= points[i].points_modified %></th>
-                        <td class="mdc-data-table__cell"><%= points[i].points_action %></td>
-                        <td class="mdc-data-table__cell"><%= points[i].created %></td>
+                        <th class="mdc-data-table__cell mdc-data-table__cell--numeric" scope="row">
+                          <% if (points[i].points_action === "added") { %>
+                            +
+                          <% } else if (points[i].points_action === "removed") { %>
+                            -
+                          <% } %>
+                          <%= points[i].points_modified %>
+                        </th>
+                        <td class="mdc-data-table__cell"><%= points[i].reason %></td>
+                        <td class="mdc-data-table__cell"><%= new Date(points[i].created).toLocaleString(locale) %></td>
                       </tr>
                     <% } %>
 

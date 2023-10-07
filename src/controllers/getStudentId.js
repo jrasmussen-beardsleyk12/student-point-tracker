@@ -71,6 +71,7 @@ module.exports = {
       {
         name: context.config.SITE_NAME,
         problem_url: context.config.REPORT_A_PROBLEM_URL,
+        locale: context.config.LOCALE,
         student: student.content,
         points: studentPoints.content,
         presets: context.getPresets(),
