@@ -6,7 +6,7 @@
 
  ✔ Authentication
 
- ☐ Prettify the search results
+ ✔ Prettify the search results
 
  ✔ Cache images server side
 
@@ -26,7 +26,7 @@
 
  ☐ make compatible with docker
 
- ☐ Expand task coverage
+ ✔ Expand task coverage
 
  ☐ Bulk actions page
 

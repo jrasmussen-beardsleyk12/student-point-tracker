@@ -70,10 +70,10 @@ function generateHTMLSearchResults(res) {
 <li class="mdc-list-item" ${tabindex} onclick="redirectToStudent(${res[i].student_id})" onkeydown="keyRedirectToStudent(event, ${res[i].student_id})">
   <span class="mdc-list-item__ripple"></span>
   <span class="mdc-list-item">
-    <span class="mdc-list-item__text">
-      <span class="mdc-list-item__text mdc-typography--headline6">${res[i].first_name} ${res[i].last_name}</span><br />
-      <span class="mdc-list-item__text mdc-typography--subtitle1">Points: ${res[i].points}</span><br />
-      <span class="mdc-typography--caption">Student ID: ${res[i].student_id}</span>
+    <span class="mdc-list-item__text search-list">
+      <span class="mdc-list-item__text mdc-typography--headline6">${res[i].first_name} ${res[i].last_name}</span>
+      <span class="mdc-typography--subtitle1">Student ID: ${res[i].student_id}</span>
+      <span class="mdc-list-item__text mdc-typography--subtitle1">Points: ${res[i].points}</span>
     </span>
   </span>
 </li>
