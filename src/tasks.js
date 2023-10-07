@@ -47,6 +47,11 @@ async function executeTask(task) {
       await importer(task.file);
       break;
     }
+    case "jsScript": {
+      const customScript = require(`./storage/${task.file}`);
+
+      await customScript(require("./context.js"));
+    }
     default: {
       console.error(`Unrecognized task: '${task.action}' in '${task.name}'!`);
       break;

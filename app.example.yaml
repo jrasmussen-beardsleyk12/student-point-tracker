@@ -18,6 +18,7 @@ SESSION_FILE_STORE_TTL: 3600
 DEV_LOGIN: null
 DEV_IS_STUDENT: false
 DEV_IS_ADMIN: false
+REQUIRE_LOGIN: true
 ADMINS:
   - "user@email.com"
   - "user2@email.com"

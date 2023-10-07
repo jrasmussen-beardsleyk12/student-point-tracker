@@ -169,7 +169,7 @@ for (const node of endpoints) {
     const middlewares = [];
     middlewares.push(limiter);
 
-    if (node.endpoint.login) {
+    if (node.endpoint.login && context.config.REQUIRE_LOGIN) {
       middlewares.push(authMiddleware);
     }
 

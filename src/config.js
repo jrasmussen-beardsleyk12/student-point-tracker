@@ -51,7 +51,8 @@ function getConfig() {
     SESSION_FILE_STORE_TTL: data.SESSION_FILE_STORE_TTL ?? 3600,
     DEV_LOGIN: data.DEV_LOGIN ?? null,
     DEV_IS_ADMIN: data.DEV_IS_ADMIN ?? false,
-    DEV_IS_STUDENT: data.DEV_IS_STUDENT ?? false
+    DEV_IS_STUDENT: data.DEV_IS_STUDENT ?? false,
+    REQUIRE_LOGIN: process.env.REQUIRE_LOGIN ?? data.REQUIRE_LOGIN ?? true,
   };
 }
 
