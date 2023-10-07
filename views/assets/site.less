@@ -178,6 +178,10 @@ body {
   margin-bottom: 1.5rem;
 }
 
+.mdc-data-table {
+  display: flex !important;
+}
+
 @media (min-width: 840px) {
   .student-page-grid {
     padding: var(--mdc-layout-grid-margin-desktop, 24px);
@@ -185,6 +189,29 @@ body {
 
   .student-page-grid__inner {
     grid-gap: var(--mdc-layout-grid-gutter-desktop, 24px);
+    grid-template-columns: repeat(3, minmax(250px, 1fr));
+
+    & .admin-actions {
+      grid-column-start: 2;
+      grid-column-end: 2;
+      grid-row-start: 1;
+      grid-row-end: 1;
+    }
+
+    & .duck-customization {
+      grid-column-start: 1;
+      grid-column-end: 1;
+      grid-row-start: 3;
+      grid-row-end: 4;
+    }
+
+    & .points-history {
+      grid-column-start: 2;
+      grid-column-end: 3;
+      grid-row-start: 2;
+      grid-row-end: 4;
+    }
+
   }
 }
 
@@ -195,6 +222,29 @@ body {
 
   .student-page-grid__inner {
     grid-gap: var(--mdc-layout-grid-gutter-tablet, 16px);
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+    & .admin-actions {
+      grid-column-start: 2;
+      grid-column-end: 2;
+      grid-row-start: 1;
+      grid-row-end: 1;
+    }
+
+    & .duck-customization {
+      grid-column-start: 1;
+      grid-column-end: 1;
+      grid-row-start: 3;
+      grid-row-end: 4;
+    }
+
+    & .points-history {
+      grid-column-start: 2;
+      grid-column-end: 2;
+      grid-row-start: 2;
+      grid-row-end: 4;
+    }
+
   }
 }
 
@@ -205,13 +255,39 @@ body {
 
   .student-page-grid__inner {
     grid-gap: var(--mdc-layout-grid-gutter-phone, 16px);
+    grid-template-columns: 1fr;
+
+    & .admin-actions {
+      grid-column-start: 1;
+      grid-column-end: 1;
+      grid-row-start: 3;
+      grid-row-end: 3;
+    }
+
+    & .duck-customization {
+      grid-column-start: 1;
+      grid-column-end: 1;
+      grid-row-start: 4;
+      grid-row-end: 5;
+    }
+
+    & .points-history {
+      grid-column-start: 1;
+      grid-column-end: 1;
+      grid-row-start: 5;
+      grid-row-end: 7;
+      // I can't seem to coral Material Designs table at such small sizes.
+      // So in this case, we will disable this until I'm able to do so
+      display: none;
+    }
+
   }
 }
 
 .student-page-grid__inner {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 0.5fr 1fr 1fr;
+  align-items: center;
+  grid-template-rows: none;
   margin: 0;
   align-items: stretch;
 
@@ -225,27 +301,6 @@ body {
     grid-column-end: 1;
     grid-row-start: 1;
     grid-row-end: 3;
-  }
-
-  & .admin-actions {
-    grid-column-start: 2;
-    grid-column-end: 2;
-    grid-row-start: 1;
-    grid-row-end: 1;
-  }
-
-  & .points-history {
-    grid-column-start: 2;
-    grid-column-end: 3;
-    grid-row-start: 2;
-    grid-row-end: 4;
-  }
-
-  & .duck-customization {
-    grid-column-start: 1;
-    grid-column-end: 1;
-    grid-row-start: 3;
-    grid-row-end: 4;
   }
 
 }
