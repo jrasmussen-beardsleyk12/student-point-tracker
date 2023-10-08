@@ -4,13 +4,13 @@
   <div class="mdc-card">
     <div class="mdc-card__primary-action" tabindex="0">
       <div class="mdc-card__actions">
-        <button class="mdc-button mdc-button--raised mdc-card__action mdc-card__action--button mdc-card__actions-icons" onclick="points.remove.dialog.open();">
+        <button class="mdc-button mdc-button--raised mdc-card__action mdc-card__action--button mdc-card__actions-icons" onclick="points.remove.dialog.open();" <% if (perms !== "admin") { %><%="disabled"%><%}%>>
           <span class="mdc-button__label">Bulk Remove Points</span>
           <i class="material-icons mdc-button__icon" aria-hidden="true">delete</i>
           <span class="mdc-button__ripple"></span>
         </button>
 
-        <button class="mdc-button mdc-button--raised mdc-card__action mdc-card__action--button mdc-card__actions-icons" onclick="points.add.dialog.open();">
+        <button class="mdc-button mdc-button--raised mdc-card__action mdc-card__action--button mdc-card__actions-icons" onclick="points.add.dialog.open();" <% if (perms !== "admin") { %><%="disabled"%><%}%>>
           <span class="mdc-button__label">Bulk Add Points</span>
           <i class="material-icons mdc-button__icon" aria-hidden="true">add_circle</i>
           <span class="mdc-button__ripple"></span>
