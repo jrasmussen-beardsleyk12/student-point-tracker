@@ -23,6 +23,19 @@ module.exports = {
       user: context.query.user(req)
     };
 
+    // Lets determine if we should redirect a logged in student to their page
+    if (typeof params.user?.email === "string" && context.config.REDIRECT_STUDENTS) {
+      let studentId = params.user.email.replace(`@${context.config.DOMAIN}`, "");
+
+      const studentExists = context.database.getStudentByID(studentId);
+
+      if (studentExists.ok) {
+        // We can hijack checking for a successful response as knowing the student exists
+        // If the db calls fails for any other reason we would incorrectly assume they don't exist
+        res.redirect(`/student/${studentId}`);
+      }
+    }
+
     // Determine the permissions of this user
     // refer to `./getStudentId.js` for more info
     let permLevel = "user";

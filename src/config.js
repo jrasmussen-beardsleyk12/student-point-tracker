@@ -58,7 +58,8 @@ function getConfig() {
     DEV_IS_STUDENT: findValue("DEV_IS_STUDENT", false),
     REQUIRE_LOGIN: findValue("REQUIRE_LOGIN", true),
     REPORT_A_PROBLEM_URL: findValue("REPORT_A_PROBLEM_URL", "https://github.com/confused-Techie/student-point-tracker/issues"),
-    LOCALE: findValue("LOCALE", "en-US")
+    LOCALE: findValue("LOCALE", "en-US"),
+    REDIRECT_STUDENTS: findValue("REDIRECT_STUDENTS", false)
   };
 }
 
