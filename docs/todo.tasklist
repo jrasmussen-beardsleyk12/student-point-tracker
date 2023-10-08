@@ -28,8 +28,10 @@
 
  ✔ Expand task coverage
 
- ☐ Bulk actions page
+ ✔ Bulk actions page
 
  ☐ bonus' on certain days
 
  ☐ Minus one for detetentions (learned via powerschool)
+
+ ☐ Redirect home page to users page if student is logged in

@@ -7,7 +7,7 @@
       aria-describedby="Choose the amount of points to add to the student.">
       <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
       <h2 class="mdc-dialog__title"><!--
-     -->Add Points to <%=student.first_name%> <%=student.last_name%><!--
+     -->Add Points <% if (student) { %>to <%=student.first_name%> <%=student.last_name%><%}%><!--
    --></h2>
       <div class="mdc-dialog__content">
 
@@ -59,6 +59,19 @@
               <div class="text-field-shaped__trailing mdc-notched-outline__trailing"></div>
             </div>
           </div>
+
+          <% if (!student) { %>
+            <!-- Setup the bulk input option, only if student is falsy -->
+            <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--textarea mdc-text-field--no-label" id="bulk-student-ids-add-points">
+              <span class="mdc-notched-outline">
+                <span class="mdc-notched-outline__leading"></span>
+                <span class="mdc-notched-outline__trailing"></span>
+              </span>
+              <span class="mdc-text-field__resizer">
+                <textarea class="mdc-text-field__input" rows="8" cols="40" placeholder="Bulk Student ID's Separated by Newlines" id="bulk-student-ids-add-text-field"></textarea>
+              </span>
+            </label>
+          <% } %>
 
         </div>
 

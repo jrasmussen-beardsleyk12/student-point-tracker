@@ -17,6 +17,8 @@
   </p>
 </div>
 </body>
-<script src="/<%=filename%>"></script>
+<% for (let i = 0; i < filename.length; i++) { %>
+  <script src="/<%=filename[i]%>"></script>
+<% } %>
 <script src="https://unpkg.com/material-components-web@14.0.0/dist/material-components-web.min.js"></script>
 </html>
