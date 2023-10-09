@@ -14,14 +14,14 @@ RUN npm install --only-production
 COPY . ./
 
 # Compile our style sheets
-node ./scripts/compileSheets.js
+RUN node ./scripts/compileSheets.js
 
 # Create a volume that can be used by hosters
 VOLUME /usr/src/app/storage
 
 # Copy files we want users to have access too, or need to share with the db
-COPY ./app.example.yaml /usr/src/app/storage/app.example.yaml
-COPY ./migrations/ /usr/src/app/storage/sql/
+#COPY ./app.example.yaml /usr/src/app/storage/app.example.yaml
+#COPY ./migrations/ /usr/src/app/storage/sql/
 
 # Setup our HealthCheck
 HEALTHCHECK CMD node ./scripts/healthCheck.js

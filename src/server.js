@@ -27,9 +27,12 @@ let dbTeardown, database, serve, tasks;
     process.env.DB_PORT = dbUrlParsed[3];
   }
 
+  // We will first preform all db setup prior to starting the rest of the application
+  database = require("./database.js");
+  await checkDBConnectivity(database);
+
   const app = require("./main.js");
   const { PORT } = require("./config.js")();
-  database = require("./database.js");
   tasks = require("./tasks.js");
 
   serve = app.listen(PORT, () => {
@@ -49,6 +52,48 @@ process.on("SIGTERM", async () => {
 process.on("SIGINT", async () => {
   await exterminate("SIGINT");
 });
+
+async function checkDBConnectivity(db) {
+  const delay = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  };
+
+  const retry = async (fn, retries, delayMs) => {
+    let attempt = 0;
+
+    while(true) {
+      try {
+        console.log(`Initiated initial DB Connection Attempt ${attempt+1}/${retries}...`);
+        return await fn();
+      } catch(err) {
+
+        console.log(`Initial DB Connection Attempt ${attempt + 1}/${retries} failed. Retrying in ${delayMs}...`);
+
+        if (attempt++ < retries) {
+          await delay(delayMs);
+        } else {
+          console.error(err);
+          process.exit(1);
+        }
+      }
+    }
+  };
+
+  retry(() => {
+    let connectTest = db.setupSQL();
+    // We run a command here, doesn't matter what command
+    let res = database.getStudentByID("1");
+
+    if (res.content instanceof Error) {
+      throw res.content;
+    } else if (!res.ok && res.short === "server_error") {
+      // We can't throw on just !res.ok since a "not_found" might be emitted for our made up id
+      throw res;
+    }
+
+    db.setSqlStorageObject(connectTest);
+  }, 10, 1000);
+}
 
 async function exterminate(callee) {
   console.log(`${callee} signal received: Shutting down Server.`);

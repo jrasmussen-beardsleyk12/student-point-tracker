@@ -8,13 +8,27 @@ function getSqlStorageObject() {
   return sqlStorage;
 }
 
+function setSqlStorageObject(setter) {
+  sqlStorage = setter;
+}
+
 function setupSQL() {
-  return postgres({
-    host: config.DB_HOST,
-    username: config.DB_USER,
-    database: config.DB_DB,
-    port: config.DB_PORT
-  });
+  if (process.env.PROD_STATUS === "dev") {
+    return postgres({
+      host: config.DB_HOST,
+      username: config.DB_USER,
+      database: config.DB_DB,
+      port: config.DB_PORT
+    });
+  } else {
+    return postgres({
+      host: config.DB_HOST,
+      username: config.DB_USER,
+      password: config.DB_PASS,
+      database: config.DB_DB,
+      port: config.DB_PORT
+    })
+  }
 }
 
 async function shutdownSQL() {
@@ -314,6 +328,7 @@ async function searchStudent(query, page) {
 
 module.exports = {
   getSqlStorageObject,
+  setSqlStorageObject,
   setupSQL,
   shutdownSQL,
   getStudentByID,
