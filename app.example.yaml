@@ -22,6 +22,8 @@ REQUIRE_LOGIN: true
 REPORT_A_PROBLEM_URL: "google.com"
 LOCALE: "en-US"
 REDIRECT_STUDENTS: true
+FOOTER_ITEM_NAME: "Anything"
+FOOTER_ITEM_LINK: "Anything.com"
 ADMINS:
   - "user@email.com"
   - "user2@email.com"

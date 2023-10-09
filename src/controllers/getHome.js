@@ -57,7 +57,11 @@ module.exports = {
         perms: permLevel,
         student: false, // Used to keep EJS from self destructing when including dialogs
         presets: context.getPresets(),
-        pointChips: context.config.POINT_CHIPS
+        pointChips: context.config.POINT_CHIPS,
+        footer: {
+          name: context.config.FOOTER_ITEM_NAME,
+          link: context.config.FOOTER_ITEM_LINK
+        }
       },
       {
         views: [ path.resolve("./views") ]

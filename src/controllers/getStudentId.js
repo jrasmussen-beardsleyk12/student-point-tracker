@@ -80,7 +80,11 @@ module.exports = {
           student.content.duck_string
         ),
         pointChips: context.config.POINT_CHIPS,
-        perms: permLevel
+        perms: permLevel,
+        footer: {
+          name: context.config.FOOTER_ITEM_NAME,
+          link: context.config.FOOTER_ITEM_LINK
+        }
       },
       {
         views: [ path.resolve("./views") ]

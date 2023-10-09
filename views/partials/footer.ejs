@@ -3,6 +3,13 @@
 </div>
 
 <div class="footer">
+  <% if (typeof footer.name === "string") { %>
+    <p>
+      <a href="<%=footer.link%>">
+        <%=footer.name%>
+      </a>
+    </p>
+  <% } %>
   <p>
     <a href="<%=problem_url%>">
       Report a Problem
