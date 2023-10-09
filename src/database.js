@@ -4,6 +4,10 @@ const config = require("./config.js")();
 
 let sqlStorage;
 
+function getSqlStorageObject() {
+  return sqlStorage;
+}
+
 function setupSQL() {
   return postgres({
     host: config.DB_HOST,
@@ -309,6 +313,7 @@ async function searchStudent(query, page) {
 }
 
 module.exports = {
+  getSqlStorageObject,
   setupSQL,
   shutdownSQL,
   getStudentByID,
