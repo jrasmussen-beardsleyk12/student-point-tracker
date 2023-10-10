@@ -3,6 +3,8 @@ version: '3.4'
 services:
   db:
     image: postgres
+    container_name: spt_db
+    restart: always
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: postgres
@@ -11,17 +13,21 @@ services:
       # Ensure we make our initialization scripts accessible
       - ./storage/sql:/docker-entrypoint-initdb.d
     ports:
-      - '5432:5432'
+      - 5432:5432
 
   backend:
-    image: confused-Techie/student-point-tracker@latest
+    image: confused-techie/spt:1.5
+    container_name: spt_be
     depends_on:
-      - db
+      db:
+        condition: service_started
+    restart: always
     environment:
       DB_USER: postgres
-      DB_PASSWORD: password
+      DB_PASS: password
       DB_DB: mainDB
-      DB_HOST: "localhost:5432"
+      DB_HOST: 172.17.0.1
+      DB_PORT: 5432
       PORT: 8080
     ports:
       - 8080:8080
