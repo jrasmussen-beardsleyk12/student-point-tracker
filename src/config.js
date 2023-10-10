@@ -61,7 +61,9 @@ function getConfig() {
     LOCALE: findValue("LOCALE", "en-US"),
     REDIRECT_STUDENTS: findValue("REDIRECT_STUDENTS", false),
     FOOTER_ITEM_NAME: findValue("FOOTER_ITEM_NAME", false),
-    FOOTER_ITEM_LINK: findValue("FOOTER_ITEM_LINK", false)
+    FOOTER_ITEM_LINK: findValue("FOOTER_ITEM_LINK", false),
+    STARTUP_DB_CONNECT_RETRY_COUNT: findValue("STARTUP_DB_CONNECT_RETRY_COUNT", 10),
+    STARTUP_DB_CONNECT_RETRY_TIME_MS: findValue("STARTUP_DB_CONNECT_RETRY_TIME_MS", 1000)
   };
 }
 

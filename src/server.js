@@ -1,5 +1,6 @@
 const fs = require("fs");
 const compileStyleSheets = require("./compileStyleSheets.js");
+const config = require("./config.js")();
 let dbTeardown, database, serve, tasks;
 
 (async () => {
@@ -32,11 +33,10 @@ let dbTeardown, database, serve, tasks;
   await checkDBConnectivity(database);
 
   const app = require("./main.js");
-  const { PORT } = require("./config.js")();
   tasks = require("./tasks.js");
 
-  serve = app.listen(PORT, () => {
-    console.log(`Server Listening on port ${PORT}`);
+  serve = app.listen(config.PORT, () => {
+    console.log(`Server Listening on port ${config.PORT}`);
   });
 
   compileStyleSheets();
@@ -66,8 +66,7 @@ async function checkDBConnectivity(db) {
         console.log(`Initiated initial DB Connection Attempt ${attempt+1}/${retries}...`);
         return await fn();
       } catch(err) {
-
-        console.log(`Initial DB Connection Attempt ${attempt + 1}/${retries} failed. Retrying in ${delayMs}...`);
+        console.log(`Attempt ${attempt+1}/${retries} failed. Retrying in ${delayMs}...`);
 
         if (attempt++ < retries) {
           await delay(delayMs);
@@ -79,10 +78,10 @@ async function checkDBConnectivity(db) {
     }
   };
 
-  retry(() => {
+  return retry(async () => {
     let connectTest = db.setupSQL();
     // We run a command here, doesn't matter what command
-    let res = database.getStudentByID("1");
+    let res = await database.getStudentByID("1");
 
     if (res.content instanceof Error) {
       throw res.content;
@@ -92,7 +91,8 @@ async function checkDBConnectivity(db) {
     }
 
     db.setSqlStorageObject(connectTest);
-  }, 10, 1000);
+    return;
+  }, config.STARTUP_DB_CONNECT_RETRY_COUNT, config.STARTUP_DB_CONNECT_RETRY_TIME_MS);
 }
 
 async function exterminate(callee) {
