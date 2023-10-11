@@ -20,15 +20,16 @@ Every single task should contain the following properties:
 Many `action`s are built-in to make them easier, such as:
 
 * `importUsers`: This task is able to preform an import of users into the database. It is required to also specify a `file` property, this file should be a CSV matching the "Student Import" section of data.
+* `jsScript`: This task is able to load and run a custom JavaScript module. This would allow the most freedom to accomplish whatever is wanted.
 
 There are also many supported values for the `schedule` such as:
 
-* `startup`: This causes the task to run immediatly on startup.
+* `startup`: This causes the task to run immediately on startup.
 * `shutdown`: This causes the task to run once the application is shutting down. Keep in mind this task will run during any event that causes a shutdown. Including if the program has crashed, a successful run of this task is never guaranteed.
 
 Otherwise, if you need more granular control over any task you'd like to schedule, nearly any cron job declaration is supported. Refer to [`node-schedule`](https://www.npmjs.com/package/node-schedule) for any unsupported features of cron.
 
-But using cron means it'd be easy to schedule a task that runs every second, bu setting the `schedule` property to `*/10 * * * * *`.
+But using cron means it'd be easy to schedule a task that runs every second, such as setting the `schedule` property to `*/10 * * * * *`.
 
 ## Student Import
 
