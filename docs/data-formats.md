@@ -20,7 +20,7 @@ Every single task should contain the following properties:
 Many `action`s are built-in to make them easier, such as:
 
 * `importUsers`: This task is able to preform an import of users into the database. It is required to also specify a `file` property, this file should be a CSV matching the "Student Import" section of data.
-* `jsScript`: This task is able to load and run a custom JavaScript module. This would allow the most freedom to accomplish whatever is wanted.
+* `jsScript`: This task is able to load and run a custom JavaScript module. This would allow the most freedom to accomplish whatever is wanted. This module should export a single function, as the default export that accepts a single parameter `context`, this will be the context access to the entire internal API. As determined by `./src/context.js`.
 
 There are also many supported values for the `schedule` such as:
 

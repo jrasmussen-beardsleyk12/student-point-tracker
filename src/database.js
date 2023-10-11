@@ -65,6 +65,31 @@ async function getStudentByID(id) {
   }
 }
 
+async function getAllStudentIDs() {
+  try {
+    sqlStorage ??= setupSQL();
+
+    const command = await sqlStorage`
+      SELECT student_id
+      FROM students
+    `;
+
+    retur command.count !== 0
+      ? { ok: true, content: command[0] }
+      : {
+          ok: false,
+          content: `student ${id} not found.`,
+          short: "not_found"
+        }
+  } catch(err) {
+    return {
+      ok: false,
+      content: err,
+      short: "server_error"
+    };
+  }
+}
+
 async function getBadgesByStudentID(id) {
   try {
     sqlStorage ??= setupSQL();
@@ -332,6 +357,7 @@ module.exports = {
   setupSQL,
   shutdownSQL,
   getStudentByID,
+  getAllStudentIDs,
   addStudent,
   addPointsToStudent,
   removePointsFromStudent,
