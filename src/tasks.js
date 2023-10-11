@@ -50,7 +50,12 @@ async function executeTask(task) {
     case "jsScript": {
       const customScript = require(`./storage/${task.file}`);
 
-      await customScript(require("./context.js"));
+      try {
+        await customScript(require("./context.js"));
+      } catch(err) {
+        console.error(`The Task ${task.name} seems to have crashed!`);
+        console.error(err);
+      }
     }
     default: {
       console.error(`Unrecognized task: '${task.action}' in '${task.name}'!`);

@@ -74,7 +74,7 @@ async function getAllStudentIDs() {
       FROM students
     `;
 
-    retur command.count !== 0
+    return command.count !== 0
       ? { ok: true, content: command[0] }
       : {
           ok: false,
