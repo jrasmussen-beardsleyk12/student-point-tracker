@@ -1,7 +1,7 @@
 {
   "name": "student-point-tracker",
   "version": "1.0.0",
-  "description": "",
+  "description": "Student behavior, point tracking framework for schools.",
   "main": "./src/server.js",
   "scripts": {
     "start": "node ./src/server.js",
@@ -12,7 +12,6 @@
     "migrations": "pg-migrations apply --directory ./migrations",
     "less:watch": "nodemon ./scripts/compileSheets.js"
   },
-  "keywords": [],
   "author": "confused-Techie",
   "repository": "https://github.com/confused-Techie/student-point-tracker",
   "license": "MIT",
