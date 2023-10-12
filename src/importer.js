@@ -30,6 +30,14 @@ async function importer(fileName) {
         continue;
       }
 
+      // Check if student already exists
+      const exists = await database.getStudentByID(record.student_id);
+
+      if (exists.ok) {
+        console.log(`Student '${record.student_id}' already exists in the DB. Skipping...`);
+        continue;
+      }
+
       const action = await database.addStudent(record);
 
       if (!action.ok) {
@@ -47,7 +55,7 @@ async function importer(fileName) {
           console.error(pointAction);
         }
       }
-      
+
       console.log(`Imported '${record.student_id}' without issue...`);
     }
   } else {
