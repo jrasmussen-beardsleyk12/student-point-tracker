@@ -75,7 +75,7 @@ async function getAllStudentIDs() {
     `;
 
     return command.count !== 0
-      ? { ok: true, content: command[0] }
+      ? { ok: true, content: command }
       : {
           ok: false,
           content: `student ${id} not found.`,
