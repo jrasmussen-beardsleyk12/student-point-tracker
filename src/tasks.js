@@ -1,3 +1,4 @@
+const path = require("path");
 const schedule = require("node-schedule");
 
 const SHUTDOWN_TASKS = [];
@@ -48,14 +49,15 @@ async function executeTask(task) {
       break;
     }
     case "jsScript": {
-      const customScript = require(`./storage/${task.file}`);
 
       try {
+        const customScript = require(path.resolve(`./storage/${task.file}`));
         await customScript(require("./context.js"));
       } catch(err) {
         console.error(`The Task ${task.name} seems to have crashed!`);
         console.error(err);
       }
+      break;
     }
     default: {
       console.error(`Unrecognized task: '${task.action}' in '${task.name}'!`);
