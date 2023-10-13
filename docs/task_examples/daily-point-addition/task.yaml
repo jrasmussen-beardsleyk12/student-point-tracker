@@ -3,4 +3,4 @@ TASKS:
     # Runs 5PM Monday-Friday
     schedule: "0 17 * * * 1-5"
     action: jsScript
-    file: "tasks/add-points-every-day.js"
+    file: "add-points-every-day.js"
