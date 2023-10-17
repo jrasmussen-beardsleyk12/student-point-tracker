@@ -15,6 +15,9 @@ class CacheObject {
   invalidate() {
     this.invalidated = true;
   }
+  get Age() {
+    return (Date.now() - this.birth)/1000;
+  }
 }
 
 class CacheCollection {
@@ -38,9 +41,6 @@ class CacheCollection {
       console.log(`No cache: ${name}`);
       return callback();
     }
-  }
-  get Age() {
-    return (Date.now() - this.birth)/1000;
   }
 }
 

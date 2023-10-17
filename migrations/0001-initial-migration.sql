@@ -24,18 +24,11 @@ CREATE TABLE points (
   reason VARCHAR(256)
 );
 
--- Badges and Junction Tables --
-
-CREATE TABLE badges (
-  serial VARCHAR(128) NOT NULL PRIMARY KEY,
-  requirement JSONB NOT NULL,
-  image VARCHAR(128) NOT NULL
-);
-
-CREATE TABLE badges_students (
-  badge_serial VARCHAR(128) REFERENCES badges(serial),
+CREATE TABLE badges_earned (
+  instance_id UUID DEFAULT GEN_RANDOM_UUID() PRIMARY KEY,
   student_id BIGINT REFERENCES students(student_id),
+  badge_id VARCHAR(128) NOT NULL,
   achieved TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   -- constraints
-  CONSTRAINT badges_students_pk PRIMARY KEY(badge_serial,student_id)
+  CONSTRAINT badges_students_pk PRIMARY KEY(badge_id, student_id)
 );

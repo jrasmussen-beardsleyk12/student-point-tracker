@@ -84,3 +84,16 @@ Within each item's array are objects with the following properties:
 * `name`: This is the name that will appear for the preset.
 * `amount`: This is the amount of points that will be modified when selecting the preset.
 * `reason`: This optional value is what will appear in the `reason` field during point modification. Omitting this value will use the `name` instead as the reason.
+
+## Badges
+
+In order to define and specify the badges that students can earn, this data is defined via the `./storage/badges.yaml` file, where much like our `tasks` we are able to define all aspects of our badges. Within a badges file will be the single top letter key of `badges` followed by an array of each badge object with the following properties:
+
+* `id`: This is the unique ID of the badge itself. It's recommended not to put any spaces in this value, and it can only be 128 characters long.
+* `name`: This is the human friendly name for the badge.
+* `icon`: This is the relative path to an icon for this badge.
+* `rule`: This defines the ruleset on how this particular badge is earned. There are some built in methods for earning badges, or otherwise the relative path to a JavaScript file can be used to execute logic as needed.
+
+Below are the built in rules:
+
+* 
