@@ -42,6 +42,14 @@ class CacheCollection {
       return callback();
     }
   }
+  [Symbol.iterator]() {
+    const data = Object.getOwnPropertyNames(this.collection);
+    let index = -1;
+
+    return {
+      next: () => ({ value: this.collection[data[++index]], done: index == data.length })
+    };
+  }
 }
 
 module.exports = {

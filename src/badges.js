@@ -28,6 +28,13 @@ function registerBadges() {
   return badgeCache;
 }
 
+function applyBadges(badgeCache, context) {
+
+  for (const badge of badgeCache) {
+    // Here we would calculate the badging to apply to each student, for each badge
+  }
+}
+
 function validateBadge(badge) {
   if (typeof badge.id !== "string") {
     return false;
@@ -68,6 +75,7 @@ function readBadgeFile() {
 
 module.exports = {
   registerBadges,
+  applyBadges,
   validateBadge,
   readBadgeFile,
 };
