@@ -95,15 +95,11 @@ const allDuckOpts = {
   }
 };
 
-const allDuckKinds = [
-  "hat", "eyes", "beak", "wings", "accessories", "body", "item", "beakColor", "bodyColor"
-];
-
 function generateDuckOpts(unlockObj, duckString) {
 
   let optsObj = [];
 
-  for (const kind of allDuckKinds) {
+  for (const kind of Object.getOwnPropertyNames(allDuckOpts)) {
 
     let objToAdd = {
       item_name: allDuckOpts[kind].item_name,
