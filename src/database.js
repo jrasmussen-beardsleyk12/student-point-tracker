@@ -65,13 +65,38 @@ async function getStudentByID(id) {
   }
 }
 
+async function disableStudentByID(id) {
+  try {
+    sqlStorage ??= setupSQL();
+
+    const command = await sqlStorage`
+      UPDATE students
+      SET enabled = TRUE
+      WHERE student_id = ${id}
+      RETURNING student_id;
+    `;
+
+    return command.count !== 0
+      ? { ok: true, content: command[0] }
+      : { ok: false, content: command, short: "server_error" };
+
+  } catch(err) {
+    return {
+      ok: false,
+      content: err,
+      short: "server_error"
+    };
+  }
+}
+
 async function getAllStudentIDs() {
   try {
     sqlStorage ??= setupSQL();
 
     const command = await sqlStorage`
-      SELECT student_id
+      SELECT *
       FROM students
+      WHERE enabled = TRUE
     `;
 
     return command.count !== 0
@@ -177,7 +202,7 @@ async function setDuckToStudent(id, duck) {
   const command = await sqlStorage`
     UPDATE students
     SET duck_string = ${duck}
-    WHERE student_id = ${id}
+    WHERE student_id = ${id} AND enabled = TRUE
     RETURNING student_id;
   `;
 
@@ -221,7 +246,7 @@ async function addPointsToStudent(id, points, reason) {
         modifyPoints = await sqlTrans`
           UPDATE students
           SET points = ${newPointsAmount}
-          WHERE student_id = ${id}
+          WHERE student_id = ${id} AND enabled = TRUE
           RETURNING student_id;
         `;
       } catch(e) {
@@ -283,7 +308,7 @@ async function removePointsFromStudent(id, points, reason) {
         modifyPoints = await sqlTrans`
           UPDATE students
           SET points = ${newPointsAmount}
-          WHERE student_id = ${id}
+          WHERE student_id = ${id} AND enabled = TRUE
           RETURNING student_id;
         `;
       } catch(e) {
@@ -322,7 +347,7 @@ async function searchStudent(query, page) {
         LOWER(first_name) LIKE ${searchTerm}
         OR LOWER(last_name) LIKE ${searchTerm}
         OR CAST(student_id AS TEXT) LIKE ${searchTerm}
-      )
+      ) AND enabled = TRUE
       LIMIT ${limit}
       OFFSET ${offset}
     `;
