@@ -167,6 +167,34 @@ async function getPointsByStudentID(id) {
   }
 }
 
+async function getPointsByStudentIDByDate(id, date) {
+  try {
+    sqlStorage ??= setupSQL();
+
+    const command = await sqlStorage`
+      SELECT *
+      FROM points
+      WHERE student = ${id} AND WHERE created >= ${date}
+      ORDER BY created DESC
+    `;
+
+    return command.count !== 0
+      ? { ok: true, content: command }
+      : {
+          ok: false,
+          content: `Student ${id} not found. Or points not found.`,
+        short: "not_found"
+        };
+
+  } catch(err) {
+    return {
+      ok: false,
+      content: err,
+      short: "server_error"
+    };
+  }
+}
+
 async function addStudent(obj) {
   try {
     sqlStorage ??= setupSQL();
@@ -389,4 +417,5 @@ module.exports = {
   searchStudent,
   getPointsByStudentID,
   setDuckToStudent,
+  getPointsByStudentIDByDate
 };
