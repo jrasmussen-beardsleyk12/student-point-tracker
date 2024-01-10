@@ -21,21 +21,27 @@ async function main(context) {
       console.error(studentHistory);
       continue;
     }
+
+    let didHaveAbsence = false;
+
     for (let y = 0; y < studentHistory.content.length; y++) {
       let reason = studentHistory.content[y].reason;
       if (reason.includes("Tardy") || reason.includes("Absent")) {
-        continue;
+        didHaveAbsence = true;
+        break;
       }
     }
 
-    const addPoints = await context.database.addPointsToStudent(allStudents.content[i].student_id, POINT_COUNT, POINT_REASON);
+    if (!didHaveAbsence) {
+      const addPoints = await context.database.addPointsToStudent(allStudents.content[i].student_id, POINT_COUNT, POINT_REASON);
 
 
-    if (!addPoints.ok) {
-      console.error(`Failed to add points to ${allStudents.content[i].student_id}! Will keep trying the others`);
-      console.error(addPoints);
-      // Then we don't throw here, because we want to keep trying the other users.
+      if (!addPoints.ok) {
+        console.error(`Failed to add points to ${allStudents.content[i].student_id}! Will keep trying the others`);
+        console.error(addPoints);
+        // Then we don't throw here, because we want to keep trying the other users.
     }
+
   }
 
   console.log("Done adding the daily bonus of points.");
