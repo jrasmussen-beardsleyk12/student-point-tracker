@@ -218,6 +218,53 @@ async function addStudent(obj) {
   }
 }
 
+async function removeStudentByID(id) {
+  try {
+    sqlStorage ??= setupSQL();
+
+    return await sqlStorage
+      .begin(async (sqlTrans) => {
+
+        const removePoints = await sqlTrans`
+          DELETE FROM points
+          WHERE student = ${id}
+          RETURNING point_id;
+        `;
+
+        if (removePoints.count === 0) {
+          throw `Failed to remove points for ${id}`;
+        }
+
+        const removeStudent = await sqlTrans`
+          DELETE FROM students
+          WHERE student_id = ${id}
+          RETURNING student_id;
+        `;
+
+        if (removeStudent.count === 0) {
+          throw `Failed to remove student ${id}`;
+        }
+
+        return {
+          ok: true,
+          content: `Successfully deleted student '${id}'`
+        };
+
+      })
+      .catch((err) => {
+        return typeof err === "string"
+          ? { ok: false, content: err, short: "server_error" }
+          : { ok: false, content: `A generic error occurred while removing student '${id}'.`, short: "server_error", error: err };
+      });
+  } catch(err) {
+    return {
+      ok: false,
+      content: err,
+      short: "server_error"
+    };
+  }
+}
+
 async function setDuckToStudent(id, duck) {
   sqlStorage ??= setupSQL();
 
@@ -412,6 +459,7 @@ module.exports = {
   getStudentByID,
   getAllStudentIDs,
   addStudent,
+  removeStudentByID,
   addPointsToStudent,
   removePointsFromStudent,
   searchStudent,

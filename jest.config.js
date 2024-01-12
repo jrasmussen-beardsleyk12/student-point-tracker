@@ -21,7 +21,7 @@ module.exports = {
         "<rootDir>/test/helpers/dbSetup.js"
       ],
       testMatch: [
-        "<rootDir>/test/integration/*.test.js"
+        "<rootDir>/test/http/*.test.js"
       ]
     }
   ]

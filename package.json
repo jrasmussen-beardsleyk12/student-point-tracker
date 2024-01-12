@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node ./src/server.js",
     "start:dev": "cross-env PROD_STATUS=dev concurrently -n less,node -c blue,yellow 'npm:less:watch' 'npm:start'",
-    "test": "cross-env PROD_STATUS=dev jest --selectProjects Unit Integration",
-    "test:unit": "cross-env PROD_STATUS=dev jest --selectProjects Unit",
-    "test:integration": "cross-env PROD_STATUS=dev jest --selectProjects Integration",
+    "test": "cross-env PROD_STATUS=dev jest --selectProjects Unit Integration --runInBand",
+    "test:unit": "cross-env PROD_STATUS=dev jest --selectProjects Unit --runInBand",
+    "test:integration": "cross-env PROD_STATUS=dev jest --selectProjects Integration --runInBand",
     "migrations": "pg-migrations apply --directory ./migrations",
     "less:watch": "nodemon ./scripts/compileSheets.js"
   },
