@@ -14,7 +14,7 @@ RUN npm install --only-production
 COPY . ./
 
 # Compile our style sheets
-RUN node ./scripts/compileSheets.js
+RUN npm build
 
 # Create a volume that can be used by hosters
 VOLUME /usr/src/app/storage
