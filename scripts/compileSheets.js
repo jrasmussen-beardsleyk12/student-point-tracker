@@ -2,12 +2,6 @@ const less = require("less");
 const fs = require("fs");
 const path = require("path");
 
-module.exports = function compileSheets() {
-  // This function can be called to force the recompiling of both built in
-  // and user provided sheets
-  compile("./views/assets/site.less");
-};
-
 function compile(filePath) {
   if (!fs.existsSync(filePath)) {
     return;
@@ -31,3 +25,7 @@ function compile(filePath) {
       }
     });
 }
+
+// This function can be called to force the recompiling of both built in
+// and user provided sheets
+compile("./views/assets/site.less");

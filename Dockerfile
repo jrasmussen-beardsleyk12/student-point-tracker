@@ -13,9 +13,6 @@ RUN npm install --only-production
 # Copy local code to the container image.
 COPY . ./
 
-# Compile our style sheets
-RUN npm build
-
 # Create a volume that can be used by hosters
 VOLUME /usr/src/app/storage
 
