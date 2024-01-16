@@ -26,6 +26,9 @@
       "image": "postgres:14.5-alpine"
     }
   },
+  "nodemonConfig": {
+    "ext": ".less"
+  },
   "dependencies": {
     "csv-parse": "^5.5.0",
     "duckgen": "^1.1.1",
