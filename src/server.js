@@ -1,5 +1,4 @@
 const fs = require("fs");
-const compileStyleSheets = require("./compileStyleSheets.js");
 const config = require("./config.js")();
 let dbTeardown, database, serve, tasks;
 
@@ -37,8 +36,6 @@ let dbTeardown, database, serve, tasks;
   serve = app.listen(config.PORT, () => {
     console.log(`Server Listening on port ${config.PORT}`);
   });
-
-  compileStyleSheets();
 
   await tasks.init();
 })();

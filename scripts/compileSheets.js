@@ -1,5 +1,33 @@
-// This file is used by Nodemon to recompile our Style Sheets
+const less = require("less");
+const fs = require("fs");
+const path = require("path");
 
-const compileStyleSheets = require("../src/compileStyleSheets.js");
+module.exports = function compileSheets() {
+  // This function can be called to force the recompiling of both built in
+  // and user provided sheets
+  compile("./views/assets/site.less");
+};
 
-compileStyleSheets();
+function compile(filePath) {
+  if (!fs.existsSync(filePath)) {
+    return;
+  }
+
+  const file = fs.readFileSync(filePath, { encoding: "utf8" });
+  const css = less
+    .render(file, {
+      sourceMap: {
+        sourceMapFileInline: true,
+      },
+    })
+    .then((output) => {
+      try {
+        fs.writeFileSync(
+          `./static/${path.basename(filePath, ".less")}.css`,
+          output.css,
+        );
+      } catch (err) {
+        console.error(err);
+      }
+    });
+}

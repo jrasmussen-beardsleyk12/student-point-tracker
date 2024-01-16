@@ -11,7 +11,8 @@
     "test:integration": "cross-env PROD_STATUS=dev jest --selectProjects Integration --runInBand",
     "migrations": "pg-migrations apply --directory ./migrations",
     "less:watch": "nodemon ./scripts/compileSheets.js",
-    "lint": "prettier --check -u -w . "
+    "lint": "prettier --check -u -w . ",
+    "build": "node ./scripts/compileSheets.js"
   },
   "author": "confused-Techie",
   "repository": "https://github.com/confused-Techie/student-point-tracker",
