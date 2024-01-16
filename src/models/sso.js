@@ -4,30 +4,29 @@ const validEnums = [
   "not_found",
   "server_error",
   "not_supported",
-  "unauthorized"
+  "unauthorized",
 ];
 
 const enumDetails = {
-  "not_found": {
+  not_found: {
     code: 404,
-    message: "Not Found"
+    message: "Not Found",
   },
-  "server_error": {
+  server_error: {
     code: 500,
-    message: "Application Error"
+    message: "Application Error",
   },
-  "not_supported": {
+  not_supported: {
     code: 501,
-    message: "While under development this feature is not supported."
+    message: "While under development this feature is not supported.",
   },
-  "unauthorized": {
+  unauthorized: {
     code: 401,
-    message: "Unauthorized"
-  }
+    message: "Unauthorized",
+  },
 };
 
-module.exports =
-class SSO {
+module.exports = class SSO {
   constructor() {
     this.ok = false;
     this.content = {};
@@ -60,7 +59,7 @@ class SSO {
   addCalls(id, content) {
     this.calls[id] = {
       content: content,
-      time: performance.now()
+      time: performance.now(),
     };
     return this;
   }
@@ -105,11 +104,12 @@ class SSO {
     if (typeof this.short === "string" && this.short.length > 0) {
       // Use the short given to us during the build stage
       shortToUse = this.short;
-
-    } else if (typeof this.content?.short === "string" && this.content.short.length > 0) {
+    } else if (
+      typeof this.content?.short === "string" &&
+      this.content.short.length > 0
+    ) {
       // Use the short that's bubbled up from other calls
       shortToUse = this.content.short;
-
     } else {
       // Use the default short
       shortToUse = "server_error";
@@ -117,12 +117,18 @@ class SSO {
 
     if (typeof this.message === "string" && this.message.length > 0) {
       msgToUse = `${enumDetails[shortToUse]?.message ?? "Server Error"}: ${this.message}`;
-    } else if (typeof this.content?.message === "string" && this.content.message.length > 0) {
+    } else if (
+      typeof this.content?.message === "string" &&
+      this.content.message.length > 0
+    ) {
       msgToUse = `${enumDetails[shortToUse]?.message ?? "Server Error"}: ${this.content.message}`;
-    } else if (typeof this.content?.content === "string" && this.content.content.length > 0) {
+    } else if (
+      typeof this.content?.content === "string" &&
+      this.content.content.length > 0
+    ) {
       msgToUse = `${enumDetails[shortToUse]?.message ?? "Server Error"}: ${this.content.content}`;
     } else {
-      msgToUse = `${enumDetails[shortToUse]?.message ?? `Server Error: From ${shortToUse}` }`;
+      msgToUse = `${enumDetails[shortToUse]?.message ?? `Server Error: From ${shortToUse}`}`;
     }
 
     codeToUse = enumDetails[shortToUse]?.code ?? 500;
@@ -136,7 +142,7 @@ class SSO {
     // providing helpful error logs and such.
 
     res.status(codeToUse).json({
-      message: msgToUse
+      message: msgToUse,
     });
 
     // TODO Log our error too!
@@ -145,7 +151,6 @@ class SSO {
   }
 
   handleSuccess(req, res, context) {
-
     if (typeof this.content === "boolean" && this.content === false) {
       res.status(this.successStatusCode).send();
     } else {
@@ -154,4 +159,4 @@ class SSO {
     context.logger.httpLog(req, res);
     return;
   }
-}
+};

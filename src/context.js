@@ -17,5 +17,5 @@ module.exports = {
   ducks: require("./ducks.js"),
   cache: cache,
   globalCache: new cache.CacheCollection(),
-  auth: require("./auth.js")
+  auth: require("./auth.js"),
 };

@@ -1,7 +1,6 @@
 const studentObject = require("./studentObject.js");
 
-module.exports =
-function studentObjectArray(data) {
+module.exports = function studentObjectArray(data) {
   if (Array.isArray(data)) {
     const retArray = [];
 
@@ -13,6 +12,6 @@ function studentObjectArray(data) {
   } else if (Object.keys(data).length < 1) {
     return [];
   } else {
-    return [ studentObject(data) ];
+    return [studentObject(data)];
   }
-}
+};

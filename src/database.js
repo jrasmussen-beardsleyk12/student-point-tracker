@@ -18,7 +18,7 @@ function setupSQL() {
       host: config.DB_HOST,
       username: config.DB_USER,
       database: config.DB_DB,
-      port: config.DB_PORT
+      port: config.DB_PORT,
     });
   } else {
     return postgres({
@@ -26,8 +26,8 @@ function setupSQL() {
       username: config.DB_USER,
       password: config.DB_PASS,
       database: config.DB_DB,
-      port: config.DB_PORT
-    })
+      port: config.DB_PORT,
+    });
   }
 }
 
@@ -53,14 +53,13 @@ async function getStudentByID(id) {
       : {
           ok: false,
           content: `Student ${id} not found.`,
-          short: "not_found"
+          short: "not_found",
         };
-
-  } catch(err) {
+  } catch (err) {
     return {
       ok: false,
       content: err,
-      short: "server_error"
+      short: "server_error",
     };
   }
 }
@@ -79,12 +78,11 @@ async function disableStudentByID(id) {
     return command.count !== 0
       ? { ok: true, content: command[0] }
       : { ok: false, content: command, short: "server_error" };
-
-  } catch(err) {
+  } catch (err) {
     return {
       ok: false,
       content: err,
-      short: "server_error"
+      short: "server_error",
     };
   }
 }
@@ -104,13 +102,13 @@ async function getAllStudentIDs() {
       : {
           ok: false,
           content: `student ${id} not found.`,
-          short: "not_found"
-        }
-  } catch(err) {
+          short: "not_found",
+        };
+  } catch (err) {
     return {
       ok: false,
       content: err,
-      short: "server_error"
+      short: "server_error",
     };
   }
 }
@@ -128,13 +126,13 @@ async function getBadgesByStudentID(id) {
       : {
           ok: false,
           content: `No badges found for Student ${id}.`,
-          short: "not_found"
+          short: "not_found",
         };
-  } catch(err) {
+  } catch (err) {
     return {
       ok: false,
       content: err,
-      short: "server_error"
+      short: "server_error",
     };
   }
 }
@@ -155,14 +153,13 @@ async function getPointsByStudentID(id) {
       : {
           ok: false,
           content: `Student ${id} not found. Or points not found.`,
-          short: "not_found"
+          short: "not_found",
         };
-
-  } catch(err) {
+  } catch (err) {
     return {
       ok: false,
       content: err,
-      short: "server_error"
+      short: "server_error",
     };
   }
 }
@@ -183,14 +180,13 @@ async function getPointsByStudentIDByDate(id, date) {
       : {
           ok: false,
           content: `Student ${id} not found. Or points not found.`,
-        short: "not_found"
+          short: "not_found",
         };
-
-  } catch(err) {
+  } catch (err) {
     return {
       ok: false,
       content: err,
-      short: "server_error"
+      short: "server_error",
     };
   }
 }
@@ -208,12 +204,11 @@ async function addStudent(obj) {
     return command.count !== 0
       ? { ok: true, content: command[0] }
       : { ok: false, content: command, short: "server_error" };
-
-  } catch(err) {
+  } catch (err) {
     return {
       ok: false,
       content: err,
-      short: "server_error"
+      short: "server_error",
     };
   }
 }
@@ -224,7 +219,6 @@ async function removeStudentByID(id) {
 
     return await sqlStorage
       .begin(async (sqlTrans) => {
-
         const removePoints = await sqlTrans`
           DELETE FROM points
           WHERE student = ${id}
@@ -247,20 +241,24 @@ async function removeStudentByID(id) {
 
         return {
           ok: true,
-          content: `Successfully deleted student '${id}'`
+          content: `Successfully deleted student '${id}'`,
         };
-
       })
       .catch((err) => {
         return typeof err === "string"
           ? { ok: false, content: err, short: "server_error" }
-          : { ok: false, content: `A generic error occurred while removing student '${id}'.`, short: "server_error", error: err };
+          : {
+              ok: false,
+              content: `A generic error occurred while removing student '${id}'.`,
+              short: "server_error",
+              error: err,
+            };
       });
-  } catch(err) {
+  } catch (err) {
     return {
       ok: false,
       content: err,
-      short: "server_error"
+      short: "server_error",
     };
   }
 }
@@ -295,11 +293,11 @@ async function addPointsToStudent(id, points, reason) {
     return student;
   }
 
-  const newPointsAmount = parseInt(student.content.points, 10) + parseInt(points, 10);
+  const newPointsAmount =
+    parseInt(student.content.points, 10) + parseInt(points, 10);
 
   return await sqlStorage
     .begin(async (sqlTrans) => {
-
       let insertNewPoints = {};
       try {
         insertNewPoints = await sqlTrans`
@@ -307,7 +305,7 @@ async function addPointsToStudent(id, points, reason) {
           VALUES (${id}, ${points}, 'added', ${student.content.points}, ${newPointsAmount}, ${reason})
           RETURNING point_id;
         `;
-      } catch(e) {
+      } catch (e) {
         throw `A constraint has been violated while inserting ${id}'s new points! ${e.toString()}`;
       }
 
@@ -324,9 +322,9 @@ async function addPointsToStudent(id, points, reason) {
           WHERE student_id = ${id} AND enabled = TRUE
           RETURNING student_id;
         `;
-      } catch(e) {
-        throw `A constraint has been violated while inserting ${id}'s new points! ${e.toString()}`
-      };
+      } catch (e) {
+        throw `A constraint has been violated while inserting ${id}'s new points! ${e.toString()}`;
+      }
 
       if (!modifyPoints.count) {
         throw `Cannot insert points to ${id}!`;
@@ -338,7 +336,7 @@ async function addPointsToStudent(id, points, reason) {
       return {
         ok: false,
         content: err,
-        short: "server_error"
+        short: "server_error",
       };
     });
 }
@@ -352,7 +350,8 @@ async function removePointsFromStudent(id, points, reason) {
     return student;
   }
 
-  let newPointsAmount = parseInt(student.content.points, 10) - parseInt(points, 10);
+  let newPointsAmount =
+    parseInt(student.content.points, 10) - parseInt(points, 10);
 
   if (newPointsAmount < 0) {
     // Don't go into the negatives for points
@@ -361,7 +360,6 @@ async function removePointsFromStudent(id, points, reason) {
 
   return await sqlStorage
     .begin(async (sqlTrans) => {
-
       let insertNewPoints = {};
       try {
         insertNewPoints = await sqlTrans`
@@ -369,7 +367,7 @@ async function removePointsFromStudent(id, points, reason) {
           VALUES (${id}, ${points}, 'removed', ${student.content.points}, ${newPointsAmount}, ${reason})
           RETURNING point_id;
         `;
-      } catch(e) {
+      } catch (e) {
         throw `A constraint has been violated while removing ${id}'s new negative points! ${e.toString()}`;
       }
 
@@ -386,9 +384,9 @@ async function removePointsFromStudent(id, points, reason) {
           WHERE student_id = ${id} AND enabled = TRUE
           RETURNING student_id;
         `;
-      } catch(e) {
-        throw `A constraint has been violated while removing ${id}'s new negaitve points! ${e.toString()}`
-      };
+      } catch (e) {
+        throw `A constraint has been violated while removing ${id}'s new negaitve points! ${e.toString()}`;
+      }
 
       if (!modifyPoints.count) {
         throw `Cannot remove points from ${id}!`;
@@ -400,7 +398,7 @@ async function removePointsFromStudent(id, points, reason) {
       return {
         ok: false,
         content: err,
-        short: "server_error"
+        short: "server_error",
       };
     });
 }
@@ -412,7 +410,8 @@ async function searchStudent(query, page) {
     const offset = page > 1 ? (page - 1) * limit : 0;
 
     const wordSeparators = /[-. ]/g; // Word Sperators: - . SPACE
-    const searchTerm = "%" + query.toLowerCase().replace(wordSeparators, "%") + "%";
+    const searchTerm =
+      "%" + query.toLowerCase().replace(wordSeparators, "%") + "%";
 
     const command = await sqlStorage`
       SELECT *
@@ -439,14 +438,14 @@ async function searchStudent(query, page) {
         count: resultCount,
         page: page < totalPages ? page : totalPages,
         total: totalPages,
-        limit: limit
-      }
+        limit: limit,
+      },
     };
-  } catch(err) {
+  } catch (err) {
     return {
       ok: false,
       content: err,
-      short: "server_error"
+      short: "server_error",
     };
   }
 }
@@ -465,5 +464,5 @@ module.exports = {
   searchStudent,
   getPointsByStudentID,
   setDuckToStudent,
-  getPointsByStudentIDByDate
+  getPointsByStudentIDByDate,
 };

@@ -1,7 +1,6 @@
 const SSO = require("./sso.js");
 
-module.exports =
-class SSOPaginate extends SSO {
+module.exports = class SSOPaginate extends SSO {
   constructor() {
     super();
 
@@ -21,7 +20,7 @@ class SSOPaginate extends SSO {
       if (param === "query") {
         // Since we know we want to keep search queries safe strings
         const safeQuery = encodeURIComponent(
-          params[param].replace(/[<>"':;\\/]+/g, "")
+          params[param].replace(/[<>"':;\\/]+/g, ""),
         );
         paramString += `&${param}=${safeQuery}`;
       } else {
@@ -42,7 +41,6 @@ class SSOPaginate extends SSO {
   }
 
   handleSuccess(req, res, context) {
-
     res.append("Link", this.link);
     res.append("Query-Total", this.total);
     res.append("Query-Limit", this.limit);
@@ -51,4 +49,4 @@ class SSOPaginate extends SSO {
     context.logger.httpLog(req, res);
     return;
   }
-}
+};

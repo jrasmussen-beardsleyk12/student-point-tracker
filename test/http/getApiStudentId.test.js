@@ -3,13 +3,12 @@ const context = require("../../src/context.js");
 const db = require("../../src/database.js");
 
 describe("returns correct info", () => {
-
   test("returns not found if student doesn't exist", async () => {
     const sso = await endpoint.logic(
       {
-        id: "1"
+        id: "1",
       },
-      context
+      context,
     );
 
     expect(sso.ok).toBe(false);
@@ -20,12 +19,15 @@ describe("returns correct info", () => {
     await db.addStudent({
       student_id: "1",
       first_name: "John",
-      last_name: "Doe"
+      last_name: "Doe",
     });
 
-    const sso = await endpoint.logic({
-      id: "1"
-    }, context);
+    const sso = await endpoint.logic(
+      {
+        id: "1",
+      },
+      context,
+    );
 
     expect(sso.ok).toBe(true);
     expect(sso.content.student_id).toBe("1");
@@ -34,5 +36,4 @@ describe("returns correct info", () => {
 
     await db.removeStudentByID("1");
   });
-
 });

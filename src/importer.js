@@ -4,15 +4,14 @@ const { parse } = require("csv-parse/sync");
 const config = require("./config.js")();
 const database = require("./database.js");
 
-module.exports =
-async function importer(fileName) {
+module.exports = async function importer(fileName) {
   if (fs.existsSync(fileName)) {
     const studentFile = fs.readFileSync(fileName, { encoding: "utf8" });
 
     const records = parse(studentFile, {
       delimiter: config.CSV_DELIMITER,
       columns: true,
-      skip_empty_lines: true
+      skip_empty_lines: true,
     });
 
     // This is the list of students encountered during the import that already exist
@@ -42,7 +41,9 @@ async function importer(fileName) {
       const exists = await database.getStudentByID(record.student_id);
 
       if (exists.ok) {
-        console.log(`Student '${record.student_id}' already exists in the DB. Skipping...`);
+        console.log(
+          `Student '${record.student_id}' already exists in the DB. Skipping...`,
+        );
         repeatStudentList.push(exists.content);
         continue;
       }
@@ -57,12 +58,20 @@ async function importer(fileName) {
       }
 
       if (typeof record.points === "string") {
-        console.log(`Existing points found for ${record.student_id}! Importing...`);
+        console.log(
+          `Existing points found for ${record.student_id}! Importing...`,
+        );
 
-        const pointAction = await database.addPointsToStudent(record.student_id, record.points, "Import");
+        const pointAction = await database.addPointsToStudent(
+          record.student_id,
+          record.points,
+          "Import",
+        );
 
         if (!pointAction.ok) {
-          console.error("An error occuring during the import of a students existing points!");
+          console.error(
+            "An error occuring during the import of a students existing points!",
+          );
           console.error(pointAction);
           addFailStudentList.push(record);
           continue;
@@ -76,7 +85,9 @@ async function importer(fileName) {
     // Once we have imported all users we can now go ahead and disable any users that did not appear in the import
     // Especially since we now have a full list of all students we have modified,
     // Even the ones we wanted to add, but failed to do so
-    let modifiedStudentList = addedStudentList.concat(repeatStudentList.concat(addFailStudentList));
+    let modifiedStudentList = addedStudentList.concat(
+      repeatStudentList.concat(addFailStudentList),
+    );
 
     let allStudents = await database.getAllStudentIDs();
 
@@ -90,21 +101,24 @@ async function importer(fileName) {
         // We check that the current already existing student doesn't appear anywhere
         // in the list of students that were on our import in some way.
         // So we assume they should be disabled.
-        let disable = await database.disableStudentByID(allStudents.content[i].student_id);
+        let disable = await database.disableStudentByID(
+          allStudents.content[i].student_id,
+        );
 
         if (!disable.ok) {
           console.error("Failed to disable student");
           console.error(disable);
         }
 
-        console.log(`Disabled: '${allStudents.content[i].student_id}' since they did not appear in the import.`);
+        console.log(
+          `Disabled: '${allStudents.content[i].student_id}' since they did not appear in the import.`,
+        );
       }
     }
-
   } else {
     console.error(`File: '${fileName}' not found!`);
   }
-}
+};
 
 function notPresentInList(current, list) {
   let matched = false;

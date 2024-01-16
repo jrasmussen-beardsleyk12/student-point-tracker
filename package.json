@@ -10,7 +10,8 @@
     "test:unit": "cross-env PROD_STATUS=dev jest --selectProjects Unit --runInBand",
     "test:integration": "cross-env PROD_STATUS=dev jest --selectProjects Integration --runInBand",
     "migrations": "pg-migrations apply --directory ./migrations",
-    "less:watch": "nodemon ./scripts/compileSheets.js"
+    "less:watch": "nodemon ./scripts/compileSheets.js",
+    "lint": "prettier --check -u -w . "
   },
   "author": "confused-Techie",
   "repository": "https://github.com/confused-Techie/student-point-tracker",
@@ -46,6 +47,7 @@
     "concurrently": "^8.2.1",
     "cross-env": "^7.0.3",
     "jest": "^29.7.0",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "prettier": "^3.2.0"
   }
 }

@@ -25,73 +25,88 @@ const genericLimit = rateLimit({
   handler: (request, response, next, options) => {
     response.status(options.statusCode).json({ message: options.message });
     context.logger.httpLog(request, response);
-  }
+  },
 });
 
 // --- Authentication Setup ---
 
-app.use(session({
-  secret: "test",
-  resave: false,
-  saveUninitialized: false,
-  store: new SessionFileStore({
-    path: "./storage/sessions/",
-    ttl: context.config.SESSION_FILE_STORE_TTL
-  })
-}));
+app.use(
+  session({
+    secret: "test",
+    resave: false,
+    saveUninitialized: false,
+    store: new SessionFileStore({
+      path: "./storage/sessions/",
+      ttl: context.config.SESSION_FILE_STORE_TTL,
+    }),
+  }),
+);
 
 app.use(passport.authenticate("session"));
 
-passport.serializeUser(function(user, cb) {
-  process.nextTick(function() {
+passport.serializeUser(function (user, cb) {
+  process.nextTick(function () {
     cb(null, user);
     // This will allow the user object being passed to be available via
     // req.session.passport.user
   });
 });
 
-passport.deserializeUser(function(user, cb) {
-  process.nextTick(function() {
+passport.deserializeUser(function (user, cb) {
+  process.nextTick(function () {
     return cb(null, user);
   });
 });
 
-passport.use("google", new GoogleStrategy({
-  clientID: context.config.GOOGLE_CLIENT_ID,
-  clientSecret: context.config.GOOGLE_CLIENT_SECRET,
-  callbackURL: "/oauth2/redirect",
-  scope: [ "profile", "email", "openid" ]
-}, (issuer, profile, cb) => {
+passport.use(
+  "google",
+  new GoogleStrategy(
+    {
+      clientID: context.config.GOOGLE_CLIENT_ID,
+      clientSecret: context.config.GOOGLE_CLIENT_SECRET,
+      callbackURL: "/oauth2/redirect",
+      scope: ["profile", "email", "openid"],
+    },
+    (issuer, profile, cb) => {
+      if (
+        !Array.isArray(profile.emails) ||
+        typeof profile.emails[0]?.value !== "string"
+      ) {
+        return cb("Invalid email object retreived from Google");
+      }
 
-  if (!Array.isArray(profile.emails) || typeof profile.emails[0]?.value !== "string") {
-    return cb("Invalid email object retreived from Google");
-  }
+      if (profile.emails[0].value.endsWith(context.config.DOMAIN)) {
+        const usrObj = {
+          issuer: issuer,
+          id: profile.id,
+          displayName: profile.displayName,
+          first_name: profile.name.givenName,
+          last_name: profile.name.familyName,
+          email: profile.emails[0].value,
+        };
 
-  if (profile.emails[0].value.endsWith(context.config.DOMAIN)) {
-    const usrObj = {
-      issuer: issuer,
-      id: profile.id,
-      displayName: profile.displayName,
-      first_name: profile.name.givenName,
-      last_name: profile.name.familyName,
-      email: profile.emails[0].value
-    };
-
-    return cb(null, usrObj);
-  } else {
-    console.error(profile);
-    return cb(`Bad email domain attempted to be used during login! '${profiles.emails[0].value}'`);
-  }
-}));
+        return cb(null, usrObj);
+      } else {
+        console.error(profile);
+        return cb(
+          `Bad email domain attempted to be used during login! '${profiles.emails[0].value}'`,
+        );
+      }
+    },
+  ),
+);
 
 app.get("/login", passport.authenticate("google"));
 
-app.get("/oauth2/redirect", passport.authenticate("google", {
-  successRedirect: "/",
-  failureRedirect: "/requestLogin"
-}));
+app.get(
+  "/oauth2/redirect",
+  passport.authenticate("google", {
+    successRedirect: "/",
+    failureRedirect: "/requestLogin",
+  }),
+);
 
-const endpointHandler = async function(node, req, res) {
+const endpointHandler = async function (node, req, res) {
   let params = {};
 
   for (const param in node.params) {
@@ -150,7 +165,6 @@ const pathOptions = [];
 
 for (const node of endpoints) {
   for (const path of node.endpoint.paths) {
-
     let limiter = genericLimit;
 
     if (node.endpoint.rateLimit === "generic") {
@@ -173,7 +187,7 @@ for (const node of endpoints) {
       middlewares.push(authMiddleware);
     }
 
-    switch(node.endpoint.method) {
+    switch (node.endpoint.method) {
       case "GET":
         app.get(path, middlewares, async (req, res) => {
           await endpointHandler(node, req, res);
@@ -190,7 +204,10 @@ for (const node of endpoints) {
         });
         break;
       default:
-        context.logger.generic(`Unsupported method: ${node.endpoint.method} for ${path}`, "warn");
+        context.logger.generic(
+          `Unsupported method: ${node.endpoint.method} for ${path}`,
+          "warn",
+        );
     }
   }
 }
@@ -201,11 +218,15 @@ app.use(async (err, req, res, next) => {
   if (err) {
     context.logger.generic(
       `An error was encountered handling the request: ${err.toString()}`,
-      "error"
+      "error",
     );
     const sso = new context.sso();
-    return sso.notOk().addShort("server_error")
-              .addContent(`An error was encountered handling the request: ${err.toString()}`);
+    return sso
+      .notOk()
+      .addShort("server_error")
+      .addContent(
+        `An error was encountered handling the request: ${err.toString()}`,
+      );
     return;
   }
   const sso = new context.sso();

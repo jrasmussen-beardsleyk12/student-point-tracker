@@ -1,9 +1,12 @@
 let bulkStudentIds = { add: {}, remove: {} };
 
 window.addEventListener("load", () => {
-
-  bulkStudentIds.add.points = new mdc.textField.MDCTextField(document.getElementById("bulk-student-ids-add-points"));
-  bulkStudentIds.remove.points = new mdc.textField.MDCTextField(document.getElementById("bulk-student-ids-remove-points"));
+  bulkStudentIds.add.points = new mdc.textField.MDCTextField(
+    document.getElementById("bulk-student-ids-add-points"),
+  );
+  bulkStudentIds.remove.points = new mdc.textField.MDCTextField(
+    document.getElementById("bulk-student-ids-remove-points"),
+  );
 
   const searchText = document.getElementById("search-text-field");
 
@@ -45,7 +48,7 @@ window.addEventListener("load", () => {
 
     resultsPane.innerHTML = htmlResults;
 
-    new mdc.list.MDCList(document.querySelector('.mdc-list'));
+    new mdc.list.MDCList(document.querySelector(".mdc-list"));
   };
 
   searchText.addEventListener("keyup", () => {
@@ -67,11 +70,10 @@ function generateHTMLSearchResults(res) {
 
   generated += "<ul class='mdc-list'>";
 
-  for (let i = 0; i < res.length; i ++) {
-    let tabindex = (i === 0) ? "tabindex='0'" : "";
+  for (let i = 0; i < res.length; i++) {
+    let tabindex = i === 0 ? "tabindex='0'" : "";
 
-    generated +=
-`
+    generated += `
 <li class="mdc-list-item" ${tabindex} onclick="redirectToStudent(${res[i].student_id})" onkeydown="keyRedirectToStudent(event, ${res[i].student_id})">
   <span class="mdc-list-item__ripple"></span>
   <span class="mdc-list-item">

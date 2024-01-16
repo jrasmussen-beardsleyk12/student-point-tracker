@@ -3,29 +3,30 @@ const path = require("node:path");
 
 module.exports = {
   docs: {
-    summary: "Individual Student view."
+    summary: "Individual Student view.",
   },
   endpoint: {
     endpointKind: "raw",
     method: "GET",
-    paths: [ "/student/:id" ],
+    paths: ["/student/:id"],
     rateLimit: "generic",
     successStatus: 200,
     options: {
       Allow: "GET",
-      "X-Content-Type-Options": "nosniff"
+      "X-Content-Type-Options": "nosniff",
     },
-    login: true
+    login: true,
   },
   params: {
-    id: (context, req) => { return context.query.id(req); }
+    id: (context, req) => {
+      return context.query.id(req);
+    },
   },
 
   async logic(req, res, context) {
-
     const params = {
       id: context.query.id(req),
-      user: context.query.user(req)
+      user: context.query.user(req),
     };
 
     // Determine the permissions of this user
@@ -67,7 +68,8 @@ module.exports = {
 
     // TODO: This would be a good time to generate any cool facts about the current users points
 
-    const template = await ejs.renderFile("./views/pages/student.ejs",
+    const template = await ejs.renderFile(
+      "./views/pages/student.ejs",
       {
         name: context.config.SITE_NAME,
         problem_url: context.config.REPORT_A_PROBLEM_URL,
@@ -77,22 +79,22 @@ module.exports = {
         presets: context.getPresets(),
         duck_items: context.ducks.generateDuckOpts(
           context.ducks.parseDuckUnlockString(student.content.duck_unlocked),
-          student.content.duck_string
+          student.content.duck_string,
         ),
         pointChips: context.config.POINT_CHIPS,
         perms: permLevel,
         footer: {
           name: context.config.FOOTER_ITEM_NAME,
-          link: context.config.FOOTER_ITEM_LINK
-        }
+          link: context.config.FOOTER_ITEM_LINK,
+        },
       },
       {
-        views: [ path.resolve("./views") ]
-      }
+        views: [path.resolve("./views")],
+      },
     );
 
     res.set("Content-Type", "text/html");
     res.status(200).send(template);
     return;
-  }
+  },
 };

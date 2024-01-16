@@ -14,12 +14,14 @@ function registerBadges() {
   for (const badge of badgeData.badges) {
     // Lets now validate this badge
     if (!validateBadge(badge)) {
-      console.error(`The badge '${badge.name || badge.id}' doesn't seem to be valid...`);
+      console.error(
+        `The badge '${badge.name || badge.id}' doesn't seem to be valid...`,
+      );
       continue;
     }
 
     if (badge.rule.endsWith("js")) {
-      badge.__file = require(`./storage/${badge.rule}`)
+      badge.__file = require(`./storage/${badge.rule}`);
     }
 
     badgeCache.add(badge.id, badge);
@@ -29,7 +31,6 @@ function registerBadges() {
 }
 
 function applyBadges(badgeCache, context) {
-
   for (const badge of badgeCache) {
     // Here we would calculate the badging to apply to each student, for each badge
   }
@@ -61,8 +62,7 @@ function readBadgeFile() {
     let fileContent = fs.readFileSync("./storage/badges.yaml", "utf8");
 
     data = yaml.load(fileContent);
-
-  } catch(err) {
+  } catch (err) {
     console.error(err);
   }
 

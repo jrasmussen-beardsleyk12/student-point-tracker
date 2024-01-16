@@ -9,9 +9,11 @@ function getConfigFile() {
     data = yaml.load(fileContent);
 
     return data;
-  } catch(err) {
+  } catch (err) {
     if (process.env.PROD_STATUS === "dev") {
-      console.error(`Failed to load app.yaml in non-production env! ${err.toString()}`);
+      console.error(
+        `Failed to load app.yaml in non-production env! ${err.toString()}`,
+      );
       data = {};
 
       return data;
@@ -57,13 +59,22 @@ function getConfig() {
     DEV_IS_ADMIN: findValue("DEV_IS_ADMIN", false),
     DEV_IS_STUDENT: findValue("DEV_IS_STUDENT", false),
     REQUIRE_LOGIN: findValue("REQUIRE_LOGIN", true),
-    REPORT_A_PROBLEM_URL: findValue("REPORT_A_PROBLEM_URL", "https://github.com/confused-Techie/student-point-tracker/issues"),
+    REPORT_A_PROBLEM_URL: findValue(
+      "REPORT_A_PROBLEM_URL",
+      "https://github.com/confused-Techie/student-point-tracker/issues",
+    ),
     LOCALE: findValue("LOCALE", "en-US"),
     REDIRECT_STUDENTS: findValue("REDIRECT_STUDENTS", false),
     FOOTER_ITEM_NAME: findValue("FOOTER_ITEM_NAME", false),
     FOOTER_ITEM_LINK: findValue("FOOTER_ITEM_LINK", false),
-    STARTUP_DB_CONNECT_RETRY_COUNT: findValue("STARTUP_DB_CONNECT_RETRY_COUNT", 10),
-    STARTUP_DB_CONNECT_RETRY_TIME_MS: findValue("STARTUP_DB_CONNECT_RETRY_TIME_MS", 1000)
+    STARTUP_DB_CONNECT_RETRY_COUNT: findValue(
+      "STARTUP_DB_CONNECT_RETRY_COUNT",
+      10,
+    ),
+    STARTUP_DB_CONNECT_RETRY_TIME_MS: findValue(
+      "STARTUP_DB_CONNECT_RETRY_TIME_MS",
+      1000,
+    ),
   };
 }
 

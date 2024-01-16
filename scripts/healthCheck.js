@@ -3,27 +3,28 @@
 const http = require("node:http");
 const config = require("../src/config.js")();
 
-doRequest().then((data) => {
-  let allHealthy = true;
+doRequest()
+  .then((data) => {
+    let allHealthy = true;
 
-  for (let item in data) {
-    if (data[item] !== "healthy") {
-      allHealthy = false;
+    for (let item in data) {
+      if (data[item] !== "healthy") {
+        allHealthy = false;
+      }
     }
-  }
 
-  console.log(data);
+    console.log(data);
 
-  if (allHealthy) {
-    process.exit(0);
-  } else {
+    if (allHealthy) {
+      process.exit(0);
+    } else {
+      process.exit(1);
+    }
+  })
+  .catch((err) => {
+    console.error(err);
     process.exit(1);
-  }
-
-}).catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+  });
 
 function doRequest() {
   const opts = {
@@ -32,8 +33,8 @@ function doRequest() {
     path: "/api/health",
     method: "GET",
     headers: {
-      "Accept": "application/json"
-    }
+      Accept: "application/json",
+    },
   };
 
   return new Promise((resolve, reject) => {

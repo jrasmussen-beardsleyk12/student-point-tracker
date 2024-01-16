@@ -2,7 +2,7 @@ const query = require("../../src/query.js");
 
 describe("Verify query.id() returns", () => {
   const req = {
-    params: { id: "12" }
+    params: { id: "12" },
   };
 
   const res = query.id(req);
@@ -12,9 +12,9 @@ describe("Verify query.id() returns", () => {
 
 describe("Verify query.query() returns", () => {
   const queryCases = [
-    [{ query: { q: "search-term" } }, "search-term" ],
-    [{ query: {} }, "" ],
-    [{ query: { q: "../your-secret.env" } }, "" ]
+    [{ query: { q: "search-term" } }, "search-term"],
+    [{ query: {} }, ""],
+    [{ query: { q: "../your-secret.env" } }, ""],
   ];
 
   test.each(queryCases)("Given %o Returns %p", (arg, result) => {
@@ -29,7 +29,7 @@ describe("Verify query.points() returns", () => {
     [{ query: { points: "2" } }, 2],
     [{ query: { points: "JustText" } }, 0],
     [{ query: { points: undefined } }, 0],
-    [{ query: { points: 4 } }, 4]
+    [{ query: { points: 4 } }, 4],
   ];
 
   test.each(pointsCases)("Given %o Returns %p", (arg, result) => {
@@ -39,9 +39,9 @@ describe("Verify query.points() returns", () => {
 
 describe("Verify query.reason() returns", () => {
   const reasonCases = [
-    [{ query: { reason: "Reason Text" } }, "Reason Text" ],
-    [{ query: {} }, "" ],
-    [{ query: { reason: "../your-secret.env" } }, "" ]
+    [{ query: { reason: "Reason Text" } }, "Reason Text"],
+    [{ query: {} }, ""],
+    [{ query: { reason: "../your-secret.env" } }, ""],
   ];
 
   test.each(reasonCases)("Given %o Returns %p", (arg, result) => {
@@ -56,7 +56,7 @@ describe("Verify query.page() returns", () => {
     [{ query: { page: "2" } }, 2],
     [{ query: { page: "JustText" } }, 1],
     [{ query: { page: undefined } }, 1],
-    [{ query: { page: 4 } }, 4]
+    [{ query: { page: 4 } }, 4],
   ];
 
   test.each(pageCases)("Given %o Returns %p", (arg, result) => {

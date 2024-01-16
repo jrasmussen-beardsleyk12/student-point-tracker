@@ -1,4 +1,3 @@
-
 function id(req) {
   return req.params.id;
 }
@@ -22,7 +21,7 @@ function points(req) {
   const def = 0;
   const prov = req.query.points;
 
-  switch(typeof prov) {
+  switch (typeof prov) {
     case "string": {
       const n = parseInt(prov, 10);
       return isNaN(prov) ? def : n;
@@ -46,7 +45,7 @@ function page(req) {
   const def = 1;
   const prov = req.query.page;
 
-  switch(typeof prov) {
+  switch (typeof prov) {
     case "string": {
       const n = parseInt(prov, 10);
       return isNaN(prov) ? def : n;

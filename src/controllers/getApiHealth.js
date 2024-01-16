@@ -1,16 +1,16 @@
 module.exports = {
   docs: {
-    summary: "Get the health status across all services."
+    summary: "Get the health status across all services.",
   },
   endpoint: {
     method: "GET",
-    paths: [ "/api/health" ],
+    paths: ["/api/health"],
     rateLimit: "generic",
     successStatus: 200,
     options: {
       Allow: "GET",
-      "X-Content-Type-Options": "nosniff"
-    }
+      "X-Content-Type-Options": "nosniff",
+    },
   },
   params: {},
   async logic(params, context) {
@@ -29,5 +29,5 @@ module.exports = {
     const sso = new context.sso();
 
     return sso.isOk().addContent(healthObj);
-  }
+  },
 };

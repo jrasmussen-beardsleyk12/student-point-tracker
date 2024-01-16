@@ -16,7 +16,7 @@ class CacheObject {
     this.invalidated = true;
   }
   get Age() {
-    return (Date.now() - this.birth)/1000;
+    return (Date.now() - this.birth) / 1000;
   }
 }
 
@@ -47,12 +47,15 @@ class CacheCollection {
     let index = -1;
 
     return {
-      next: () => ({ value: this.collection[data[++index]], done: index == data.length })
+      next: () => ({
+        value: this.collection[data[++index]],
+        done: index == data.length,
+      }),
     };
   }
 }
 
 module.exports = {
   CacheObject,
-  CacheCollection
+  CacheCollection,
 };

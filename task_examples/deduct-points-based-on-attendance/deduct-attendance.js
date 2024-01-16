@@ -11,8 +11,7 @@ const yaml = require("js-yaml");
 const POINT_REMOVE_COUNT = 1;
 const POINT_REASON = "Student marked"; // + The item they were marked
 
-module.exports =
-async function main(context) {
+module.exports = async function main(context) {
   let fileContent = fs.readFileSync("./att.csv", "utf8");
   let fileData = yaml.load(fileContent);
 
@@ -35,7 +34,7 @@ async function main(context) {
       last: row[2],
       period: row[3],
       event: row[4],
-      date: row[5]
+      date: row[5],
     };
 
     // Event Types: (For each specified period)
@@ -56,17 +55,19 @@ async function main(context) {
   }
 
   console.log("Done calculating any point losses due to absences");
-}
+};
 
 async function removePoints(studentID, context, shortReason) {
   const act = await context.database.removePointsFromStudent(
     studentID,
     POINT_COUNT,
-    `${POINT_REASON} ${shortReason}`
+    `${POINT_REASON} ${shortReason}`,
   );
 
   if (!act.ok) {
-    console.error(`Failed to remove points from '${studentID}'! Will continue to attempt others.`);
+    console.error(
+      `Failed to remove points from '${studentID}'! Will continue to attempt others.`,
+    );
     console.error(act);
   }
   return;

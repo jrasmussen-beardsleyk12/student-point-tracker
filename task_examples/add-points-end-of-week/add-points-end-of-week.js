@@ -1,8 +1,7 @@
 const POINT_COUNT = 2;
 const POINT_REASON = "Weekly Attendance Bonus";
 
-module.exports =
-async function main(context) {
+module.exports = async function main(context) {
   let tmpDate = new Date();
   const lastWeekDate = tmpDate.setDate(tmpDate.getDate() - 7);
 
@@ -14,7 +13,10 @@ async function main(context) {
   }
 
   for (let i = 0; i < allStudents.content.length; i++) {
-    const studentHistory = await context.database.getPointsByStudentIDByDate(allStudents.content[i].student_id, lastWeekDate);
+    const studentHistory = await context.database.getPointsByStudentIDByDate(
+      allStudents.content[i].student_id,
+      lastWeekDate,
+    );
 
     if (!studentHistory.ok) {
       console.error("Failed to get previousn point history for student!");
@@ -29,13 +31,19 @@ async function main(context) {
       }
     }
 
-    const addPoints = await context.database.addPointsToStudent(allStudents.content[i].student_id, POINT_COUNT, POINT_REASON);
+    const addPoints = await context.database.addPointsToStudent(
+      allStudents.content[i].student_id,
+      POINT_COUNT,
+      POINT_REASON,
+    );
 
     if (!addPoints.ok) {
-      console.error(`Failed to add points to ${allStudents.content[i].student_id}! Will keep trying the others`);
+      console.error(
+        `Failed to add points to ${allStudents.content[i].student_id}! Will keep trying the others`,
+      );
       console.error(addPoints);
     }
   }
 
   console.log("Done adding extra points.");
-}
+};

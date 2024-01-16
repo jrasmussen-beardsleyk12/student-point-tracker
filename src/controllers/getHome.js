@@ -3,29 +3,35 @@ const path = require("node:path");
 
 module.exports = {
   docs: {
-    summary: "Home Webpage of the application."
+    summary: "Home Webpage of the application.",
   },
   endpoint: {
     endpointKind: "raw",
     method: "GET",
-    paths: [ "/" ],
+    paths: ["/"],
     rateLimit: "generic",
     successStatus: 200,
     options: {
       Allow: "GET",
-      "X-Content-Type-Options": "nosniff"
+      "X-Content-Type-Options": "nosniff",
     },
-    login: true
+    login: true,
   },
 
   async logic(req, res, context) {
     const params = {
-      user: context.query.user(req)
+      user: context.query.user(req),
     };
 
     // Lets determine if we should redirect a logged in student to their page
-    if (typeof params.user?.email === "string" && context.config.REDIRECT_STUDENTS) {
-      let studentId = params.user.email.replace(`@${context.config.DOMAIN}`, "");
+    if (
+      typeof params.user?.email === "string" &&
+      context.config.REDIRECT_STUDENTS
+    ) {
+      let studentId = params.user.email.replace(
+        `@${context.config.DOMAIN}`,
+        "",
+      );
 
       const studentExists = context.database.getStudentByID(studentId);
 
@@ -50,7 +56,8 @@ module.exports = {
     // Although we may want to determine if we should suggest a redirect to the user's page.
     // This could be done by simply checking if this user is a student at all.
 
-    const template = await ejs.renderFile("./views/pages/home.ejs",
+    const template = await ejs.renderFile(
+      "./views/pages/home.ejs",
       {
         name: context.config.SITE_NAME,
         problem_url: context.config.REPORT_A_PROBLEM_URL,
@@ -60,17 +67,17 @@ module.exports = {
         pointChips: context.config.POINT_CHIPS,
         footer: {
           name: context.config.FOOTER_ITEM_NAME,
-          link: context.config.FOOTER_ITEM_LINK
-        }
+          link: context.config.FOOTER_ITEM_LINK,
+        },
       },
       {
-        views: [ path.resolve("./views") ]
-      }
+        views: [path.resolve("./views")],
+      },
     );
     console.log(req.user);
 
     res.set("Content-Type", "text/html");
     res.status(200).send(template);
     return;
-  }
+  },
 };

@@ -15,7 +15,7 @@ async function init() {
 
     console.log(`Setting up: '${task.name}'`);
 
-    switch(task.schedule) {
+    switch (task.schedule) {
       case "startup": {
         await executeTask(task);
         break;
@@ -25,9 +25,12 @@ async function init() {
         break;
       }
       default: {
-        const job = schedule.scheduleJob(task.schedule, async function(task) {
-          await executeTask(task);
-        }.bind(null, task));
+        const job = schedule.scheduleJob(
+          task.schedule,
+          async function (task) {
+            await executeTask(task);
+          }.bind(null, task),
+        );
       }
     }
   }
@@ -41,7 +44,7 @@ async function executeTask(task) {
 
   console.log(`Executing: '${task.name}'`);
 
-  switch(task.action) {
+  switch (task.action) {
     case "importUsers": {
       const importer = require("./importer.js");
 
@@ -49,11 +52,10 @@ async function executeTask(task) {
       break;
     }
     case "jsScript": {
-
       try {
         const customScript = require(path.resolve(`./storage/${task.file}`));
         await customScript(require("./context.js"));
-      } catch(err) {
+      } catch (err) {
         console.error(`The Task ${task.name} seems to have crashed!`);
         console.error(err);
       }
@@ -67,10 +69,7 @@ async function executeTask(task) {
 }
 
 function validateTask(task) {
-  if (
-    typeof task.name !== "string"
-    && typeof task.schedule !== "string"
-  ) {
+  if (typeof task.name !== "string" && typeof task.schedule !== "string") {
     return false;
   } else {
     return true;

@@ -6,12 +6,12 @@ function httpLog(req, res) {
       req.method ?? "NO_METHOD"
     } ${sanitizeLogs(req.url) ?? "NO_URL"} ${req.protocol ?? "NO_PROT"}" ${
       res.statusCode ?? "NO_STATUS"
-    } ${duration}ms`
+    } ${duration}ms`,
   );
 }
 
 function generic(data, level) {
-  switch(level) {
+  switch (level) {
     case "info":
       console.info(data);
       break;
@@ -44,5 +44,5 @@ function sanitizeLogs(val) {
 
 module.exports = {
   httpLog,
-  generic
+  generic,
 };

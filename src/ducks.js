@@ -1,13 +1,13 @@
 // Relates to all handling of the ducks
 
 const allDuckColorOpts = {
-  "0": "Black",
-  "1": "White",
-  "2": "Brown",
-  "3": "Yellow",
-  "4": "Blue",
-  "5": "Red",
-  "6": "Rainbow"
+  0: "Black",
+  1: "White",
+  2: "Brown",
+  3: "Yellow",
+  4: "Blue",
+  5: "Red",
+  6: "Rainbow",
 };
 
 const allDuckOpts = {
@@ -27,102 +27,111 @@ const allDuckOpts = {
       "08": "Top Hat",
       "09": "Baseball Hat - Red",
       "0a": "Party Hat - Blue",
-      "0b": "Party Hat - Red"
-    }
+      "0b": "Party Hat - Red",
+    },
   },
   eyes: {
     item_name: "eyes",
-    index: 3, length: 2,
+    index: 3,
+    length: 2,
     itemCodes: {
       "00": "Default",
       "01": "Sun Glasses",
       "02": "Surprised",
-      "03": "Angry"
-    }
+      "03": "Angry",
+    },
   },
   beak: {
     item_name: "beak",
-    index: 5, length: 2,
+    index: 5,
+    length: 2,
     itemCodes: {
-      "00": "Default"
-    }
+      "00": "Default",
+    },
   },
   wings: {
     item_name: "wings",
-    index: 7, length: 2,
+    index: 7,
+    length: 2,
     itemCodes: {
-      "00": "Default"
-    }
+      "00": "Default",
+    },
   },
   accessories: {
     // Within Fairfield Programming they call this 'smoke', changed to accessories
     item_name: "accessories",
-    index: 9, length: 2,
+    index: 9,
+    length: 2,
     itemCodes: {
       "00": "None",
       "05": "Drink",
       "06": "Hearts - Red",
-      "07": "Hearts - Blue"
-    }
+      "07": "Hearts - Blue",
+    },
   },
   body: {
     // Sometimes called 'tail' in Fairfield Programming
     item_name: "body",
-    index: 11, length: 2,
+    index: 11,
+    length: 2,
     itemCodes: {
-      "00": "Default"
-    }
+      "00": "Default",
+    },
   },
   item: {
     item_name: "item",
-    index: 13, length: 2,
+    index: 13,
+    length: 2,
     itemCodes: {
       "00": "None",
       "01": "Newspaper",
       "02": "Paintbrush - Blue",
-      "03": "Paintbrush - Red"
-    }
+      "03": "Paintbrush - Red",
+    },
   },
   beakColor: {
     item_name: "beak-color",
-    index: 15, length: 1,
-    itemCodes: allDuckColorOpts
+    index: 15,
+    length: 1,
+    itemCodes: allDuckColorOpts,
   },
   bodyColor: {
     item_name: "body-color",
-    index: 16, length: 1,
-    itemCodes: allDuckColorOpts
-  }
+    index: 16,
+    length: 1,
+    itemCodes: allDuckColorOpts,
+  },
 };
 
 function generateDuckOpts(unlockObj, duckString) {
-
   let optsObj = [];
 
   for (const kind of Object.getOwnPropertyNames(allDuckOpts)) {
-
     let objToAdd = {
       item_name: allDuckOpts[kind].item_name,
       index: allDuckOpts[kind].index,
       length: allDuckOpts[kind].length,
-      items: []
+      items: [],
     };
 
     for (const unlocked of unlockObj[kind]) {
       // Check if it is currently in use
 
-      let currentItemCode = duckString.slice(allDuckOpts[kind].index, parseInt(allDuckOpts[kind].index) + (parseInt(allDuckOpts[kind].length)));
+      let currentItemCode = duckString.slice(
+        allDuckOpts[kind].index,
+        parseInt(allDuckOpts[kind].index) + parseInt(allDuckOpts[kind].length),
+      );
 
       if (currentItemCode.toString() === unlocked.toString()) {
         objToAdd.items.push({
           code: unlocked,
           name: allDuckOpts[kind].itemCodes[unlocked],
-          active: true
+          active: true,
         });
       } else {
         objToAdd.items.push({
           code: unlocked,
-          name: allDuckOpts[kind].itemCodes[unlocked]
+          name: allDuckOpts[kind].itemCodes[unlocked],
         });
       }
     }
@@ -152,15 +161,14 @@ function parseDuckUnlockString(duckString) {
     body: [],
     item: [],
     beakColor: [],
-    bodyColor: []
+    bodyColor: [],
   };
 
-  const unlockSingleDigitCodes = [ "beakColor", "bodyColor" ];
+  const unlockSingleDigitCodes = ["beakColor", "bodyColor"];
 
   let unlockedKinds = duckString.split(";");
 
   for (const kind of unlockedKinds) {
-
     if (typeof kind !== "string" || kind.length == 0) {
       continue;
     }
@@ -174,8 +182,11 @@ function parseDuckUnlockString(duckString) {
       // Convert from hex
       let itemCode = parseInt(item, 16);
 
-      if (itemCode.toString().length < 2 && !unlockSingleDigitCodes.includes(unlockedKindName)) {
-       itemCode = `0${itemCode.toString()}`;
+      if (
+        itemCode.toString().length < 2 &&
+        !unlockSingleDigitCodes.includes(unlockedKindName)
+      ) {
+        itemCode = `0${itemCode.toString()}`;
       }
 
       unlockObj[unlockedKindName].push(itemCode);
@@ -187,5 +198,5 @@ function parseDuckUnlockString(duckString) {
 
 module.exports = {
   generateDuckOpts,
-  parseDuckUnlockString
+  parseDuckUnlockString,
 };

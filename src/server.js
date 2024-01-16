@@ -4,7 +4,6 @@ const config = require("./config.js")();
 let dbTeardown, database, serve, tasks;
 
 (async () => {
-
   if (process.env.PROD_STATUS === "dev") {
     // We must complete dev setup steps prior to the rest of our requires
     const dbSetup = require("../node_modules/@databases/pg-test/jest/globalSetup");
@@ -42,7 +41,6 @@ let dbTeardown, database, serve, tasks;
   compileStyleSheets();
 
   await tasks.init();
-
 })();
 
 process.on("SIGTERM", async () => {
@@ -55,18 +53,22 @@ process.on("SIGINT", async () => {
 
 async function checkDBConnectivity(db) {
   const delay = (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   };
 
   const retry = async (fn, retries, delayMs) => {
     let attempt = 0;
 
-    while(true) {
+    while (true) {
       try {
-        console.log(`Initiated initial DB Connection Attempt ${attempt+1}/${retries}...`);
+        console.log(
+          `Initiated initial DB Connection Attempt ${attempt + 1}/${retries}...`,
+        );
         return await fn();
-      } catch(err) {
-        console.log(`Attempt ${attempt+1}/${retries} failed. Retrying in ${delayMs}...`);
+      } catch (err) {
+        console.log(
+          `Attempt ${attempt + 1}/${retries} failed. Retrying in ${delayMs}...`,
+        );
 
         if (attempt++ < retries) {
           await delay(delayMs);
@@ -78,21 +80,25 @@ async function checkDBConnectivity(db) {
     }
   };
 
-  return retry(async () => {
-    let connectTest = db.setupSQL();
-    // We run a command here, doesn't matter what command
-    let res = await database.getStudentByID("1");
+  return retry(
+    async () => {
+      let connectTest = db.setupSQL();
+      // We run a command here, doesn't matter what command
+      let res = await database.getStudentByID("1");
 
-    if (res.content instanceof Error) {
-      throw res.content;
-    } else if (!res.ok && res.short === "server_error") {
-      // We can't throw on just !res.ok since a "not_found" might be emitted for our made up id
-      throw res;
-    }
+      if (res.content instanceof Error) {
+        throw res.content;
+      } else if (!res.ok && res.short === "server_error") {
+        // We can't throw on just !res.ok since a "not_found" might be emitted for our made up id
+        throw res;
+      }
 
-    db.setSqlStorageObject(connectTest);
-    return;
-  }, config.STARTUP_DB_CONNECT_RETRY_COUNT, config.STARTUP_DB_CONNECT_RETRY_TIME_MS);
+      db.setSqlStorageObject(connectTest);
+      return;
+    },
+    config.STARTUP_DB_CONNECT_RETRY_COUNT,
+    config.STARTUP_DB_CONNECT_RETRY_TIME_MS,
+  );
 }
 
 async function exterminate(callee) {

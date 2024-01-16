@@ -1,19 +1,21 @@
 module.exports = {
   docs: {
-    summary: "Get the details of a specific student, via the ID."
+    summary: "Get the details of a specific student, via the ID.",
   },
   endpoint: {
     method: "GET",
-    paths: [ "/api/student/:id" ],
+    paths: ["/api/student/:id"],
     rateLimit: "generic",
     successStatus: 200,
     options: {
       Allow: "GET",
-      "X-Content-Type-Options": "nosniff"
-    }
+      "X-Content-Type-Options": "nosniff",
+    },
   },
   params: {
-    id: (context, req) => { return context.query.id(req); }
+    id: (context, req) => {
+      return context.query.id(req);
+    },
   },
 
   async logic(params, context) {
@@ -22,8 +24,10 @@ module.exports = {
     if (!student.ok) {
       const sso = new context.sso();
 
-      return sso.notOk().addContent(student)
-                        .addCalls("db.getStudentByID", student);
+      return sso
+        .notOk()
+        .addContent(student)
+        .addCalls("db.getStudentByID", student);
     }
 
     student = context.studentObject(student.content);
@@ -31,5 +35,5 @@ module.exports = {
     const sso = new context.sso();
 
     return sso.isOk().addContent(student);
-  }
+  },
 };
