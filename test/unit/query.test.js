@@ -1,4 +1,4 @@
-const query = require("../../src/query.js");
+const query = require("../../src/query_parameters/_export.js").query;
 
 describe("Verify query.id() returns", () => {
   const req = {

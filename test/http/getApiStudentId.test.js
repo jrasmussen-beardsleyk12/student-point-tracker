@@ -1,6 +1,6 @@
 const endpoint = require("../../src/controllers/getApiStudentId.js");
 const context = require("../../src/context.js");
-const db = require("../../src/database.js");
+const db = require("../../src/database/_export.js");
 
 describe("returns correct info", () => {
   test("returns not found if student doesn't exist", async () => {
