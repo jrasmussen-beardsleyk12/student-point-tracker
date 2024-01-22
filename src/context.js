@@ -6,7 +6,7 @@ const cache = require("./cache.js");
 module.exports = {
   config: require("./config.js")(),
   query: require("./query.js"),
-  database: require("./database.js"),
+  database: require("./database/_export.js"),
   logger: require("./logger.js"),
   getPresets: require("./getPresets.js"),
   sso: require("./models/sso.js"),
