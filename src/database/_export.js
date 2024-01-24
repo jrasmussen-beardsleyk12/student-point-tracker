@@ -5,6 +5,7 @@
 
 const postgres = require("postgres");
 const config = require("../config.js")();
+const logger = require("../logger.js");
 
 let sqlStorage;
 
@@ -80,8 +81,7 @@ const keys = [
   "getStudentByID",
   "removePointsFromStudent",
   "removeStudentByID",
-  "searchStudent",
-  "setDuckToStudent"
+  "searchStudent"
 ];
 
 for (const key of keys) {

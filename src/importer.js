@@ -2,7 +2,7 @@
 const fs = require("fs");
 const { parse } = require("csv-parse/sync");
 const config = require("./config.js")();
-const database = require("./database.js");
+const database = require("./database/_export.js");
 
 module.exports = async function importer(fileName) {
   if (fs.existsSync(fileName)) {

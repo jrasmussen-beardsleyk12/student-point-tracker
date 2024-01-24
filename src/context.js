@@ -14,7 +14,6 @@ module.exports = {
   studentObject: require("./models/studentObject.js"),
   studentObjectArray: require("./models/studentObjectArray.js"),
   pointsObjectArray: require("./models/pointsObjectArray.js"),
-  ducks: require("./ducks.js"),
   cache: cache,
   globalCache: new cache.CacheCollection(),
   auth: require("./auth.js"),

@@ -8,8 +8,6 @@ const exportObj = {
 };
 
 const keys = [
-  "duckString",
-  "duckStringQuery",
   "id",
   "page",
   "points",

@@ -77,10 +77,6 @@ module.exports = {
         student: student.content,
         points: studentPoints.content,
         presets: context.getPresets(),
-        duck_items: context.ducks.generateDuckOpts(
-          context.ducks.parseDuckUnlockString(student.content.duck_unlocked),
-          student.content.duck_string,
-        ),
         pointChips: context.config.POINT_CHIPS,
         perms: permLevel,
         footer: {

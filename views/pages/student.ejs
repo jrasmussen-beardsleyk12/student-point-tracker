@@ -7,7 +7,6 @@
       <div class="profile-details student-page-grid__cell">
 
         <div class="mdc-card">
-          <div class="mdc-card__media mdc-card__media--16-9" id="student-profile-photo" style="background-image: url(&quot;/duck/<%=student.duck_string%>&quot;);"></div>
           <div class="mdc-card__content">
             <h2 class="mdc-typography mdc-typography--headline6"><%=student.first_name%> <%=student.last_name%></h2>
             <h2 class="mdc-typography mdc-typography--headline6">Points: <%=student.points%></h2>
@@ -86,65 +85,6 @@
         </div>
       </div>
 
-      <div class="duck-customization student-page-grid__cell" id="duck-customization-menu">
-        <div class="mdc-card">
-          <div class="mdc-card__content">
-            <h2 class="mdc-typeography mdc-typeography--headline6">Customize your Duck</h2>
-
-            <% for (let i = 0; i < duck_items.length; i++) { %>
-              <div class="mdc-select mdc-select--filled demo-width-class" id="duck-custom-<%=duck_items[i].item_name%>">
-                <div class="mdc-select__anchor" role="button" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="demo-label demo-selected-text">
-                  <span class="mdc-select__ripple"></span>
-                  <span id="demo-label" class="mdc-floating-label">Choose your <%=duck_items[i].item_name%></span>
-                  <span class="mdc-select__selected-text-container">
-                    <span id="demo-selected-text" class="mdc-select__selected-text"></span>
-                  </span>
-                  <span class="mdc-select__dropdown-icon">
-                    <svg class="mdc-select__dropdown-icon-graphic" viewBox="7 10 10 5" focusable="false">
-                      <polygon class="mdc-select__dropdown-icon-inactive" stroke="none" fill-rule="evenodd" points="7 10 12 15 17 10">
-                      </polygon>
-                      <polygon class="mdc-select__dropdown-icon-active" stroke="none" fill-rule="evenodd" points="7 15 12 10 17 15">
-                      </polygon>
-                    </svg>
-                  </span>
-                  <span class="mdc-line-ripple"></span>
-                </div>
-
-                <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
-                  <ul class="mdc-list" role="listbox" aria-label="<%=duck_items[i].item_name%> Picker">
-                    <% for (let y = 0; y < duck_items[i].items.length; y++) { %>
-                      <li
-                        class="mdc-list-item <% if (duck_items[i].items[y].active) { %><%="mdc-list-item--selected"%><% } %>"
-                        <% if (duck_items[i].items[y].active) { %><%='aria-selected="true"'%><% } %>
-                        data-code="<%=duck_items[i].items[y].code%>"
-                        data-index="<%=duck_items[i].index%>"
-                        data-value="<%=duck_items[i].items[y].name%>"
-                        data-length="<%=duck_items[i].length%>"
-                        role="option">
-                        <span class="mdc-list-item__ripple"></span>
-                        <span class="mdc-list-item__text">
-                          <%= duck_items[i].items[y].name %>
-                        </span>
-                      </li>
-                    <% } %>
-                  </ul>
-                </div>
-              </div>
-            <% } %>
-
-        </div>
-
-        <div class="mdc-card__actions">
-          <button class="mdc-button mdc-button--raised mdc-card__action mdc-card__action--button mdc-card__action-icons" onclick="saveCurrentDuck()" <% if (perms !== "student") { %><%="disabled"%><%}%>>
-            <span class="mdc-button__label">Save Duck</span>
-            <i class="material-icons mdc-button__icon" aria-hidden="true">save</i>
-            <span class="mdc-button__ripple"></span>
-          </button>
-        </div>
-
-      </div>
-
-    </div>
   </div>
 </div>
 
@@ -156,4 +96,4 @@ const student_id = <%= student.student_id %>;
 
 <%- include("./partials/addPointsDialog"); %>
 <%- include("./partials/removePointsDialog"); %>
-<%- include("./partials/footer", { filename: ["student.js", "setup-dialogs.js"] }); %>
+<%- include("./partials/footer", { filename: ["setup-dialogs.js"] }); %>
