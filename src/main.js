@@ -5,6 +5,7 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oidc");
 const session = require("express-session");
 const SessionFileStore = require("session-file-store")(session);
+const compression = require("compression");
 
 const endpoints = require("./controllers/endpoints.js");
 const context = require("./context.js");
@@ -41,6 +42,8 @@ app.use(
     }),
   }),
 );
+
+app.use(compression());
 
 app.use(passport.authenticate("session"));
 

@@ -24,6 +24,7 @@ module.exports = {
       {
         name: context.config.SITE_NAME,
         problem_url: context.config.REPORT_A_PROBLEM_URL,
+        pageDescription: "Student Point Tracker Login",
         footer: {
           name: context.config.FOOTER_ITEM_NAME,
           link: context.config.FOOTER_ITEM_LINK,

@@ -65,6 +65,7 @@ module.exports = {
         student: false, // Used to keep EJS from self destructing when including dialogs
         presets: context.getPresets(),
         pointChips: context.config.POINT_CHIPS,
+        pageDescription: "Student Point Tracker Homepage.",
         footer: {
           name: context.config.FOOTER_ITEM_NAME,
           link: context.config.FOOTER_ITEM_LINK,

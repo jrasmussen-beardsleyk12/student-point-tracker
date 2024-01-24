@@ -79,6 +79,7 @@ module.exports = {
         presets: context.getPresets(),
         pointChips: context.config.POINT_CHIPS,
         perms: permLevel,
+        pageDescription: "Student Point Tracker ...",
         footer: {
           name: context.config.FOOTER_ITEM_NAME,
           link: context.config.FOOTER_ITEM_LINK,
