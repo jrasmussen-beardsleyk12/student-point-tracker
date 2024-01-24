@@ -9,6 +9,7 @@ module.exports = {
   projects: [
     {
       displayName: "Unit",
+      setupFilesAfterEnv: [ "<rootDir>/test/helpers/expect_setup.js" ],
       testMatch: ["<rootDir>/test/unit/*.test.js"],
     },
     {
@@ -16,7 +17,11 @@ module.exports = {
       globalSetup: "<rootDir>/node_modules/@databases/pg-test/jest/globalSetup",
       globalTeardown:
         "<rootDir>/node_modules/@databases/pg-test/jest/globalTeardown",
-      setupFilesAfterEnv: ["<rootDir>/test/helpers/dbSetup.js"],
+      setupFilesAfterEnv: [
+        "<rootDir>/test/helpers/db_setup.js",
+        "<rootDir>/test/helpers/global_setup.js",
+        "<rootDir>/test/helpers/expect_setup.js"
+      ],
       testMatch: ["<rootDir>/test/http/*.test.js"],
     },
   ],

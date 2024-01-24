@@ -16,24 +16,26 @@ describe("returns correct info", () => {
   });
 
   test("returns the user if they do exist", async () => {
+    const sID = genStudentID();
+
     await db.addStudent({
-      student_id: "1",
+      student_id: sID,
       first_name: "John",
       last_name: "Doe",
     });
 
     const sso = await endpoint.logic(
       {
-        id: "1",
+        id: sID,
       },
       context,
     );
 
     expect(sso.ok).toBe(true);
-    expect(sso.content.student_id).toBe("1");
+    expect(sso.content.student_id).toBe(sID);
     expect(sso.content.first_name).toBe("John");
     expect(sso.content.last_name).toBe("Doe");
 
-    await db.removeStudentByID("1");
+    await db.removeStudentByID(sID);
   });
 });

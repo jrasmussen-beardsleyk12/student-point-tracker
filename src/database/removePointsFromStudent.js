@@ -1,4 +1,4 @@
-const getStudentByID = require("./getStudentByID.js");
+const getStudentByID = require("./getStudentByID.js").exec;
 
 module.exports = {
   safe: false,
