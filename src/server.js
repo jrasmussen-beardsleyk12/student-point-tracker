@@ -27,7 +27,7 @@ let dbTeardown, database, serve, tasks;
   }
 
   // We will first preform all db setup prior to starting the rest of the application
-  database = require("./database.js");
+  database = require("./database/_export.js");
   await checkDBConnectivity(database);
 
   const app = require("./main.js");
