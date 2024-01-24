@@ -6,36 +6,17 @@
  */
 
 const fs = require("fs");
-const yaml = require("js-yaml");
+const { parse } = require("csv-parse/sync");
 
 const POINT_REMOVE_COUNT = 1;
 const POINT_REASON = "Student marked"; // + The item they were marked
 
 module.exports = async function main(context) {
   let fileContent = fs.readFileSync("./att.csv", "utf8");
-  let fileData = yaml.load(fileContent);
-
-  // By default the 'att.csv' contains zero headers or any other helpful formatting.
-  // So lets define the following and parse manually:
-  // - Student ID,First Name,Last Name,Period of Event,Event Type,Date of Event
-
-  let rows = fileData.split("\n");
-
-  for (let i = 0; i < rows.length; i++) {
-    let row = rows[i].split(",");
-    if (row.length < 6) {
-      console.log(`The student attendance data: '${rows[i]}' seems invalid.`);
-      continue;
-    }
-
-    let data = {
-      student_id: row[0],
-      first: row[1],
-      last: row[2],
-      period: row[3],
-      event: row[4],
-      date: row[5],
-    };
+  let data = parse(fileContent, {
+    delimiter: ",",
+    columns: [ "student_id", "first_name", "last_name", "period", "event", "date" ]
+  });
 
     // Event Types: (For each specified period)
     // - A: Absent
@@ -46,15 +27,28 @@ module.exports = async function main(context) {
     // - X:
     // - '':
 
-    if (data.event === "A") {
-      // This means they were missing for this period
-      await removePoints(data.student_id, context, "Absent");
-    } else if (data.event === "T") {
-      await removePoints(data.student_id, context, "Tardy");
+    // Now an important thing to remember, is this list may contain the same
+    // student multiple times
+    let students_effected = [];
+
+    for (let i = 0; i < data.length; i++) {
+      let entry = data[i];
+
+      if (!students_effected.includes(entry.student_id)) {
+
+        if (entry.event === "A") {
+          await removePoints(entry.student_id, context, "Absent");
+          students_effected.push(entry.student_id);
+        } else if (data.event === "T") {
+          await removePoints(entry.student_id, context, "Tardy");
+          students_effected.push(entry.student_id);
+        }
+
+      } // else we have already removed points for this student today
     }
-  }
 
   console.log("Done calculating any point losses due to absences");
+  return 0;
 };
 
 async function removePoints(studentID, context, shortReason) {

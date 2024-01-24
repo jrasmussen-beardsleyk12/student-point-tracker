@@ -2,6 +2,7 @@ const path = require("path");
 const schedule = require("node-schedule");
 
 const SHUTDOWN_TASKS = [];
+const TASK_RUNS = [];
 
 async function init() {
   const config = require("./config.js")();
@@ -37,9 +38,19 @@ async function init() {
 }
 
 async function executeTask(task) {
+  let taskRunStatus = {
+    runtime: new Date().toISOString(),
+    exit_code: null,
+    exit_details: null,
+    task_details: task
+  };
+
   if (!validateTask(task)) {
     console.error("Invalid task syntax found!");
     console.error(task);
+
+    taskRunStatus.exit_code = 255;
+    taskRunStatus.exit_details = `Task failed Validation! -> ${task}`;
   }
 
   console.log(`Executing: '${task.name}'`);
@@ -49,23 +60,35 @@ async function executeTask(task) {
       const importer = require("./importer.js");
 
       await importer(task.file);
+
+      taskRunStatus.exit_code = 0;
+      taskRunStatus.exit_details = "Kicked off 'importer' task."
       break;
     }
     case "jsScript": {
       try {
         const customScript = require(path.resolve(`./storage/${task.file}`));
-        await customScript(require("./context.js"));
+        let ret = await customScript(require("./context.js"));
+
+        taskRunStatus.exit_code = ret;
       } catch (err) {
         console.error(`The Task ${task.name} seems to have crashed!`);
         console.error(err);
+        taskRunStatus.exit_code = 1;
+        taskRunStatus.exit_details = err;
       }
       break;
     }
     default: {
       console.error(`Unrecognized task: '${task.action}' in '${task.name}'!`);
+      taskRunStatus.exit_code = 2;
+      taskRunStatus.exit_details = `Unrecognized task! -> ${task}`;
       break;
     }
   }
+
+  // Add the run info to our shared array
+  TASK_RUNS.push(taskRunStatus);
 }
 
 function validateTask(task) {
@@ -78,6 +101,7 @@ function validateTask(task) {
 
 module.exports = {
   SHUTDOWN_TASKS,
+  TASK_RUNS,
   init,
   executeTask,
 };
