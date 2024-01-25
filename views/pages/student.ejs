@@ -96,4 +96,4 @@ const student_id = <%= student.student_id %>;
 
 <%- include("./partials/addPointsDialog"); %>
 <%- include("./partials/removePointsDialog"); %>
-<%- include("./partials/footer", { filename: ["setup-dialogs.js"] }); %>
+<%- include("./partials/footer", { filename: [ utils.findAssetPath("setup-dialogs.js") ] }); %>

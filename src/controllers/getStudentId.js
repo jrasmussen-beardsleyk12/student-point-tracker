@@ -80,6 +80,7 @@ module.exports = {
         pointChips: context.config.POINT_CHIPS,
         perms: permLevel,
         pageDescription: "Student Point Tracker ...",
+        utils: require("../ejs_utils.js"),
         footer: {
           name: context.config.FOOTER_ITEM_NAME,
           link: context.config.FOOTER_ITEM_LINK,

@@ -43,8 +43,6 @@ app.use(
   }),
 );
 
-app.use(compression());
-
 app.use(passport.authenticate("session"));
 
 passport.serializeUser(function (user, cb) {
@@ -98,6 +96,9 @@ passport.use(
     },
   ),
 );
+
+// Compression of text based resources setup
+app.use(compression());
 
 app.get("/login", passport.authenticate("google"));
 

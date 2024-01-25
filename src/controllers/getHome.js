@@ -66,6 +66,7 @@ module.exports = {
         presets: context.getPresets(),
         pointChips: context.config.POINT_CHIPS,
         pageDescription: "Student Point Tracker Homepage.",
+        utils: require("../ejs_utils.js"),
         footer: {
           name: context.config.FOOTER_ITEM_NAME,
           link: context.config.FOOTER_ITEM_LINK,

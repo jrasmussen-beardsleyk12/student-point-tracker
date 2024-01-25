@@ -26,4 +26,4 @@
 
 <%- include("./partials/addPointsDialog"); %>
 <%- include("./partials/removePointsDialog"); %>
-<%- include("./partials/footer", { filename: ["home-page.js", "setup-dialogs.js"] }); %>
+<%- include("./partials/footer", { filename: [ utils.findAssetPath("home-page.js"), utils.findAssetPath("setup-dialogs.js")] }); %>

@@ -14,7 +14,7 @@ window.addEventListener("load", () => {
 
   searchText.addEventListener("input", (event) => {
     // Remove newlines
-    // TODO: PRevent carriage returns as well
+    // TODO: Prevent carriage returns as well
     event.target.value = event.target.value.replace(/\n/g, "");
   });
 
