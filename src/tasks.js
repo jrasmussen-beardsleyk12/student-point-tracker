@@ -1,11 +1,11 @@
 const path = require("path");
 const schedule = require("node-schedule");
+const config = require("./config.js")();
 
 const SHUTDOWN_TASKS = [];
 const TASK_RUNS = [];
 
 async function init() {
-  const config = require("./config.js")();
   // The main runner, and function in charge of initializing all system tasks.
 
   for (const task of config.TASKS) {
@@ -67,7 +67,7 @@ async function executeTask(task) {
     }
     case "jsScript": {
       try {
-        const customScript = require(path.resolve(`./storage/${task.file}`));
+        const customScript = require(path.resolve(`${config.RESOURCE_PATH}/${task.file}`));
         let ret = await customScript(require("./context.js"));
 
         taskRunStatus.exit_code = ret;

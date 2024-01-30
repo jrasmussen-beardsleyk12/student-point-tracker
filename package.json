@@ -12,7 +12,11 @@
     "migrations": "pg-migrations apply --directory ./migrations",
     "less:watch": "nodemon ./scripts/setup_assets.js",
     "lint": "prettier --check -u -w . ",
-    "postinstall": "node ./scripts/setup_assets.js"
+    "postinstall": "node ./scripts/setup_assets.js",
+    "build": "pkg ./package.json"
+  },
+  "bin": {
+    "start": "./bin/student-point-tracker.js"
   },
   "author": "confused-Techie",
   "repository": "https://github.com/confused-Techie/student-point-tracker",
@@ -29,6 +33,36 @@
   },
   "nodemonConfig": {
     "ext": "less"
+  },
+  "assets": {
+    "output": "./static",
+    "files": {
+      "home-page": {
+        "source": "./static/home-page.js"
+      },
+      "setup-dialogs": {
+        "source": "./static/setup-dialogs.js"
+      },
+      "site": {
+        "source": "./views/assets/site.less"
+      }
+    }
+  },
+  "pkg": {
+    "scripts": [
+      "src/**/*.js",
+      "scripts/*.js",
+      "bin/*.js"
+    ],
+    "assets": [
+      "views/**/*",
+      "static/**/*",
+      "migrations/*"
+    ],
+    "targets": [
+      "node18"
+    ],
+    "outputPath": "dist"
   },
   "dependencies": {
     "clean-css": "^5.3.3",
@@ -55,6 +89,7 @@
     "cross-env": "^7.0.3",
     "jest": "^29.7.0",
     "nodemon": "^3.0.1",
+    "pkg": "^5.8.1",
     "prettier": "^3.2.0"
   }
 }

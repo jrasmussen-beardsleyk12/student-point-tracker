@@ -5,7 +5,7 @@ const path = require("path");
 const { minify } = require("terser");
 const CleanCSS = require("clean-css");
 const less = require("less");
-const assets = require("../assets.js");
+const assets = require("../package.json").assets;
 const config = require("../src/config.js")();
 
 const TERSER_OPTS = {
@@ -51,7 +51,6 @@ async function mini(filePath, outPath) {
     let mapName = `${filePathParts.name}.map.css`;
 
     result.sourceMap.setSourceContent(
-      //`${filePathParts.name}.css`,
       `${filePathParts.name}${filePathParts.ext}`,
       code
     );

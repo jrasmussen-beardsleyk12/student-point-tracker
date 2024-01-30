@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const rateLimit = require("express-rate-limit");
 const { MemoryStore } = require("express-rate-limit");
@@ -9,6 +10,7 @@ const compression = require("compression");
 
 const endpoints = require("./controllers/endpoints.js");
 const context = require("./context.js");
+const config = require("./config.js")();
 
 const app = express();
 
@@ -37,7 +39,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: new SessionFileStore({
-      path: "./storage/sessions/",
+      path: path.join(context.config.RESOURCE_PATH, "sessions"),
       ttl: context.config.SESSION_FILE_STORE_TTL,
     }),
   }),

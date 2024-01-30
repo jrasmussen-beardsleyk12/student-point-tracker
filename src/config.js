@@ -1,11 +1,18 @@
 const fs = require("fs");
+const path = require("path");
 const yaml = require("js-yaml");
+
+function findResourcePath() {
+  let configLoc = process.configPath ?? "./storage";
+  return path.parse(configLoc).dir;
+}
 
 function getConfigFile() {
   try {
     let data = null;
 
-    let fileContent = fs.readFileSync("./storage/app.yaml", "utf8");
+    let configLoc = findResourcePath();
+    let fileContent = fs.readFileSync(path.join(configLoc, "app.yaml"), "utf8");
     data = yaml.load(fileContent);
 
     return data;
@@ -75,6 +82,7 @@ function getConfig() {
       "STARTUP_DB_CONNECT_RETRY_TIME_MS",
       1000,
     ),
+    RESOURCE_PATH: findResourcePath()
   };
 }
 

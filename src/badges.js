@@ -1,6 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 const yaml = require("js-yaml");
+const config = require("./config.js")();
 
 const { CacheCollection } = require("./cache.js");
 
@@ -21,7 +22,7 @@ function registerBadges() {
     }
 
     if (badge.rule.endsWith("js")) {
-      badge.__file = require(`./storage/${badge.rule}`);
+      badge.__file = require(`${config.RESOURCE_PATH}/${badge.rule}`);
     }
 
     badgeCache.add(badge.id, badge);
@@ -55,11 +56,11 @@ function readBadgeFile() {
   let defaultData = { badges: [] };
 
   try {
-    if (!fs.existsSync("./storage/badges.yaml")) {
+    if (!fs.existsSync(path.join(config.RESOURCE_PATH, "badges.yaml"))) {
       return defaultData;
     }
 
-    let fileContent = fs.readFileSync("./storage/badges.yaml", "utf8");
+    let fileContent = fs.readFileSync(path.join(config.RESOURCE_PATH, "badges.yaml"), "utf8");
 
     data = yaml.load(fileContent);
   } catch (err) {
