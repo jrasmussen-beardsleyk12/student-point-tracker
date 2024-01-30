@@ -3,7 +3,7 @@ const path = require("path");
 const yaml = require("js-yaml");
 
 function findResourcePath() {
-  let configLoc = process.configPath ?? "./storage";
+  let configLoc = process.resourcePath ?? process.env.STP_RESOURCE_PATH ?? "./storage";
   return path.parse(configLoc).dir;
 }
 
@@ -56,7 +56,6 @@ function getConfig() {
     SITE_NAME: findValue("SITE_NAME"),
     CSV_DELIMITER: findValue("CSV_DELIMITER", ","),
     DOMAIN: findValue("DOMAIN"),
-    MAX_AGE_DUCKS: findValue("MAX_AGE_DUCKS", 604800),
     CACHE_TIME: findValue("CACHE_TIME", 604800),
     POINT_CHIPS: findValue("POINT_CHIPS", []),
     ADMINS: findValue("ADMINS", []),

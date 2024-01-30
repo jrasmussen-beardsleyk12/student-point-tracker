@@ -12,7 +12,6 @@ PAGINATION_LIMIT: 30
 SITE_NAME: "Student Point Tracker"
 CSV_DELIMITER: ","
 DOMAIN: "The email domain used."
-MAX_AGE_DUCKS: 604800 # Seconds of 'freshness'
 CACHE_TIME: 604800
 SESSION_FILE_STORE_TTL: 3600
 DEV_LOGIN: null
