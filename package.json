@@ -12,7 +12,7 @@
     "migrations": "pg-migrations apply --directory ./migrations",
     "less:watch": "nodemon ./scripts/setup_assets.js",
     "lint": "prettier --check -u -w . ",
-    "postinstall": "node ./scripts/setup_assets.js",
+    "postinstall_disable": "node ./scripts/setup_assets.js",
     "build": "pkg ./package.json"
   },
   "bin": {

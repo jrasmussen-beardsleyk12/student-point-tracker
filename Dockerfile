@@ -7,11 +7,11 @@ WORKDIR /usr/src/app
 # Copy application dependency manifest to the container image.
 COPY package*.json ./
 
-# install production dependencies
-RUN npm install --only-production
-
 # Copy local code to the container image.
 COPY . ./
+
+# install production dependencies
+RUN npm install --only-production
 
 # Create a volume that can be used by hosters
 VOLUME /usr/src/app/storage
