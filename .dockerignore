@@ -1,0 +1,9 @@
+dist/
+coverage/
+docs/
+storage/
+task_examples/
+test/
+static/*
+!static/home-page.js
+!static/setup-dialogs.js
