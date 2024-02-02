@@ -63,7 +63,8 @@ function wrapper(modToUse) {
 const exportObj = {
   shutdownSQL: shutdownSQL,
   setupSQL: setupSQL,
-  setSqlStorageObject: setSqlStorageObject
+  setSqlStorageObject: setSqlStorageObject,
+  getSqlStorageObject: getSqlStorageObject
 };
 
 // Add all other modules here:
