@@ -3,8 +3,7 @@ const path = require("path");
 const yaml = require("js-yaml");
 
 function findResourcePath() {
-  let configLoc = process.resourcePath ?? process.env.STP_RESOURCE_PATH ?? "./storage";
-  return path.parse(configLoc).dir;
+  return process.resourcePath ?? process.env.STP_RESOURCE_PATH ?? "./storage";
 }
 
 function getConfigFile() {
