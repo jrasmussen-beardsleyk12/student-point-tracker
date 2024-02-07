@@ -111,3 +111,13 @@ It's recommended to never set these values, but in case testing is needed:
 * `DEV_LOGIN`: The full email address of a registered developer login. Only useful if one of the two options is set.
 * `DEV_IS_ADMIN`: Sets the `DEV_LOGIN` to be recognized as an admin when authenticated.
 * `DEV_IS_STUDENT`: Sets the `DEV_LOGIN` to be recognized as a student when authenticated.
+
+# Deployment Documentation
+
+```
+git tag v1.0.0
+git push origin v1.0.0
+docker build -t spt:v1.0.0 .
+docker tag spt:v1.0.0 ghcr.io/confused-techie/student-point-tracker:v1.0.0
+docker push ghcr.io/confused-techie/student-point-tracker:v1.0.0
+```

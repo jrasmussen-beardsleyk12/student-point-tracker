@@ -70,6 +70,9 @@ async function checkDBConnectivity(db) {
         if (attempt++ < retries) {
           await delay(delayMs);
         } else {
+          console.error(
+            `Unable to connect to DB: 'postgres://${config.DB_USER}@${config.DB_HOST}:${config.DB_PORT}/${config.DB_DB}'`
+          );
           console.error(err);
           process.exit(1);
         }
