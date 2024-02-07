@@ -30,6 +30,11 @@ let dbTeardown, database, serve, tasks;
   database = require("./database/_export.js");
   await checkDBConnectivity(database);
 
+  if (process.env.PROD_STATUS !== "dev") {
+    // Then check if our assets are setup
+    await checkForAssets();
+  }
+
   const app = require("./main.js");
   tasks = require("./tasks.js");
 
@@ -99,6 +104,16 @@ async function checkDBConnectivity(db) {
     config.STARTUP_DB_CONNECT_RETRY_COUNT,
     config.STARTUP_DB_CONNECT_RETRY_TIME_MS,
   );
+}
+
+async function checkForAssets() {
+  if (!fs.existsSync("./static/site.css")) {
+    // Determine if the site.css exists, which is the baseline requirement
+    // for all other types of CSS and JS files to exist
+    // If it doesn't, lets launch the setup
+    const setupAssets = require("../scripts/setup_assets.js");
+    await setupAssets();
+  }
 }
 
 async function exterminate(callee) {

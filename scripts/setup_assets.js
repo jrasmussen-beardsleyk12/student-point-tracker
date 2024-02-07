@@ -79,12 +79,20 @@ async function mini(filePath, outPath) {
   }
 }
 
-(async () => {
+// (async () => {
+//
+//   // Now we can call this function for each of our entries
+//   for (const asset in assets.files) {
+//     let fileOut = assets.files[asset].output ?? assets.output;
+//     await mini(assets.files[asset].source, fileOut);
+//   }
+//
+// })();
 
+module.exports = async () => {
   // Now we can call this function for each of our entries
   for (const asset in assets.files) {
     let fileOut = assets.files[asset].output ?? assets.output;
     await mini(assets.files[asset].source, fileOut);
   }
-
-})();
+};
