@@ -25,6 +25,7 @@ FOOTER_ITEM_NAME: "Anything"
 FOOTER_ITEM_LINK: "Anything.com"
 STARTUP_DB_CONNECT_RETRY_COUNT: 10
 STARTUP_DB_CONNECT_RETRY_TIME_MS: 1000
+COLUMNS: true
 ADMINS:
   - "user@email.com"
   - "user2@email.com"

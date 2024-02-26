@@ -80,7 +80,8 @@ function getConfig() {
       "STARTUP_DB_CONNECT_RETRY_TIME_MS",
       1000,
     ),
-    RESOURCE_PATH: findResourcePath()
+    RESOURCE_PATH: findResourcePath(),
+    COLUMNS: findValue("COLUMNS", true),
   };
 }
 

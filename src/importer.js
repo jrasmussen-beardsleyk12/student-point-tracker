@@ -10,7 +10,7 @@ module.exports = async function importer(fileName) {
 
     const records = parse(studentFile, {
       delimiter: config.CSV_DELIMITER,
-      columns: true,
+      columns: config.COLUMNS,
       skip_empty_lines: true,
     });
 
