@@ -9,33 +9,7 @@ const database = require("./database/_export.js");
 
 const exec = util.promisify(child_process.exec);
 
-module.exports = async function importer(fileName, assumeLocal = true) {
-
-  // Since we don't know where the file may actually be stored, let's add a quick check here
-  // if (!assumeLocal) {
-  //   // Here we will assume we aren't working with some easily found file on the same
-  //   // filesystem, and instead that the file may be elsewhere in a more difficult
-  //   // to access location, and we will move it close by
-  //   let originalPath = fileName;
-  //   let newPath = path.join(config.RESOURCE_PATH, path.basename(originalPath));
-  //   const execOpts = {};
-  //
-  //   if (config.UID) {
-  //     execOpts.UID = config.UID;
-  //     execOpts.GID = config.GID ?? null;
-  //   }
-  //
-  //   const { stdout, stderr } = await exec(
-  //     `node -e "const { copyFile } = require('node:fs/promises'); (async () => { await copyFile('${originalPath}', '${newPath}'); })();"`,
-  //     execOpts
-  //   );
-  //
-  //   // TODO determine what's going on in terms of output here
-  //   console.log("Naive copy approach");
-  //   console.log(stdout);
-  //   console.error(stderr);
-  //   fileName = newPath; // This way the next function can occur with zero issues
-  // }
+module.exports = async function importer(fileName) {
 
   if (fs.existsSync(fileName)) {
     const studentFile = fs.readFileSync(fileName, { encoding: "utf8" });
@@ -152,7 +126,6 @@ module.exports = async function importer(fileName, assumeLocal = true) {
     console.error("Will attempt to find file not assuming locality");
     console.error(`Below is the known contents of: '${path.dirname(fileName)}'`);
     console.error(fs.readdirSync(path.dirname(fileName)));
-    //await importer(fileName, false);
   }
 };
 

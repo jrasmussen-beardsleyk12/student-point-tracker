@@ -10,6 +10,7 @@ Most importantly to begin, you must add the `CONFIGURATION` values relevant to t
 * `COLUMNS`: This is hwo to define the columns of your file to `csv-parse`. Full options [here](https://csv.js.org/parse/options/columns/)
   - If the columns are defined at the top of the file `true` is all that's needed.
   - Otherwise if they are not, it's recommended to add an array of the columns in order.
+    * The columns defined must include: `student_id`, `first_name` and `last_name`. More columns may exist but will be ignored.
 
 ## Triggering the Import
 
