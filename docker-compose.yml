@@ -21,6 +21,12 @@ services:
     depends_on:
       - db
     restart: always
+    build:
+      context: .
+      args:
+        PORT: 8080 # Should match the port in 'environment'
+        UID: 1000
+        GID: 1000
     environment:
       DB_USER: VALUE
       DB_PASS: VALUE
