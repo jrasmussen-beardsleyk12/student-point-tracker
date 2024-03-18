@@ -16,11 +16,12 @@ services:
       - "5432:5432"
 
   backend:
-    image: ghcr.io/confused-techie/student-point-tracker:v1.0.9
+    image: ghcr.io/confused-techie/student-point-tracker:v1.0.10
     container_name: spt_be
     depends_on:
       - db
     restart: always
+    user: "1000:1000" # Optional
     environment:
       DB_USER: VALUE
       DB_PASS: VALUE
