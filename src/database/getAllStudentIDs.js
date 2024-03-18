@@ -12,7 +12,7 @@ module.exports = {
       ? { ok: true, content: command }
       : {
           ok: false,
-          content: `student ${id} not found.`,
+          content: `no students found.`,
           short: "not_found",
         };
 
