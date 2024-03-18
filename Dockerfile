@@ -1,10 +1,6 @@
 # syntax=docker/dockerfile:1
 FROM node:18-slim
 
-ARG UID
-ARG GID
-ARG PORT
-
 # Create and change to the app directory
 WORKDIR /usr/src/app
 
@@ -28,10 +24,7 @@ VOLUME /usr/src/app/storage
 HEALTHCHECK CMD node ./scripts/healthCheck.js
 
 # Expose the port we can listen on by default
-EXPOSE $PORT
-
-# Setup the proper user prior to executing our 'start' command
-USER $UID:$GID
+EXPOSE 8080
 
 # Run the web service on container startup
 CMD [ "npm", "start" ]
